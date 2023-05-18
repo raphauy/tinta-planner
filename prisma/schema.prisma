@@ -15,7 +15,7 @@ model User {
   emailVerified DateTime?
   image         String?
   accounts      Account[]
-  sessions      Session?
+  sessions      Session[]
   client        Client?    @relation(fields: [clientId], references: [id], onDelete: Cascade)  
   clientId      Int?
   agency        Agency?   @relation(fields: [agencyId], references: [id], onDelete: Cascade)  
@@ -93,7 +93,7 @@ model Account {
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
-  userId       String   @unique
+  userId       String   
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
