@@ -57,7 +57,7 @@ export default function ClientSideBar() {
         {divider()}
 
         <div className="flex flex-col justify-end flex-grow">
-          <Link href={`/admin/${slug}/config`} className={config}>
+          <Link href={`/admin/config`} className={config}>
             {configSelected ? <AiFillSetting size={25}/> : <AiOutlineSetting size={25}/>}
             <p className={pClasses}>Config</p>            
           </Link>

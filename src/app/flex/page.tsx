@@ -31,6 +31,7 @@ export default function flexPage() {
                     <div className='flex justify-between p-4 m-4 bg-white border rounded-3xl w-96'>
                         <p>Instabox</p>
                         <div>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur fugiat laudantium, laborum, nam aliquid excepturi ipsum modi quam corporis ipsa nobis dolor, qui ad illo doloribus optio. Optio, minus aut.
                         </div>
                         
                     </div>                                        
