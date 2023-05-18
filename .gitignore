@@ -1,7 +1,7 @@
 # Agregado por RC:
 .env
 /src/bak_middleware.ts
-prisma/migrations
+#prisma/migrations
 
 # ------------------
 
