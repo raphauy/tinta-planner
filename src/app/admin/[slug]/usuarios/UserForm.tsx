@@ -96,12 +96,12 @@ export default function UserFormModal({ isOpen, onClose, toEdit }: ConfirmModalP
             <Input id="name" label="Nombre:" register={register} errors={errors}/>
             <Input required id="email" type="email" label="Email:" register={register} errors={errors}/>
 
-            <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+            <div className="gap-2 mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
                 <button type='submit' className='flex justify-center px-3 py-2 text-sm font-semibold bg-green-400 border border-green-700 rounded-md w-36 hover:opacity-80 focus-visible:outline-tinta-marron focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'>
                   Guardar
                 </button>
                 <Button secondary onClick={onClose}>
-                  Cancelar
+                  <p className='w-32'>Cancelar</p>                  
                 </Button>
             </div>
           </form>
