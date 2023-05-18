@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  role          String    @default("client")
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session?
+  client        Client?    @relation(fields: [clientId], references: [id], onDelete: Cascade)  
+  clientId      Int?
+  agency        Agency?   @relation(fields: [agencyId], references: [id], onDelete: Cascade)  
+  agencyId      Int?
+}
+
+
+model Agency {
+    id                Int       @id @default(autoincrement())
+    name              String
+    createdAt         DateTime  @default(now())
+    updatedAt         DateTime  @updatedAt
+    users             User[]
+    clients           Client[]
+}
+
+model Client {
+    id                Int       @id @default(autoincrement())
+    name              String
+    slug              String    @unique
+    createdAt         DateTime  @default(now())
+    updatedAt         DateTime  @updatedAt
+    users             User[]
+    pilars            Pilar[]
+    posts             Post[]
+    agency            Agency  @relation(fields: [agencyId], references: [id], onDelete: Cascade)  
+    agencyId          Int
+}
+
+model Pilar {
+    id                Int       @id @default(autoincrement())
+    name              String
+    description       String    @db.Text
+    color             String
+    client            Client    @relation(fields: [clientId], references: [id], onDelete: Restrict)  
+    clientId          Int
+    posts             Post[]
+}
+
+model Post {
+    id                String    @id @default(cuid())
+    title             String
+    image             String?
+    format            String?
+    hashtags          String?   @db.Text
+    copy              String?   @db.Text
+    link              String?
+    client            Client    @relation(fields: [clientId], references: [id], onDelete: Restrict)  
+    clientId          Int
+    pilar             Pilar     @relation(fields: [pilarId], references: [id], onDelete: Restrict)  
+    pilarId           Int
+}
+
+
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.Text
+  access_token       String?  @db.Text
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.Text
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String   @unique
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
