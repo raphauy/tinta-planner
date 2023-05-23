@@ -23,7 +23,6 @@ function usePosts() {
     
       fetchClient()
       .then((res) => setClient(res));
-      setLoading(false);
     }, []);
     
     useEffect(() => {
@@ -32,6 +31,7 @@ function usePosts() {
           const { data } = await axios.get(`/api/posts/${client.slug}/`);
           const res = data.data;
           setPosts(res);
+          setLoading(false);
         }
       }
     

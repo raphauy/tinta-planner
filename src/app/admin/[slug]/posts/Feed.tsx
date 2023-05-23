@@ -15,7 +15,7 @@ interface FeedProps{
 export default function Feed({ posts, onAdd, onFeedSelected }: FeedProps) {
 
   return (
-    <div className="pt-2 border w-full h-fit rounded-xl border-gray-300 bg-gray-200 min-w-[380px] max-w-[500px] m-5">
+    <div className="pt-2 border w-full h-fit rounded-xl border-gray-300 bg-gray-200 min-w-[380px] max-w-[500px] m-4">
       <div className="grid grid-cols-3">
         <p className="mb-2 text-center"></p>
         <p className="mb-2 text-center">Feed</p>

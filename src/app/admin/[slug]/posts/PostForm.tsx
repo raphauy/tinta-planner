@@ -10,6 +10,9 @@ import { toast } from 'react-hot-toast';
 import { Pilar } from '@/app/types/Pilar';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { Post } from '@/app/types/Post';
+import { CloudinaryImage } from '@cloudinary/url-gen';
+import Client from '@/app/types/Client';
+import { AdvancedImage } from '@cloudinary/react';
 
 function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormData>();
@@ -113,21 +116,25 @@ type FormData = {
 interface PostFormProps {
   onPost: (id: string) => void
   postToEdit?: Post
+  client: Client
 }
 
-export default function PostForm({ onPost, postToEdit }: PostFormProps) {
+export default function PostForm({ onPost, postToEdit, client }: PostFormProps) {
   const { onSubmit, handleUpload, imagePreviewUrl, register, handleSubmit, errors, loading, pilars, toEdit  }= usePostForm(onPost, postToEdit)
 
   if (loading) 
     return <LoadingSpinner />
 
+  const avatarImage = new CloudinaryImage(client.image_insta.split("/").slice(-2).join("/"), {cloudName: 'dtm41dmrz'})
+
   return (
-    <div className='p-4 m-4 bg-white border h-fit rounded-3xl w-96'>
+    <div className='p-4 m-4 bg-white border h-fit rounded-3xl min-w-[380px] max-w-[500px]'>
+        {/* Header */}
         <div className='flex items-center'>
           <div className="relative inline-block w-8 h-8 overflow-hidden border rounded-full md:h-11 md:w-11">
-            <Image fill src="/images/logo-traversa.jpeg" alt="Avatar"/>
+            <AdvancedImage cldImg={avatarImage} />
           </div>
-          <p className='pl-2 text-sm font-semibold'>familiatraversa</p>
+          <p className='pl-2 text-sm font-semibold'>{client.handle_insta}</p>
         </div>
 
         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>

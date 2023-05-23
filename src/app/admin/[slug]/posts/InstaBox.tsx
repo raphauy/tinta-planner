@@ -1,20 +1,18 @@
 "use client"
 
+import Client from '@/app/types/Client';
 import { Post } from '@/app/types/Post';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { AdvancedImage } from '@cloudinary/react';
 import { CloudinaryImage } from '@cloudinary/url-gen';
-import { fill } from '@cloudinary/url-gen/actions/resize';
 import axios from 'axios';
-import Image from 'next/image'
 import { useParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
-import { BsBookmark, BsChat, BsThreeDots } from 'react-icons/bs'
+import { useEffect, useState } from 'react';
+import { AiOutlineHeart } from 'react-icons/ai';
+import { BsBookmark, BsChat, BsThreeDots } from 'react-icons/bs';
+import { IoPaperPlaneOutline } from 'react-icons/io5';
 import PopOver from '../../../../components/modal/PopOver';
 import PostHandler from './PopOverPostHandler';
-import Client from '@/app/types/Client';
-import { IoChatbubbleOutline, IoPaperPlaneOutline } from 'react-icons/io5';
-import { AiOutlineHeart } from 'react-icons/ai';
 
 function useInstaBox(postId: string, client: Client) {
   const [loading, setLoading] = useState(true);

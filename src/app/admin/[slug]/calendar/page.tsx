@@ -34,7 +34,7 @@ export default async function CalendarPage() {
 
   return (
     <>
-      <main className="flex flex-col h-full gap-5 px-8 py-3 max-w-7xl">
+      <main className="flex flex-col h-full gap-5 px-8 py-3">
         <div className="flex flex-col h-full p-3 bg-gray-200 border border-gray-300 rounded-xl">
           <CalendarRC events={eventos}></CalendarRC>
         </div>

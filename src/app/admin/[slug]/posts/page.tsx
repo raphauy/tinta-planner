@@ -100,9 +100,9 @@ export default function PostsPage() {
 
             {!editMode && idPost && client && <InstaBox postId={idPost} client={client} onDelete={() => setTotal(total-1)} onEdit={onEdit}/>}
             
-            {editMode && postToEdit && <PostForm onPost={onPost} postToEdit={postToEdit}/>}
+            {editMode && postToEdit && client && <PostForm onPost={onPost} postToEdit={postToEdit} client={client} />}
 
-            {editMode && !postToEdit && <PostForm onPost={onPost} />}
+            {editMode && !postToEdit && client && <PostForm onPost={onPost} client={client} />}
             
         </div>
       </main>
