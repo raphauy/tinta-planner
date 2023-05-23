@@ -15,7 +15,7 @@ export async function GET(request: Request, { params }: { params: {slug: string}
           id: 'desc'
         },
         include: {
-            pilar: true
+            pilar: true,
         }
       });
 
@@ -31,9 +31,13 @@ export async function POST(request: Request, { params }: { params: {slug: string
     const json= await request.json()
     console.log("json: " + JSON.stringify(json))
 
+    const { title, image, format, hashtags, copy, link, date, pilarId }= json
 
-    const { title, image, format, hashtags, copy, link, pilarId }= json
-    console.table({ slug, title, image, format, hashtags, copy, link, pilarId })
+    const dateWithTime = new Date(date);
+    dateWithTime.setHours(0, 0, 0, 0);
+    dateWithTime.setDate(dateWithTime.getDate()+1)
+
+    console.table({ slug, title, image, format, hashtags, copy, link, dateWithTime, pilarId })
 
     const client= await prisma.client.findFirst({
         where: {
@@ -52,6 +56,7 @@ export async function POST(request: Request, { params }: { params: {slug: string
             hashtags,
             copy,
             link,
+            date: dateWithTime,
             client: {
                 connect: {
                     id: client.id

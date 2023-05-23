@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Feed from "./Feed";
 import PostForm from "./PostForm";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
@@ -8,12 +8,15 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import { Post } from "@/app/types/Post";
 import axios from "axios";
 import InstaBox from "./InstaBox";
+import Client from "@/app/types/Client";
 
 function usePosts() {
     const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState<Post[]>([]);
+    const [client, setClient] = useState<Client>();
     const [total, setTotal] = useState(0);
     const [editMode, setEditMode] = useState(false)
+    const [postToEdit, setPostToEdit] = useState(null);
     const router= useRouter()
     const params= useParams()
     const slug= params.slug
@@ -27,32 +30,59 @@ function usePosts() {
           setPosts(resPosts)
           setLoading(false);
         }
-        fetchPosts();
-    }, [slug, total]);
+        async function fetchClient() {
+    
+          const { data } = await axios.get(`/api/client/${slug}/`);
+          const res= data.data
+          setClient(res)
+        }
+        fetchPosts()
+        fetchClient()
+      }, [slug, total]);
 
-    function onPost(){
+
+    function onPost(id: string){
       setTotal(total-1)
       setEditMode(false)
-      router.push(`/admin/${slug}/posts`)
+      if (id){
+        router.push(`/admin/${slug}/posts?id=${id}`)
+      } else {
+        router.push(`/admin/${slug}/posts`)
+      }
+      
     }
 
     function onAdd(){
+      setPostToEdit(null)
       setEditMode(true)
       if (editMode)
         router.push(`/admin/${slug}/posts`)
+    }
+
+    async function onEdit(id: string) {
+      const { data }= await axios.get(`/api/posts/${slug}/${id}`)
+      setPostToEdit(data.data)
+      setEditMode(true)
     }
 
     function onFeedSelected() {
       setEditMode(false)
     }
    
-    return { loading, posts, onPost, onAdd, editMode, setEditMode, total, setTotal, onFeedSelected}
+    return { loading, posts, onPost, onAdd, editMode, setEditMode, total, setTotal, onFeedSelected, onEdit, postToEdit, client }
   }
   
 export default function PostsPage() {
-  const { loading, posts, onPost, onAdd, editMode, setEditMode, total, setTotal, onFeedSelected }= usePosts()  
+  const { loading, posts, onPost, onAdd, editMode, setEditMode, total, setTotal, onFeedSelected, onEdit, postToEdit, client }= usePosts()  
   const searchParams= useSearchParams()
   const idPost= searchParams.get("id")
+  const edit= searchParams.get("edit")
+  
+  if (!editMode && edit !== null && idPost){
+    console.log("Editing...");
+    
+    onEdit(idPost)
+  } 
 
   if (loading) 
     return <LoadingSpinner />
@@ -62,13 +92,17 @@ export default function PostsPage() {
     <>
       <main className="md:flex">
         
+        
         <Feed posts={posts} onAdd={onAdd} onFeedSelected={onFeedSelected}/>
+
 
         <div className="flex-grow">            
 
-            {!editMode && idPost && <InstaBox postId={idPost} onDelete={() => setTotal(total-1)} />}
+            {!editMode && idPost && client && <InstaBox postId={idPost} client={client} onDelete={() => setTotal(total-1)} onEdit={onEdit}/>}
             
-            {editMode && <PostForm onPost={onPost} />}
+            {editMode && postToEdit && <PostForm onPost={onPost} postToEdit={postToEdit}/>}
+
+            {editMode && !postToEdit && <PostForm onPost={onPost} />}
             
         </div>
       </main>

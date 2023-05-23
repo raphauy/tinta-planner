@@ -3,55 +3,92 @@
 import axios from 'axios';
 import { CldUploadButton } from 'next-cloudinary';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
+import { redirect, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { Pilar } from '@/app/types/Pilar';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import { Post } from '@/app/types/Post';
 
-function usePostForm(onPost: () => void) {
+function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormData>();
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string>('/images/Image-placeholder.svg');
   const [loading, setLoading] = useState(true);
+  const [toEdit, setToEdit] = useState<Post>()
   const [pilars, setPilars] = useState<Pilar[]>([]);
   const params= useParams()
   const slug= params.slug
 
   useEffect(() => {
     console.log("usePostForm, slug: " + slug);
-    async function fetchPilars() {
 
+    async function fetchPilars() {
       const { data } = await axios.get(`/api/pilars/${slug}/`);
       setPilars(data.data);
-      setLoading(false);
     }
     fetchPilars();
 
-  }, [slug]);
+    postToEdit && setToEdit(postToEdit)
+
+    if (postToEdit) {
+      setValue("pilarId", postToEdit.pilar.id)
+      setValue("title", postToEdit.title)
+      setValue("copy", postToEdit.copy)
+      setValue("hashtags", postToEdit.hashtags)
+      setValue("format", postToEdit.format)
+
+      postToEdit.date && setValue("date", new Date(postToEdit.date).toISOString().split('T')[0])
+
+      setValue("image", postToEdit.image)
+      setImagePreviewUrl(postToEdit.image)
+    } 
+
+    setLoading(false);
+
+  }, [slug, postToEdit, setValue]);
 
 
   const onSubmit = (data: FormData) => {
     console.log("onSubmit, slug: " + slug);
     console.log("data: " + data.image);
 
-    //Guardar
-    const test= new FormData()
-    axios.post(`/api/posts/${slug}/`, data)
-    .then(() => {
-      toast.success("Post creado", { duration: 4000 })
-      setValue("image", "")
-      setValue("title", "")
-      setValue("copy", "")
-      setImagePreviewUrl('/images/Image-placeholder.svg')
-
-      onPost()
-    })      
-    .catch((e) => {
-      const error= e.response.data.error ? e.response.data.error : "Algo salió mal"
-      toast.error(error, { duration: 5000 })        
-    })
+    if (!toEdit) {
+      // Guardar
+      axios.post(`/api/posts/${slug}/`, data)
+      .then((res) => {
+        const post= res.data.data
+        onPost(post.id)
+        toast.success("Post creado", { duration: 4000 })        
+      })      
+      .catch((e) => {
+        const error= e.response.data.error ? e.response.data.error : "Algo salió mal"
+        toast.error(error, { duration: 5000 })        
+        return
+      })
+    } else {
+      // Editar
+      axios.put(`/api/posts/${slug}/${toEdit.id}`, data)
+      .then((res) => {
+        const post= res.data.data
+        onPost(post.id)
+        toast.success("Post editado", { duration: 4000 })
+      })      
+      .catch((e) => {
+        const error= e.response.data.error ? e.response.data.error : "Algo salió mal"
+        toast.error(error, { duration: 5000 })        
+        return
+      })
+    }
     
+    setValue("image", "")
+    setValue("title", "")
+    setValue("copy", "")
+    setValue("hashtags", "")
+    setValue("format", "")
+    setValue("date", "")
+    setImagePreviewUrl('/images/Image-placeholder.svg')
+
   };
 
   function handleUpload(result: any) {
@@ -60,7 +97,7 @@ function usePostForm(onPost: () => void) {
     setValue("image", img)
   }
 
-  return { onSubmit, handleUpload, imagePreviewUrl, register, handleSubmit, errors, loading, pilars }
+  return { onSubmit, handleUpload, imagePreviewUrl, register, handleSubmit, errors, loading, pilars, toEdit }
 }
 
 type FormData = {
@@ -70,14 +107,16 @@ type FormData = {
   pilarId: number
   hashtags: string
   format: string
+  date: string
 };
 
 interface PostFormProps {
-  onPost: () => void
+  onPost: (id: string) => void
+  postToEdit?: Post
 }
 
-export default function PostForm({ onPost }: PostFormProps) {
-  const { onSubmit, handleUpload, imagePreviewUrl, register, handleSubmit, errors, loading, pilars  }= usePostForm(onPost)
+export default function PostForm({ onPost, postToEdit }: PostFormProps) {
+  const { onSubmit, handleUpload, imagePreviewUrl, register, handleSubmit, errors, loading, pilars, toEdit  }= usePostForm(onPost, postToEdit)
 
   if (loading) 
     return <LoadingSpinner />
@@ -108,8 +147,8 @@ export default function PostForm({ onPost }: PostFormProps) {
             {errors.image && (<p className="mt-1 text-red-600">{errors.image.message}</p>)}
 
           <div className="mb-4">
-            <select id='pilarId' {...register("pilarId", { required: 'El pilar es obligatorio' })} className="w-full p-2 border border-gray-300 rounded">
-              <option value="">Pilar de contenido</option>
+            <select id='pilarId' {...register("pilarId", { required: 'El pilar es obligatorio' })} className="w-full p-2 border border-gray-300 rounded">              
+              {!toEdit && <option value="">Pilar de contenido</option>}
               {pilars.map((pilar) => (
                 <option key={pilar.id} value={pilar.id}>
                   {pilar.name}
@@ -135,11 +174,16 @@ export default function PostForm({ onPost }: PostFormProps) {
           </div>
 
           <div className="mb-4">
-            <textarea id="hashtags" placeholder='hashtags'
-              {...register("hashtags")}
+            <textarea id="hashtags" placeholder='hashtags' {...register("hashtags")}
               className="w-full h-32 p-2 border border-gray-300 rounded"
             ></textarea>
-            {errors.copy && (<p className="mt-1 text-red-600">{errors.copy.message}</p>)}
+            {errors.hashtags && (<p className="mt-1 text-red-600">{errors.hashtags.message}</p>)}
+          </div>
+
+          <div className="mb-4">
+            <input id="date" type="date" {...register("date")}
+              className="w-full p-2 border border-gray-300 rounded"/>
+            {errors.date && (<p className="mt-1 text-red-600">{errors.date.message}</p>)}
           </div>
 
           <div className="flex items-center gap-2 mb-4">

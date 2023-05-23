@@ -43,16 +43,16 @@ export default function PopOverUserHandler() {
 
   return (
     <>
-      <nav className="flex flex-col gap-2 p-1 mt-1 text-lg text-gray-600 min-w-[250px]">
+      <nav className="flex flex-col gap-2 mt-1 text-sm text-gray-600 min-w-[230px]">
         <ul>
-          <li className="flex items-center gap-2 mb-5 border-b">            
+          <li className="flex items-center gap-2 p-1 mb-5 ml-1 border-b">            
             <FaUserCircle size={24} /> {user.email} 
           </li>
-          <li className="flex items-center gap-2 mb-5">            
-            <IoIosWine size={24} /> {client && client.name}
+          <li className="flex items-center gap-2 pl-1 mb-2 hover:bg-gray-100">            
+            <IoIosWine size={27} /> {client && client.name}
           </li>
-          <li className="flex items-center gap-2 mb-5">            
-            <BsAsterisk size={24} /> {user.role} {user.role === "agency" ? "(admin)" : ""}
+          <li className="flex items-center gap-2 pl-1 mb-2 ml-1 hover:bg-gray-100">            
+            <BsAsterisk size={22} /> {user.role} {user.role === "agency" ? "(admin)" : ""}
           </li>
           <li className="flex items-center w-full mt-16 border-t rounded-md">
             <div onClick={onLogout} 

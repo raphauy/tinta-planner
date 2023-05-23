@@ -6,8 +6,8 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from "next/navigation";
 
 import { toast } from "react-hot-toast";
-import Input from '@/components/ui/Input';
-import Button from '@/components/ui/Button';
+import Input from '@/components/form/Input';
+import Button from '@/components/form/Button';
 
 export default function AuthForm() {
   const session = useSession();

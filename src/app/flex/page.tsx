@@ -1,4 +1,4 @@
-import PopOverPost from "../(client-side)/components/PopOver";
+import PopOverPost from "../../components/modal/PopOver";
 import PostHandler from "../admin/[slug]/posts/PopOverPostHandler";
 
 export default function flexPage() {

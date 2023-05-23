@@ -6,5 +6,6 @@ export type Post= {
     hashtags: string
     copy: string
     link: string
-    pilar: { id: number }
+    date: string
+    pilar: { id: number, name: string }
 }

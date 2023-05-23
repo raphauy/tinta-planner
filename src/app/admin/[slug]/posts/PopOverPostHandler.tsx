@@ -1,9 +1,9 @@
 "use client"
 
-import ConfirmModal from "@/app/(client-side)/components/ConfirmMoldal";
-import ToolTip from "@/app/(client-side)/components/ToolTip";
+import ConfirmModal from "@/components/modal/ConfirmMoldal";
+import ToolTip from "@/components/modal/ToolTip";
 import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
+import { redirect, useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
@@ -36,9 +36,10 @@ function usePostHandler(id: string, onDelete: () => void) {
 interface PostHandlerProps {
   id: string;
   onDelete: () => void
+  onEdit: (id: string) => void
 }
 
-export default function PostHandler({ id, onDelete }: PostHandlerProps) {
+export default function PostHandler({ id, onDelete, onEdit }: PostHandlerProps) {
   const { confirmOpen, setConfirmOpen, onConfirmDelete } = usePostHandler(id, onDelete);
 
   return (
@@ -57,7 +58,8 @@ export default function PostHandler({ id, onDelete }: PostHandlerProps) {
           <li className="mb-5 border-b">            
             Acciones:
           </li>
-          <li className="flex items-center px-1 py-3 mb-5 rounded-md ">
+          <li className="flex items-center px-1 py-3 mb-5 rounded-md cursor-pointer hover:border hover:border-gray-500 hover:bg-gray-200" 
+            onClick={() => onEdit(id)}>
             <FiEdit size={23} className="mr-2 text-sky-400" />            
             <ToolTip text="Comming soon gatucha">
               <p>Editar</p>

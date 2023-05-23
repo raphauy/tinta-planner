@@ -38,6 +38,8 @@ model Client {
     slug              String    @unique
     createdAt         DateTime  @default(now())
     updatedAt         DateTime  @updatedAt
+    handle_insta      String    @default("")
+    image_insta       String    @default("")
     users             User[]
     pilars            Pilar[]
     posts             Post[]
@@ -63,6 +65,7 @@ model Post {
     hashtags          String?   @db.Text
     copy              String?   @db.Text
     link              String?
+    date              DateTime?
     client            Client    @relation(fields: [clientId], references: [id], onDelete: Restrict)  
     clientId          Int
     pilar             Pilar     @relation(fields: [pilarId], references: [id], onDelete: Restrict)  

@@ -10,7 +10,7 @@ import { GrAddCircle } from "react-icons/gr";
 import { useParams } from "next/navigation";
 import { Pilar } from "@/app/types/Pilar";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import ConfirmModal from "@/app/(client-side)/components/ConfirmMoldal";
+import ConfirmModal from "@/components/modal/ConfirmMoldal";
 
 function usePilar() {
     const [pilars, setPilars] = useState<Pilar[]>([]);

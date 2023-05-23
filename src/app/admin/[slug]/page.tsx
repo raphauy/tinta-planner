@@ -1,4 +1,4 @@
-import EmptyState from "@/app/(client-side)/components/EmptyState";
+import EmptyState from "@/components/EmptyState";
 
 export default function SlugPage() {
 

@@ -3,15 +3,15 @@
 import React, { useEffect, useState } from 'react'
 import { Dialog } from '@headlessui/react'
 import { toast } from 'react-hot-toast';
-import Button from '@/components/ui/Button';
-import Input from '@/components/ui/Input';
-import Textarea from '@/components/ui/Textarea';
+import Input from '@/components/form/Input';
+import Textarea from '@/components/form/Textarea';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import axios from 'axios';
 import { FiTrash2 } from 'react-icons/fi';
 import { useParams } from 'next/navigation';
 import { Pilar } from '@/app/types/Pilar';
-import Modal from '@/app/(client-side)/components/Modal';
+import Button from '@/components/form/Button';
+import Modal from '@/components/modal/Modal';
 
 interface ConfirmModalProps {
   isOpen?: boolean
@@ -119,13 +119,13 @@ export default function PilarFormModal({ isOpen, onClose, toEdit }: ConfirmModal
               </div>              
             </div>
 
-            <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-                <button type='submit' className='flex justify-center px-3 py-2 text-sm font-semibold bg-green-400 border border-green-700 rounded-md w-36 hover:opacity-80 focus-visible:outline-tinta-marron focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'>
-                  Guardar
-                </button>
-                <Button secondary onClick={onClose}>
-                  Cancelar
-                </Button>
+            <div className="flex justify-end gap-2 mt-5">
+              <Button secondary onClick={onClose}>
+                <p className="w-32">Cancelar</p>
+              </Button>
+              <Button colorOnPrimary="bg-green-400" type='submit'>
+                <p className="w-32">Guardar</p>
+              </Button>
             </div>
           </form>
           </div>

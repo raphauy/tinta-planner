@@ -9,8 +9,8 @@ import { GrAddCircle } from "react-icons/gr";
 import { useParams } from "next/navigation";
 import UserFormModal from "./UserForm";
 import LoadingSpinner from "@/components/LoadingSpinner";
-import ConfirmModal from "@/app/(client-side)/components/ConfirmMoldal";
 import User from "@/app/types/User";
+import ConfirmModal from "@/components/modal/ConfirmMoldal";
 
 function useUsuario() {
     const [users, setUsers] = useState<User[]>([]);
@@ -100,7 +100,7 @@ export default function UserPage() {
                 <div className="p-5 bg-white border rounded-md">
                   <table className="w-full">
                     <thead>
-                      <tr className="h-12 font-medium text-left text-gray-700 align-middle bg-gray-100 border-b text-muted-foreground">
+                      <tr className="h-12 font-medium text-left text-gray-700 align-middle bg-gray-100 brder-b text-muted-foreground">
                         <th className="pl-3">Nombre</th>
                         <th className="">Email</th>
                         <th className="w-[80px] text-center">Online</th>

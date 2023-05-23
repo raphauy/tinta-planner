@@ -11,41 +11,44 @@ export async function GET(request: Request, { params }: { params: {slug: string,
         where: {
             id: postId
         },
+        include: {
+            pilar: true
+        }
     })
     
     return NextResponse.json({ data: found }, { status: 200})
 }
 
 
-export async function PUT(request: Request, { params }: { params: {slug: string, userId: string} } ) {
+export async function PUT(request: Request, { params }: { params: {slug: string, postId: string} } ) {
     const json= await request.json()
     const slug= params.slug
-    const userId= params.userId
-    console.table({ slug, userId, json })
+    const postId= params.postId
 
-    const name= json.name
-    const email= json.email
-    
-    if (!email)
-        return NextResponse.json({ error: "email are required"}, { status: 400})
+    const { title, image, format, hashtags, copy, link, date, pilarId }= json
 
-    const found= await prisma.user.findFirst({
+    const dateWithTime = new Date(date);
+    dateWithTime.setHours(0, 0, 0, 0);
+
+    console.table({ slug, title, image, format, hashtags, copy, link, dateWithTime, pilarId })
+
+    const updated= await prisma.post.update({
         where: {
-            email
-        },
-    })
-
-    if(found && found.id != userId)
-        return NextResponse.json({ error: `Ya existe un usuario con el mail ${email}` }, { status: 401 })
-    
-
-    const updated= await prisma.user.update({
-        where: {
-            id: userId
+            id: postId
         },
         data: {
-            name,
-            email,
+            title,
+            image,
+            format,
+            hashtags,
+            copy,
+            link,
+            date: new Date(date),
+            pilar: {
+                connect: {
+                    id: parseInt(pilarId)
+                }
+            }
         }
     })
 

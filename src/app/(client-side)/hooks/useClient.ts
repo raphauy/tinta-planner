@@ -8,7 +8,7 @@ function useClient() {
   
   const slug = useMemo(() => {
     if (!params?.slug) {
-      return 'tinta';
+      return '';
     }
 
     return params.slug;

@@ -5,7 +5,7 @@ import { Dialog } from '@headlessui/react'
 import { FiAlertTriangle } from 'react-icons/fi'
 import Modal from './Modal';
 import { toast } from 'react-hot-toast';
-import Button from '@/components/ui/Button';
+import Button from '@/components/form/Button';
 
 interface ConfirmModalProps {
   isOpen?: boolean

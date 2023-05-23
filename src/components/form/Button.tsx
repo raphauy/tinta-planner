@@ -8,6 +8,7 @@ interface ButtonProps {
   secondary?: boolean;
   danger?: boolean;
   disabled?: boolean;
+  colorOnPrimary?: string;
 }
 
 export default function Button ({
@@ -18,7 +19,9 @@ export default function Button ({
   secondary,
   danger,
   disabled,
+  colorOnPrimary,
 }: ButtonProps) {
+  const color= colorOnPrimary ? colorOnPrimary : "bg-tinta-vino"
   return ( 
     <button
       onClick={onClick}
@@ -39,9 +42,9 @@ export default function Button ({
         `,
         disabled && 'opacity-50 cursor-default',
         fullWidth && 'w-full',
-        secondary ? 'text-gray-600 border' : 'text-white',
+        secondary && 'text-gray-600 border',
         danger && 'bg-rose-500 hover:bg-rose-600 focus-visible:outline-rose-600',
-        !secondary && !danger && 'bg-tinta-vino hover:opacity-80 focus-visible:outline-tinta-marron'
+        !secondary && !danger && `${color} hover:opacity-80 focus-visible:outline-tinta-marron`
       )}
     >
       {children}
