@@ -57,13 +57,15 @@ export default function PostsPage() {
 
   return (
     <>
-      <main className="md:flex">
-        <Feed posts={posts} />        
+      <main className="flex justify-center">
+        <div className="md:flex md:w-3/4">
+      <Feed posts={posts} />        
 
         <div className="flex-grow">            
 
-            {idPost && client && <InstaBox postId={idPost} client={client} onDelete={() => setTotal(total-1)} />}           
+          {idPost && client && <InstaBox postId={idPost} client={client} onDelete={() => setTotal(total-1)} />}           
             
+        </div>
         </div>
       </main>
     </>
