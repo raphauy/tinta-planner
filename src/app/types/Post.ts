@@ -7,5 +7,5 @@ export type Post= {
     copy: string
     link: string
     date: string
-    pilar: { id: number, name: string }
+    pilar: { id: number, name: string, color: string }
 }

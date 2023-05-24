@@ -42,6 +42,8 @@ function usePosts(slug: string) {
     function onPost(id: string){
       setTotal(total-1)
       setEditMode(false)
+      console.log("setEditMode(false)");
+      
       if (id){
         router.push(`/admin/${slug}/posts?id=${id}`)
       } else {

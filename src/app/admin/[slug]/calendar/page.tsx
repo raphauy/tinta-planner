@@ -1,16 +1,38 @@
+"use client"
 
-
-import { getPostsBySlug } from "@/app/(server-side)/services/postServices";
 import CalendarRC from "./CalendarRC";
-import { headers } from "next/dist/client/components/headers";
+import { useEffect, useState } from "react";
+import { Post } from "@/app/types/Post";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import axios from "axios";
 
-export const revalidate= 5
+function useCalendar(slug: string) {
+  const [loading, setLoading] = useState(true);
+  const [posts, setPosts] = useState<Post[]>([]);
 
-export default async function CalendarPage({ params }: { params: { slug: string } }) {
+  useEffect(() => {
+        
+    async function fetchPosts() {
+
+      const { data } = await axios.get(`/api/posts/${slug}/`);
+      const resPosts= data.data
+      setPosts(resPosts)
+      setLoading(false);
+    }
+    fetchPosts()
+  }, [slug]);
+
+  return { loading, posts }
+}
+
+export default function CalendarPage({ params }: { params: { slug: string } }) {
 
   const { slug }= params
+  const { loading, posts }= useCalendar(slug)
 
-  const posts = await getPostsBySlug(slug);
+  if (loading) return <LoadingSpinner />
+
+  //const posts = await getPostsBySlug(slug);
 
   console.log("posts: " + posts.length);
   
@@ -42,13 +64,4 @@ export default async function CalendarPage({ params }: { params: { slug: string 
       </main>
     </>
   );
-}
-
-function getSlug() {
-  const headersList = headers();
-  const header_url = headersList.get("x-url") || "";
-  const segments = header_url.split("/");
-  const reversedSegments = segments.reverse();
-  const slug = reversedSegments[1];
-  return slug;
 }

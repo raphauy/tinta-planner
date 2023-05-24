@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from '../../../../(server-side)/db'
+import { revalidatePath } from "next/cache";
 
 
 export async function GET(request: Request, { params }: { params: {slug: string, postId: string} } ) {
@@ -51,6 +52,8 @@ export async function PUT(request: Request, { params }: { params: {slug: string,
             }
         }
     })
+    revalidatePath("/admin/")
+
 
     return NextResponse.json({ data: updated }, { status: 200})
 }

@@ -1,12 +1,11 @@
 import { Post } from '@/app/types/Post'
-import LoadingSpinner, { LoadingSpinnerChico } from '@/components/LoadingSpinner'
-import Image from 'next/image'
+import { LoadingSpinnerChico } from '@/components/LoadingSpinner'
+import { AdvancedImage } from '@cloudinary/react'
+import { CloudinaryImage } from '@cloudinary/url-gen'
+import { fill } from '@cloudinary/url-gen/actions/resize'
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
-import { AdvancedImage } from '@cloudinary/react';
-import { CloudinaryImage } from '@cloudinary/url-gen';
-import { fill } from '@cloudinary/url-gen/actions/resize';
+import { useEffect, useState } from 'react'
 import { AiOutlineCalendar } from 'react-icons/ai'
 
 interface PostBoxProps {
