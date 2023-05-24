@@ -20,6 +20,9 @@ interface ConfirmModalProps {
 
 export default function UserFormModal({ isOpen, onClose, toEdit }: ConfirmModalProps) { 
   const params= useParams()
+  if (!params)
+    throw Error("useParams() is not working")
+
   const slug= params.slug
 
   const {register, handleSubmit, formState: {errors}, setValue }= useForm<FieldValues>({

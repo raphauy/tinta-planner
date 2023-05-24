@@ -7,6 +7,7 @@ import { useParams } from 'next/navigation'
 import { AdvancedImage } from '@cloudinary/react';
 import { CloudinaryImage } from '@cloudinary/url-gen';
 import { fill } from '@cloudinary/url-gen/actions/resize';
+import { AiOutlineCalendar } from 'react-icons/ai'
 
 interface PostBoxProps {
     post: Post
@@ -16,6 +17,9 @@ export default function PostBox({ post, onSelected }: PostBoxProps) {
   const [clicked, setClicked] = useState(false)
   const [link, setLink] = useState("")
   const params= useParams()
+  if (!params)
+    throw Error("useParams() is not working")
+
   const slug= params.slug
 
   useEffect(() => {
@@ -44,6 +48,7 @@ export default function PostBox({ post, onSelected }: PostBoxProps) {
     <>
       <div className="min-h-[100px]">
           <div onClick={handleClick} className="relative h-full overflow-hidden transition bg-white border border-gray-300 rounded-md cursor-pointer hover:scale-110">
+            {!post.date && <AiOutlineCalendar className="absolute top-0 right-0 text-white" size={23}/>}
             <Link href={`${link}?id=${post.id}`}>
               <AdvancedImage cldImg={cldImage} />
             </Link>

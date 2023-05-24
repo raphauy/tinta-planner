@@ -1,18 +1,19 @@
 
-import { headers } from "next/dist/client/components/headers";
 
 import { getPostsBySlug } from "@/app/(server-side)/services/postServices";
 import CalendarRC from "./CalendarRC";
+import { headers } from "next/dist/client/components/headers";
 
-export default async function CalendarPage() {
+export const revalidate= 5
 
-  const slug = getSlug();
+export default async function CalendarPage({ params }: { params: { slug: string } }) {
+
+  const { slug }= params
 
   const posts = await getPostsBySlug(slug);
 
-  console.log("posts: " + posts);
-  console.log("client.slug: " + slug);
-
+  console.log("posts: " + posts.length);
+  
   const eventos = posts
     .filter((post): post is { date: Date } & typeof post => post.date !== null)
     .map((post) => {
@@ -26,7 +27,7 @@ export default async function CalendarPage() {
         end: dateCopy,
         image: post.image || "",
         color: post.pilar.color,
-        href: `/admin/tinta/posts?id=${post.id}&edit` ,
+        href: `/admin/${slug}/posts?id=${post.id}&edit` ,
       };
     });
 

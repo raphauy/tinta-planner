@@ -38,6 +38,7 @@ export async function getClientOfCurrenUser() {
       include: {
         users: true,
         pilars: true,
+        posts: true,
       }
     });
 
@@ -57,6 +58,7 @@ export async function getClientBySlug(slug: string) {
       include: {
         users: true,
         pilars: true,
+        posts: true,
       }
     });
 
@@ -65,3 +67,4 @@ export async function getClientBySlug(slug: string) {
     return null;
   }
 };
+

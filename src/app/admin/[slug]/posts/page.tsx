@@ -10,7 +10,7 @@ import axios from "axios";
 import InstaBox from "./InstaBox";
 import Client from "@/app/types/Client";
 
-function usePosts() {
+function usePosts(slug: string) {
     const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState<Post[]>([]);
     const [client, setClient] = useState<Client>();
@@ -18,9 +18,7 @@ function usePosts() {
     const [editMode, setEditMode] = useState(false)
     const [postToEdit, setPostToEdit] = useState(null);
     const router= useRouter()
-    const params= useParams()
-    const slug= params.slug
-  
+
     useEffect(() => {
         
         async function fetchPosts() {
@@ -72,9 +70,15 @@ function usePosts() {
     return { loading, posts, onPost, onAdd, editMode, setEditMode, total, setTotal, onFeedSelected, onEdit, postToEdit, client }
   }
   
-export default function PostsPage() {
-  const { loading, posts, onPost, onAdd, editMode, setEditMode, total, setTotal, onFeedSelected, onEdit, postToEdit, client }= usePosts()  
+export default function PostsPage({ params }: { params: { slug: string } }) {
+
+  const { slug }= params
+
+  const { loading, posts, onPost, onAdd, editMode, setEditMode, total, setTotal, onFeedSelected, onEdit, postToEdit, client }= usePosts(slug)  
   const searchParams= useSearchParams()
+  if (!searchParams) return <div></div>
+
+  
   const idPost= searchParams.get("id")
   const edit= searchParams.get("edit")
   

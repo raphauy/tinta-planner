@@ -18,6 +18,9 @@ function useInstaBox(postId: string, client: Client) {
   const [loading, setLoading] = useState(true);
   const [post, setPost] = useState<Post>()
   const params= useParams()
+  if (!params)
+    throw Error("useParams() is not working")
+
   const slug= params.slug
 
   useEffect(() => {

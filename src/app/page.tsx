@@ -15,7 +15,7 @@ export default async function HomePage() {
     redirect("/admin/tinta")
 
   if (role === "client")
-    redirect("/cliente/calendario")
+    redirect("/cliente")
 
   redirect("/login")
   

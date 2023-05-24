@@ -1,11 +1,12 @@
 "use client"
 
-import { useParams, usePathname } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 
 import { AiFillCalendar, AiFillInstagram, AiOutlineCalendar, AiOutlineInstagram, AiOutlineMenu } from 'react-icons/ai'
 import ClientBox from '../admin/ClientBox'
 import { BsFillHddStackFill, BsHddStack, BsHddStackFill } from 'react-icons/bs'
 import { useState } from 'react'
+import { FaRegUserCircle, FaUserCircle } from 'react-icons/fa'
 
 console.log("render menú...");
 
@@ -13,6 +14,9 @@ console.log("render menú...");
 export default function Menu() {
   const [open, setOpen] = useState(false)
   const path= usePathname()
+  if (!path)
+    throw Error("usePathname() is not working")
+
 
   const calendarActive= path.endsWith("calendario")
   const calendarIcon= calendarActive ? AiFillCalendar : AiOutlineCalendar
@@ -20,6 +24,8 @@ export default function Menu() {
   const postsIcon= postsActive ? AiFillInstagram : AiOutlineInstagram
   const pilaresActive= path.endsWith("pilares")
   const pilaresIcon= pilaresActive ? BsHddStackFill : BsHddStack
+  const usuariosActive= path.endsWith("usuarios")
+  const usuariosIcon= usuariosActive ? FaUserCircle : FaRegUserCircle
 
   return (
     <>
@@ -28,6 +34,7 @@ export default function Menu() {
           <ClientBox label='Calendario' href='/cliente/calendario' active={calendarActive} icon={calendarIcon}/>
           <ClientBox label='Posts' href='/cliente/posts' active={postsActive} icon={postsIcon}/>
           <ClientBox label='Pilares de contenido' href='/cliente/pilares' active={pilaresActive} icon={pilaresIcon}/>
+          <ClientBox label='Usuarios' href='/cliente/usuarios' active={usuariosActive} icon={usuariosIcon}/>
       </div>
     </>
   )

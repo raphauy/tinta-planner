@@ -12,7 +12,7 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import User from "@/app/types/User";
 import ConfirmModal from "@/components/modal/ConfirmMoldal";
 
-function useUsuario() {
+function useUsuario(slug: string) {
     const [users, setUsers] = useState<User[]>([]);
     const [loading, setLoading] = useState(true);
     const [confirmOpen, setConfirmOpen] = useState(false);
@@ -20,8 +20,6 @@ function useUsuario() {
     const [idToDelete, setIdToDelete] = useState("");
     const [toEdit, setToEdit] = useState(null);
     const [clickeado, setClickeado] = useState("")
-    const params= useParams()
-    const slug= params.slug
 
 
     async function onAdd() {
@@ -71,8 +69,10 @@ function useUsuario() {
     return { setLoading, users, loading, onAdd, onDelete, onConfirmDelete, toEdit, onEdit, formOpen, setFormOpen, confirmOpen, setConfirmOpen, clickeado }
   }
   
-export default function UserPage() {
-    const { setLoading, users, loading, onAdd, onDelete, onConfirmDelete, toEdit, onEdit, formOpen, setFormOpen, confirmOpen, setConfirmOpen, clickeado }= useUsuario()
+export default function UserPage({ params }: { params: { slug: string } }) {
+
+  const { slug }= params
+  const { setLoading, users, loading, onAdd, onDelete, onConfirmDelete, toEdit, onEdit, formOpen, setFormOpen, confirmOpen, setConfirmOpen, clickeado }= useUsuario(slug)
 
     if (loading) 
         return <LoadingSpinner />

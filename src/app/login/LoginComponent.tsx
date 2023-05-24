@@ -10,7 +10,7 @@ import axios from "axios";
 import { AdvancedImage } from "@cloudinary/react";
 import Client from "../types/Client";
 import { CloudinaryImage } from "@cloudinary/url-gen";
-import LoadingSpinner from "@/components/LoadingSpinner";
+import LoadingSpinner, { LoadingSpinnerChico } from "@/components/LoadingSpinner";
 
 export default function LoginComponent() {
     const [client, setClient] = useState<Client>();
@@ -29,7 +29,7 @@ export default function LoginComponent() {
     const user= session?.user
 
     if (!user) return <LoadingSpinner />
-    if (!client) return <LoadingSpinner />
+    if (!client) return <LoadingSpinnerChico />
 
     const avatarImage = new CloudinaryImage(client.image_insta.split("/").slice(-2).join("/"), {cloudName: 'dtm41dmrz'})
 

@@ -12,6 +12,9 @@ function usePostHandler(id: string, onDelete: () => void) {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const router= useRouter()
   const params= useParams()
+  if (!params)
+    throw Error("useParams() is not working")
+
   const slug= params.slug
 
   async function onConfirmDelete() {

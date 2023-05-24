@@ -12,7 +12,7 @@ export async function GET(request: Request, { params }: { params: {slug: string}
             }
         },
         orderBy: {
-          id: 'desc'
+          date: 'desc'
         },
         include: {
             pilar: true,

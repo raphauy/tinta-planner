@@ -45,6 +45,9 @@ function usePosts() {
 export default function PostsPage() {
   const { loading, posts, total, setTotal, client }= usePosts()  
   const searchParams= useSearchParams()
+  if (!searchParams)
+    throw Error("useSearchParams() is not working")
+
   const idPost= searchParams.get("id")
   
 

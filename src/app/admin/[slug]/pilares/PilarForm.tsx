@@ -19,9 +19,12 @@ interface ConfirmModalProps {
   toEdit: Pilar | null
 }
 
-export default function PilarFormModal({ isOpen, onClose, toEdit }: ConfirmModalProps) { 
+export default function PilarFormModal({ isOpen, onClose, toEdit } : ConfirmModalProps ) { 
   const [color, setColor] = useState('#DDBBC0');
   const params= useParams()
+  if (!params)
+    throw Error("useParams() is not working")
+
   const slug= params.slug
 
   const {register, handleSubmit, formState: {errors}, setValue }= useForm<FieldValues>({
@@ -81,7 +84,7 @@ export default function PilarFormModal({ isOpen, onClose, toEdit }: ConfirmModal
       setValue("description", "")
       setValue("color", "#DDBBC0")
       setColor("#DDBBC0")
-      toast.success("Usuario editado", { duration: 4000 })
+      toast.success("Pilar editado", { duration: 4000 })
       onClose()
     })      
     .catch((e) => {

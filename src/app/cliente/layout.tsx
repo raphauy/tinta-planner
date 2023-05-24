@@ -1,13 +1,8 @@
 
-import getCurrentUser from "../(server-side)/services/getCurrentUser";
 import NavBar from "../NavBar";
 import Menu from "./Menu";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-
-//    const currentUser= await getCurrentUser()  
- 
-    console.log("render layout...");   
 
     return (
         <>
@@ -18,8 +13,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <div className="flex-grow">
                     {children}
                 </div>
-        </main>
-
+            </main>
         </>
     );
 }

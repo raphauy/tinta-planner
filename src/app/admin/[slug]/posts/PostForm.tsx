@@ -21,6 +21,9 @@ function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
   const [toEdit, setToEdit] = useState<Post>()
   const [pilars, setPilars] = useState<Pilar[]>([]);
   const params= useParams()
+  if (!params)
+    throw Error("useParams() is not working")
+
   const slug= params.slug
 
   useEffect(() => {
@@ -62,7 +65,8 @@ function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
       .then((res) => {
         const post= res.data.data
         onPost(post.id)
-        toast.success("Post creado", { duration: 4000 })        
+        
+        toast.success("Post creado", { duration: 4000 })
       })      
       .catch((e) => {
         const error= e.response.data.error ? e.response.data.error : "Algo salió mal"

@@ -7,10 +7,14 @@ import { AiFillCalendar, AiFillHome, AiFillInstagram, AiFillSetting, AiOutlineCa
 import { BsHddStack, BsHddStackFill, BsStack } from "react-icons/bs";
 import { FaRegUserCircle, FaUserCircle } from "react-icons/fa";
 import useClient from "../(client-side)/hooks/useClient";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 export default function ClientSideBar() {
-  const { slug }= useClient()
+  const currentClient= useClient()
   const path= usePathname()
+  if (!path) return <LoadingSpinner />
+  
+  const slug= getSlug(path)
 
   const commonClasses= "flex gap-2 items-center py-1 mx-2 rounded hover:bg-gray-200"
   const selectedClasses= "font-bold bg-gray-200"
@@ -78,4 +82,10 @@ export default function ClientSideBar() {
 
 function divider() {
   return <div className="mx-2 my-5 border-b border-b-tinta-vino/50" />
+}
+
+function getSlug(path: string) {
+  const segments = path.split("/");
+  const slug = segments[2];
+  return slug;
 }

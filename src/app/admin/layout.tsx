@@ -14,7 +14,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     const agency= currentUser.agency
 
     if (!agency)
-        return <div>El usuario no es una agencia</div>
+        return <div>El usuario no tiene permisos agencia</div>
 
     const clients = await getClients(agency.id);
   

@@ -7,12 +7,11 @@ import { useEffect, useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import PilarFormModal from "./PilarForm";
 import { GrAddCircle } from "react-icons/gr";
-import { useParams } from "next/navigation";
 import { Pilar } from "@/app/types/Pilar";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ConfirmModal from "@/components/modal/ConfirmMoldal";
 
-function usePilar() {
+function usePilar(slug: string) {
     const [pilars, setPilars] = useState<Pilar[]>([]);
     const [loading, setLoading] = useState(true);
     const [confirmOpen, setConfirmOpen] = useState(false);
@@ -21,9 +20,6 @@ function usePilar() {
     const [pilarToEdit, setPilarToEdit] = useState(null);
     const [total, setTotal] = useState(0)
     const [clickeado, setClickeado] = useState("")
-    const params= useParams()
-    const slug= params.slug
-
 
     useEffect(() => {
       async function fetchPilars() {
@@ -74,8 +70,11 @@ function usePilar() {
     return { setLoading, pilars, loading, onAdd, onDelete, onConfirmDelete, pilarToEdit, onEdit, formOpen, setFormOpen, confirmOpen, setConfirmOpen, total, setTotal, clickeado }
   }
   
-export default function PilaresPage() {
-    const { setLoading, pilars, loading, onAdd, onDelete, onConfirmDelete, pilarToEdit, onEdit, formOpen, setFormOpen, confirmOpen, setConfirmOpen, total, setTotal, clickeado }= usePilar()
+export default function PilaresPage({ params }: { params: { slug: string } }) {
+
+    const { slug }= params
+
+    const { setLoading, pilars, loading, onAdd, onDelete, onConfirmDelete, pilarToEdit, onEdit, formOpen, setFormOpen, confirmOpen, setConfirmOpen, total, setTotal, clickeado }= usePilar(slug)
 
 
     if (loading) 
