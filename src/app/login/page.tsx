@@ -10,10 +10,10 @@ export default async function loginPage() {
   console.log("role: " + role);
 
   if (role === "agency")
-  redirect("/admin/tinta/calendar")
+  redirect("/admin/tinta")
 
   if (role === "client")
-    redirect("/cliente/calendario")
+    redirect("/cliente")
 
   return (
     <div className="flex items-center justify-center min-h-screen pb-20">
