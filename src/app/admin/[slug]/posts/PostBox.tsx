@@ -46,7 +46,7 @@ export default function PostBox({ post, onSelected }: PostBoxProps) {
   return (
     <>
       <div className="min-h-[100px]">
-          <div onClick={handleClick} className="relative h-full overflow-hidden transition bg-white border border-gray-300 rounded-md cursor-pointer hover:scale-110">
+          <div onClick={handleClick} className="relative h-full overflow-hidden transition bg-white border border-gray-300 cursor-pointer hover:scale-110">
             {!post.date && <AiOutlineCalendar className="absolute top-0 right-0 text-white" size={23}/>}
             <Link href={`${link}?id=${post.id}`}>
               <AdvancedImage cldImg={cldImage} />

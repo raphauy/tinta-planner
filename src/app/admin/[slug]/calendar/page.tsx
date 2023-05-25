@@ -40,7 +40,7 @@ export default function CalendarPage({ params }: { params: { slug: string } }) {
     .filter((post): post is { date: Date } & typeof post => post.date !== null)
     .map((post) => {
       let dateCopy = new Date(post.date);
-      dateCopy.setDate(dateCopy.getDate()+1);
+      dateCopy.setDate(dateCopy.getDate());
 
       return {
         title: post.title,

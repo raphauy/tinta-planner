@@ -30,6 +30,7 @@ export async function PUT(request: Request, { params }: { params: {slug: string,
 
     const dateWithTime = new Date(date);
     dateWithTime.setHours(0, 0, 0, 0);
+    dateWithTime.setDate(dateWithTime.getDate()+1)
 
     console.table({ slug, title, image, format, hashtags, copy, link, dateWithTime, pilarId })
 
@@ -44,7 +45,7 @@ export async function PUT(request: Request, { params }: { params: {slug: string,
             hashtags,
             copy,
             link,
-            date: new Date(date),
+            date: dateWithTime,
             pilar: {
                 connect: {
                     id: parseInt(pilarId)
