@@ -81,7 +81,7 @@ export default function InstaBox({ postId, onDelete, onEdit, client }: InstaBoxP
           </div>
 
           {/* Title */}
-          <p className='p-3'>
+          <p className='p-3 whitespace-pre-line'>
             <span className='mr-1 font-bold'>{client.handle_insta} </span>
             {post.copy}
           </p>
