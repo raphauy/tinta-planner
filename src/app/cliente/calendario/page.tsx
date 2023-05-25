@@ -1,6 +1,6 @@
 
-import { getPostsBySlug } from "@/app/(server-side)/services/postServices";
 import getCurrentUser from "@/app/(server-side)/services/getCurrentUser";
+import { getPostsBySlug } from "@/app/(server-side)/services/postServices";
 import CalendarRC from "@/app/admin/[slug]/calendar/CalendarRC";
 
 export default async function CalendarPage() {

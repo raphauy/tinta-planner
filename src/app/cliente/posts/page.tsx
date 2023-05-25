@@ -28,7 +28,7 @@ function usePosts() {
     useEffect(() => {
       async function fetchPosts() {
         if (client) {
-          const { data } = await axios.get(`/api/posts/${client.slug}/`);
+          const { data } = await axios.get(`/api/posts/${client.slug}/wdate`);
           const res = data.data;
           setPosts(res);
           setLoading(false);

@@ -1,15 +1,14 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from '../../../(server-side)/db'
 
-export async function GET(request: Request, { params }: { params: {slug: string} } ) {
+export async function GET(request: NextRequest, { params }: { params: {slug: string } } ) {
     const slug= params.slug
-    console.log("posts, slug: " + slug);
-   
+
     const users = await prisma.post.findMany({
         where: {
             client: {
                 slug
-            }
+            },
         },
         orderBy: {
           date: 'desc'
@@ -18,12 +17,10 @@ export async function GET(request: Request, { params }: { params: {slug: string}
             pilar: true,
         }
       });
-
-    if (!users)
-        return NextResponse.json({ status: 200 })
     
     return NextResponse.json({ data: users }, { status: 200 })
 }
+
 
 
 export async function POST(request: Request, { params }: { params: {slug: string} } ) {
@@ -74,3 +71,4 @@ export async function POST(request: Request, { params }: { params: {slug: string
 
 
 }
+

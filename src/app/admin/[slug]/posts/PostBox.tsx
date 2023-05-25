@@ -41,7 +41,7 @@ export default function PostBox({ post, onSelected }: PostBoxProps) {
   if (clicked)
     return <LoadingSpinnerChico />
     
-  const cldImage = new CloudinaryImage(post.image.split("/").slice(-2).join("/"), {cloudName: 'dtm41dmrz'}).resize(fill().width(155).height(135));
+  const cldImage = new CloudinaryImage(post.image.split("/").slice(-2).join("/"), {cloudName: 'dtm41dmrz'}).resize(fill().width(160).height(160));
 
   return (
     <>
