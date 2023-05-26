@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AiFillCalendar, AiFillHome, AiFillInstagram, AiFillSetting, AiOutlineCalendar, AiOutlineHome, AiOutlineInstagram, AiOutlineSetting } from "react-icons/ai";
+import { AiFillBug, AiFillCalendar, AiFillHome, AiFillInstagram, AiFillSetting, AiOutlineBug, AiOutlineCalendar, AiOutlineHome, AiOutlineInstagram, AiOutlineSetting } from "react-icons/ai";
 import { BsHddStack, BsHddStackFill, BsStack } from "react-icons/bs";
 import { FaRegUserCircle, FaUserCircle } from "react-icons/fa";
 import LoadingSpinner from "@/components/LoadingSpinner";
@@ -66,10 +66,19 @@ export default function ClientSideBar() {
         {divider()}
 
         <div className="flex flex-col justify-end flex-grow">
-          <Link href={`/admin/config`} className={config}>
-            {configSelected ? <AiFillSetting size={25}/> : <AiOutlineSetting size={25}/>}
-            <p className={pClasses}>Config</p>            
-          </Link>
+
+          <div className="">
+            <Link href={`/admin/config`} className={config}>
+              {configSelected ? <AiFillBug size={25}/> : <AiOutlineBug size={25}/>}
+              <p className={pClasses}>Report</p>            
+            </Link>
+          </div>
+          <div className="">
+            <Link href={`/admin/config`} className={config}>
+              {configSelected ? <AiFillSetting size={25}/> : <AiOutlineSetting size={25}/>}
+              <p className={pClasses}>Config</p>            
+            </Link>
+          </div>
         </div>
 
       </section>

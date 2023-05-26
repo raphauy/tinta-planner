@@ -18,9 +18,6 @@ export default async function CalendarPage() {
   const eventos = posts
     .filter((post: Post): post is { date: Date } & typeof post => post.date !== null)
     .map((post) => {
-    // const eventos = posts
-    //   .filter((post): post is Post & { pilar: Pilar } => post.date !== null)
-    //   .map((post) => {      
       let dateCopy = new Date()
         if (post.date !== null) {
           dateCopy = new Date(post.date)
