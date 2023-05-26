@@ -11,6 +11,16 @@ jobs:
   build:
     runs-on: self-hosted
     environment: production
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+      EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+      NEXTAUTH_URL: ${{ vars.NEXTAUTH_URL }}
+      EMAIL_FROM: ${{ vars.EMAIL_FROM }}
+      EMAIL_PORT: ${{ vars.EMAIL_PORT }}
+      EMAIL_SERVER: ${{ vars.EMAIL_SERVER }}
+      NODE_ENV: ${{ vars.NODE_ENV }}
+      NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: ${{ vars.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}
 
     strategy:
       matrix:
@@ -27,25 +37,5 @@ jobs:
     - run: pnpx prisma migrate deploy
     - run: pnpx prisma generate
     - run: pnpm run build
-      env:
-        DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-        EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-        NEXTAUTH_URL: ${{ vars.NEXTAUTH_URL }}
-        EMAIL_FROM: ${{ vars.EMAIL_FROM }}
-        EMAIL_PORT: ${{ vars.EMAIL_PORT }}
-        EMAIL_SERVER: ${{ vars.EMAIL_SERVER }}
-        NODE_ENV: ${{ vars.NODE_ENV }}
-        NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: ${{ vars.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}
     - run: pm2 start ecosystem.config.js
-      env:
-        DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-        EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-        NEXTAUTH_URL: ${{ vars.NEXTAUTH_URL }}
-        EMAIL_FROM: ${{ vars.EMAIL_FROM }}
-        EMAIL_PORT: ${{ vars.EMAIL_PORT }}
-        EMAIL_SERVER: ${{ vars.EMAIL_SERVER }}
-        NODE_ENV: ${{ vars.NODE_ENV }}       
-        NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: ${{ vars.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}
 
