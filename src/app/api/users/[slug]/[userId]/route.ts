@@ -52,27 +52,28 @@ export async function PUT(request: Request, { params }: { params: {slug: string,
     return NextResponse.json({ data: updated }, { status: 200})
 }
 
-export async function PATCH(request: Request, { params }: { params: {slug: string, userId: string} } ) {
-    const json= await request.json()
-    const slug= params.slug
-    const userId= params.userId
-    console.table({ slug, userId, json })
+export async function PATCH(request: Request, { params }: { params: { slug: string, userId: string } }) {
+    const json = await request.json();
+    const slug = params.slug;
+    const userId = params.userId;
+  
+    const clientId = json.clientId;
+  
+    console.table({ slug, userId, clientId, json });
 
-    const email= json.email
-    
-    if (!email)
-        return NextResponse.json({ error: "email are required"}, { status: 400})
-
-    const updated= await prisma.user.update({
+    const updated = await prisma.user.update({
         where: {
-            id: userId
+          id: userId
         },
-        data: json
-    })
-
-    return NextResponse.json({ data: updated }, { status: 200})
-}
-
+        data: {
+          clientId: parseInt(clientId)
+        }
+      });
+  
+    return NextResponse.json({ data: updated }, { status: 200 });
+  }
+  
+  
 export async function DELETE(request: Request, { params }: { params: {slug: string, userId: string} } ) {
     const slug= params.slug
     const userId= params.userId
