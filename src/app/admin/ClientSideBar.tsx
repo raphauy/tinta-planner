@@ -34,7 +34,10 @@ export default function ClientSideBar() {
 
   const configSelected= path.endsWith("config")
   const config= clsx(commonClasses, configSelected && selectedClasses)
-  
+
+  const reportSelected= path.endsWith("report")
+  const report= clsx(commonClasses, reportSelected && selectedClasses)
+
   const pClasses= "hidden sm:block lg:w-36"
   return (
     <>
@@ -68,8 +71,8 @@ export default function ClientSideBar() {
         <div className="flex flex-col justify-end flex-grow">
 
           <div className="">
-            <Link href={`/admin/config`} className={config}>
-              {configSelected ? <AiFillBug size={25}/> : <AiOutlineBug size={25}/>}
+            <Link href={`/admin/report`} className={report}>
+              {reportSelected ? <AiFillBug size={25}/> : <AiOutlineBug size={25}/>}
               <p className={pClasses}>Report</p>            
             </Link>
           </div>
