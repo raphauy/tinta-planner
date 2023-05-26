@@ -24,6 +24,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'pnpm'
     - run: pnpm i
+    - run: pnpx prisma migrate deploy
+    - run: pnpx prisma generate
     - run: pnpm run build
       env:
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
@@ -35,8 +37,6 @@ jobs:
         EMAIL_SERVER: ${{ vars.EMAIL_SERVER }}
         NODE_ENV: ${{ vars.NODE_ENV }}
         NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: ${{ vars.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME }}
-    - run: pnpx prisma migrate deploy
-    - run: pnpx prisma generate
     - run: pm2 start ecosystem.config.js
       env:
         DATABASE_URL: ${{ secrets.DATABASE_URL }}

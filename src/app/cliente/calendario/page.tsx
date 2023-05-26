@@ -1,8 +1,8 @@
 
 import getCurrentUser from "@/app/(server-side)/services/getCurrentUser";
-import { getPostsBySlug } from "@/app/(server-side)/services/postServices";
+import { getPostsBySlug, getPostsWithDate } from "@/app/(server-side)/services/postServices";
 import CalendarRC from "@/app/admin/[slug]/calendar/CalendarRC";
-import { Post } from "@/app/types/Post";
+import { Pilar, Post } from "@prisma/client";
 
 export default async function CalendarPage() {
   const currentUser= await getCurrentUser()
@@ -16,9 +16,15 @@ export default async function CalendarPage() {
   console.log("-client.slug: " + client.slug);
   
   const eventos = posts
-    .filter((post): post is Post & { date: Date } & typeof post => post.date !== null)
+    .filter((post: Post): post is { date: Date } & typeof post => post.date !== null)
     .map((post) => {
-      let dateCopy = new Date(post.date);
+    // const eventos = posts
+    //   .filter((post): post is Post & { pilar: Pilar } => post.date !== null)
+    //   .map((post) => {      
+      let dateCopy = new Date()
+        if (post.date !== null) {
+          dateCopy = new Date(post.date)
+        }
       dateCopy.setDate(dateCopy.getDate()+1);
 
       return {
