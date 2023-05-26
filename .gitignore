@@ -2,7 +2,6 @@
 .env
 /src/bak_middleware.ts
 #prisma/migrations
-ecosystem.config.js
 
 # ------------------
 
