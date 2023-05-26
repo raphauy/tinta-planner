@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from '../../../(server-side)/db'
+import { prisma } from "@/app/(server-side)/db";
 
 
 export async function GET(request: Request, { params }: { params: {slug: string } }) {
@@ -14,3 +14,4 @@ export async function GET(request: Request, { params }: { params: {slug: string 
     
     return NextResponse.json({ data: found }, { status: 200})
 }
+

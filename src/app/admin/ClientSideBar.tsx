@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AiFillBug, AiFillCalendar, AiFillHome, AiFillInstagram, AiFillSetting, AiOutlineBug, AiOutlineCalendar, AiOutlineHome, AiOutlineInstagram, AiOutlineSetting } from "react-icons/ai";
+import { AiFillBug, AiFillCalendar, AiFillHome, AiFillInstagram, AiFillSetting, AiFillTool, AiOutlineBug, AiOutlineCalendar, AiOutlineHome, AiOutlineInstagram, AiOutlineSetting, AiOutlineTool } from "react-icons/ai";
 import { BsHddStack, BsHddStackFill, BsStack } from "react-icons/bs";
 import { FaRegUserCircle, FaUserCircle } from "react-icons/fa";
 import LoadingSpinner from "@/components/LoadingSpinner";
@@ -28,6 +28,9 @@ export default function ClientSideBar() {
 
   const pilarsSelected= path.endsWith("pilares")
   const pilars= clsx(commonClasses, pilarsSelected && selectedClasses)
+
+  const clientconfigSelected= path.endsWith("clientconfig")
+  const clientconfig= clsx(commonClasses, clientconfigSelected && selectedClasses)
 
   const usersSelected= path.endsWith("usuarios")
   const users= clsx(commonClasses, usersSelected && selectedClasses)
@@ -66,6 +69,11 @@ export default function ClientSideBar() {
           <p className={pClasses}>Usuarios</p>
         </Link>
 
+        {divider()}
+        <Link href={`/admin/${slug}/clientconfig`} className={clientconfig}>
+          {clientconfigSelected ? <AiFillTool size={25}/> : <AiOutlineTool size={25}/>}
+          <p className={pClasses}>Conf. Cliente</p>
+        </Link>
         {divider()}
 
         <div className="flex flex-col justify-end flex-grow">

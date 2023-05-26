@@ -17,7 +17,7 @@ export default async function ClientPage() {
         <div className="container px-5 mx-auto py-14">
           <div className="flex flex-col w-full text-center mb-14">
             <h1 className="mb-4 text-2xl font-medium text-gray-900 sm:text-4xl title-font">{client.name}</h1>
-            <p className="mx-auto text-base leading-relaxed lg:w-2/3">Impulsamos nuestra bodega a través del marketing digital para llegar a amantes del vino en todo el mundo. Creamos estrategias innovadoras para fortalecer nuestra marca, generar conexiones duraderas y ofrecer experiencias únicas a través de plataformas digitales.</p>
+            <p className="mx-auto text-base leading-relaxed lg:w-2/3">{client.description}</p>
           </div>
           <div className="flex flex-wrap -m-4 text-center">
             <div className="w-full p-4 md:w-1/3 sm:w-1/2">

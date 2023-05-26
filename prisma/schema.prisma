@@ -35,6 +35,7 @@ model Agency {
 model Client {
     id                Int       @id @default(autoincrement())
     name              String
+    description       String?
     slug              String    @unique
     createdAt         DateTime  @default(now())
     updatedAt         DateTime  @updatedAt
