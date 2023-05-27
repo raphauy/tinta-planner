@@ -1,3 +1,5 @@
+import Client from "./Client"
+
 export default interface User {
     id: string
     name?: string
@@ -5,6 +7,6 @@ export default interface User {
     sessions?: string
     image?: string | null
     role?: string | null
-    client: { id: number, name: string, image_insta: string }
+    client: Client
 }
 

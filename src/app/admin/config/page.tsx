@@ -78,13 +78,13 @@ export default function ClientConfigPage() {
                 <tr key={user.id} className="h-12 px-4 font-medium text-left align-middle border-b text-muted-foreground hover:bg-slate-100">
                   <td className="pl-3 text-gray-600">{user.name}</td>
                   <td className="text-gray-600">{user.email}</td>
-                  <td>
+                  <td className="flex items-center justify-center">
                     <div className="relative inline-block w-8 h-8 overflow-hidden border rounded-full md:h-11 md:w-11">
                       <AdvancedImage cldImg={avatarImage} />
                     </div>
                   </td>
                   <td className="text-gray-600">{client.name}</td>                  
-                  <td onClick={() => setIdUserToEdit(user.id)}><FiEdit size={22} className="hover:cursor-pointer text-sky-400"/></td>
+                  <td onClick={() => setIdUserToEdit(user.id)}><FiEdit size={26} className="hover:cursor-pointer text-sky-400"/></td>
                 </tr>
 
                 )
