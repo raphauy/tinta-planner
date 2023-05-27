@@ -17,7 +17,7 @@ export default async function DashboardPage({ params }: { params: { slug: string
 
   const user= await getCurrentUser()
 
-  console.log("[" + formatter.format(new Date()) + "] " + user?.name);
+  console.log("[" + formatter.format(new Date()) + "] " + user?.name + " (admin)");
   
   if (!client) return <LoadingSpinner />
 
