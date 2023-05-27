@@ -12,9 +12,6 @@ export default async function CalendarPage() {
 
   const posts = await getPostsBySlug(client.slug);
 
-  console.log("-posts: " + posts.length);
-  console.log("-client.slug: " + client.slug);
-  
   const eventos = posts
     .filter((post: Post): post is { date: Date } & typeof post => post.date !== null)
     .map((post) => {
