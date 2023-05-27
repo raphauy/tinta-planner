@@ -37,6 +37,6 @@ jobs:
     - run: pnpx prisma migrate deploy
     - run: pnpx prisma generate
     - run: pnpm run build
-#    - run: pm2 stop tinta-planner
+    - run: pm2 stop tinta-planner
     - run: pm2 start ecosystem.config.js
 
