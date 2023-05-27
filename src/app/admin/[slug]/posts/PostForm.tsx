@@ -27,7 +27,6 @@ function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
   const slug= params.slug
 
   useEffect(() => {
-    console.log("usePostForm, slug: " + slug);
 
     async function fetchPilars() {
       const { data } = await axios.get(`/api/pilars/${slug}/`);

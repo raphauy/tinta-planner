@@ -7,7 +7,6 @@ interface SlugProps {
 
 function SlugHome({ params }: SlugProps) {
   const { slug } = params;
-  console.log(slug);
   
   return (
     <div className="flex items-center justify-center w-full mt-52">
