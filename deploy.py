@@ -7,12 +7,12 @@ def run_command(command):
 
     while True:
         output = process.stdout.readline()
-        if output == '' and process.poll() is not None:
+        if not output and process.poll() is not None:
             break
         if output:
             print(output.strip().decode())
     rc = process.poll()
-
+    
     if rc != 0:
         print('Error al ejecutar el comando: ', command)
         print('Abortando el script...')
