@@ -1,7 +1,8 @@
 import subprocess
 
 def run_command(command):
-    print(f"\n\n\nEjecutando: {command}")
+    print(f"_________________________\n\n\n")
+    print(f"Ejecutando: {command}")
 
     process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
@@ -12,7 +13,7 @@ def run_command(command):
         if output:
             print(output.strip().decode())
     rc = process.poll()
-    
+
     if rc != 0:
         print('Error al ejecutar el comando: ', command)
         print('Abortando el script...')
