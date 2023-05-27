@@ -42,12 +42,12 @@ function useConfigPage() {
     setIdUserToEdit("")
   }
 
-  return { loading, onChange, clients, userIdToEdit, setIdUserToEdit, users }
+  return { loading, total, onChange, clients, userIdToEdit, setIdUserToEdit, users }
 }
 
 export default function ClientConfigPage() {
 
-  const { loading, onChange, clients, userIdToEdit, setIdUserToEdit, users }= useConfigPage()
+  const { loading, total, onChange, clients, userIdToEdit, setIdUserToEdit, users }= useConfigPage()
 
   if (loading) return <LoadingSpinner />
 
@@ -92,6 +92,7 @@ export default function ClientConfigPage() {
               }
               </tbody>
             </table>
+            <div className="hidden mt-3 mr-5 text-right text-gray-500">Total: {total}</div>
           </div>
       </div>
     </section>

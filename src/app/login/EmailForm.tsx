@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import Input from '@/components/form/Input';
 import Button from '@/components/form/Button';
+import { LoadingSpinnerChico } from '@/components/LoadingSpinner';
 
 export default function AuthForm() {
   const session = useSession();
@@ -65,7 +66,7 @@ export default function AuthForm() {
           />
           <div>
             <Button disabled={isLoading} fullWidth type="submit">
-              Continuar
+              {isLoading ? <LoadingSpinnerChico /> : "Continuar"}
             </Button>
           </div>
         </form>
