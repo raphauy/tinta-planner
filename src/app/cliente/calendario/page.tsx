@@ -22,7 +22,7 @@ export default async function CalendarPage() {
         if (post.date !== null) {
           dateCopy = new Date(post.date)
         }
-      dateCopy.setDate(dateCopy.getDate()+1);
+      dateCopy.setDate(dateCopy.getDate());
 
       return {
         title: post.title,

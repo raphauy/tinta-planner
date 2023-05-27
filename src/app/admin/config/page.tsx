@@ -27,7 +27,7 @@ function useConfigPage() {
     }
     async function fetchUsers() {
       const { data } = await axios.get(`/api/users`);
-      const resUsers= data.data
+      const resUsers= data.data     
       
       setUsers(resUsers)
     }

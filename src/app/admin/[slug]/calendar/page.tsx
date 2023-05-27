@@ -32,8 +32,6 @@ export default function CalendarPage({ params }: { params: { slug: string } }) {
 
   if (loading) return <LoadingSpinner />
 
-  //const posts = await getPostsBySlug(slug);
-
   console.log("posts: " + posts.length);
   
   const eventos = posts
