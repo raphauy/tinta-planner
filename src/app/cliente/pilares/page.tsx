@@ -7,7 +7,6 @@ export default async function PilaresPage() {
   if (!client) return <div>Client not found</div>
 
   const pilares= client.pilars
-  console.log("pilares: " + pilares.length);
   
   let index= 0
   let index2= 0
