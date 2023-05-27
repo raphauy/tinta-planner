@@ -8,8 +8,6 @@ import { BsFillHddStackFill, BsHddStack, BsHddStackFill } from 'react-icons/bs'
 import { useState } from 'react'
 import { FaRegUserCircle, FaUserCircle } from 'react-icons/fa'
 
-console.log("render menú...");
-
 
 export default function Menu() {
   const [open, setOpen] = useState(false)

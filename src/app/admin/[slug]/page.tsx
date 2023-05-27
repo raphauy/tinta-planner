@@ -1,4 +1,6 @@
+import { formatter } from "@/app/(client-side)/utils";
 import { getClientBySlug } from "@/app/(server-side)/services/getClients";
+import getCurrentUser from "@/app/(server-side)/services/getCurrentUser";
 import LoadingSpinner from "@/components/LoadingSpinner"
 import { headers } from "next/dist/client/components/headers";
 import Link from "next/link";
@@ -13,7 +15,9 @@ export default async function DashboardPage({ params }: { params: { slug: string
 
   const client = await getClientBySlug(slug)
 
-  console.log("render");
+  const user= await getCurrentUser()
+
+  console.log("[" + formatter.format(new Date()) + "] " + user?.name);
   
   if (!client) return <LoadingSpinner />
 

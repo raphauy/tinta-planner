@@ -5,11 +5,17 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import { AiOutlineInstagram } from "react-icons/ai";
 import { BsHddStack } from "react-icons/bs";
 import { FaRegUserCircle } from "react-icons/fa";
+import getCurrentUser from "../(server-side)/services/getCurrentUser";
+import { formatter } from "../(client-side)/utils";
 
 export default async function ClientPage() {
   const client = await getClientOfCurrenUser();
 
   if (!client) return <LoadingSpinner />
+
+  const user= await getCurrentUser()
+
+  console.log("[" + formatter.format(new Date()) + "] " + user?.name + " ("+ client.name + ")");
 
   return (
     <>
