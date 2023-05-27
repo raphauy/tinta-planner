@@ -12,7 +12,7 @@ def run_command(command):
         print('Abortando el script...')
         exit(1)
     else:
-        print('{command} Done!')
+        print(f"{command} Done!")
 
 commands = [
     "git pull",
