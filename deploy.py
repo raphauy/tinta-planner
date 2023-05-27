@@ -2,13 +2,19 @@ import subprocess
 
 def run_command(command):
     print(f"\n\n\nEjecutando: {command}")
-    process = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
-    output, error = process.communicate()
 
-    if process.returncode != 0:
+    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+
+    while True:
+        output = process.stdout.readline()
+        if output == '' and process.poll() is not None:
+            break
+        if output:
+            print(output.strip().decode())
+    rc = process.poll()
+
+    if rc != 0:
         print('Error al ejecutar el comando: ', command)
-        if error:
-            print('Error: ', error)
         print('Abortando el script...')
         exit(1)
     else:
