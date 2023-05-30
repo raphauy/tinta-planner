@@ -14,8 +14,12 @@ import { IoPaperPlaneOutline } from 'react-icons/io5';
 import PopOver from '../../../../components/modal/PopOver';
 import PostHandler from './PopOverPostHandler';
 import PostCarouselForm from './PostCarouselForm';
+import useCopyToClipboard from '@/app/(client-side)/hooks/useCopyToClipboard';
+import { FiCopy } from 'react-icons/fi';
+import { toast } from 'react-hot-toast';
 
 function useInstaBox(postId: string, client: Client) {
+  const [value, copy] = useCopyToClipboard()
   const [loading, setLoading] = useState(true);
   const [post, setPost] = useState<Post>()
   const [images, setImages] = useState<string[]>([]);
@@ -39,7 +43,21 @@ function useInstaBox(postId: string, client: Client) {
 
   }, [slug, postId]);
 
-  return { post, images, loading }
+  function copyToClipboard(){
+
+    if (!post) return
+
+    let texto= post.copy
+    if (post.hashtags)
+      texto= texto + "\n" + post.hashtags
+
+    copy(texto)
+
+    toast.success("Texto copiado 👌")
+  }
+  
+
+  return { post, images, loading, copyToClipboard }
 }
 
 interface InstaBoxProps {
@@ -49,7 +67,7 @@ interface InstaBoxProps {
   client: Client
 }
 export default function InstaBox({ postId, onDelete, onEdit, client }: InstaBoxProps) {
-  const { post, images, loading }= useInstaBox(postId, client)
+  const { post, images, loading, copyToClipboard }= useInstaBox(postId, client)
 
   if (loading || !post)
     return <LoadingSpinner />
@@ -84,13 +102,13 @@ export default function InstaBox({ postId, onDelete, onEdit, client }: InstaBoxP
               <BsChat size={24} className='btn' />
               <IoPaperPlaneOutline size={24} className='btn' />
             </div>
-            <BsBookmark size={24} className='btn' />
+            <FiCopy onClick={copyToClipboard} size={25} className='btn' />
           </div>
 
           {/* Title */}
           <p className='p-3 whitespace-pre-line'>
             <span className='mr-1 font-bold'>{client.handle_insta} </span>
-            {post.copy}
+            {post.copy}            
           </p>
           <p className='p-3 font-bold'>
             {post.hashtags}
