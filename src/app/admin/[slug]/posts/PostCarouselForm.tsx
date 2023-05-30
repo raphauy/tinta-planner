@@ -30,7 +30,7 @@ export default function PostCarouselForm({images, onDelete}: Props) {
 
   
   const imageName= images.length === 0 ? "tinta-posts/thxal175stlimthovo7t.png" : images[Math.abs(count) % images.length]
-  const image= new CloudinaryImage(imageName.split("/").slice(-2).join("/"), {cloudName: 'dtm41dmrz'}).resize(fill().width(width))
+  const image= new CloudinaryImage(imageName.split("/").slice(-2).join("/"), {cloudName: 'dtm41dmrz'}).resize(fill().width(800))
 
   const duration= images.length === 1 ? { duration: 0 } : { duration: 0.5 }
     
