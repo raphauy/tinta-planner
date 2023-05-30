@@ -225,8 +225,8 @@ export default function PostForm({ onPost, postToEdit, client }: PostFormProps) 
             <label>Formato: </label>
             <select id='format' {...register("format")} className="w-full p-2 border border-gray-300 rounded">
               <option key={1} value="post">Post</option>
-              <option key={2} value="post-grafico">Post Gráfico</option>
-              <option key={3} value="historias">Historias</option>
+              <option key={2} value="post-grafico">Carrusel</option>
+              <option key={3} value="historias">Reel</option>
               <option key={4} value="otro">Otro</option>
             </select>
             {errors.pilarId && (<p className="mt-1 text-red-600">{errors.pilarId.message}</p>)}
