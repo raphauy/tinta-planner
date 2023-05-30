@@ -49,7 +49,7 @@ function useInstaBox(postId: string, client: Client) {
 
     let texto= post.copy
     if (post.hashtags)
-      texto= texto + "\n" + post.hashtags
+      texto= texto + "\n\n" + post.hashtags
 
     copy(texto)
 
