@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { AiOutlineCalendar } from 'react-icons/ai'
+import { TbCarouselHorizontal } from 'react-icons/tb'
 
 interface PostBoxProps {
     post: Post
@@ -42,12 +43,15 @@ export default function PostBox({ post, onSelected }: PostBoxProps) {
     return <LoadingSpinnerChico />
     
   const cldImage = new CloudinaryImage(post.image.split("/").slice(-2).join("/"), {cloudName: 'dtm41dmrz'}).resize(fill().width(160).height(160));
+  const images= post.image.split(",")
 
   return (
     <>
       <div className="min-h-[100px]">
           <div onClick={handleClick} className="relative h-full overflow-hidden transition bg-white border border-gray-300 cursor-pointer hover:scale-110">
             {!post.date && <AiOutlineCalendar className="absolute top-0 right-0 text-white" size={23}/>}
+            {images.length > 1 && <TbCarouselHorizontal className="absolute top-0 left-0 text-white" size={23}/>}
+            
             <Link href={`${link}?id=${post.id}`}>
               <AdvancedImage cldImg={cldImage} />
             </Link>

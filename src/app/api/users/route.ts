@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 
 export async function GET(request: Request) {
+    console.log("route users");
     
     const users = await prisma.user.findMany({
         where: {
@@ -18,6 +19,9 @@ export async function GET(request: Request) {
             client: true
         }
       });
+    
+    console.log(users.length);
+    
 
     if (!users)
         return NextResponse.json({ status: 200 })

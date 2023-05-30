@@ -13,10 +13,12 @@ import { BsBookmark, BsChat, BsThreeDots } from 'react-icons/bs';
 import { IoPaperPlaneOutline } from 'react-icons/io5';
 import PopOver from '../../../../components/modal/PopOver';
 import PostHandler from './PopOverPostHandler';
+import PostCarouselForm from './PostCarouselForm';
 
 function useInstaBox(postId: string, client: Client) {
   const [loading, setLoading] = useState(true);
   const [post, setPost] = useState<Post>()
+  const [images, setImages] = useState<string[]>([]);
   const params= useParams()
   if (!params)
     throw Error("useParams() is not working")
@@ -26,14 +28,18 @@ function useInstaBox(postId: string, client: Client) {
   useEffect(() => {
     async function fetch() {
       const { data } = await axios.get(`/api/posts/${slug}/${postId}/`);
-      setPost(data.data)
-      setLoading(false)      
-    }
-    fetch()
+      const resPost= data.data
+      setPost(resPost)
+      const newImages= resPost.image.split(",")
+      setImages(newImages)
+      }
+    fetch()      
+
+    setLoading(false)      
 
   }, [slug, postId]);
 
-  return { post, loading }
+  return { post, images, loading }
 }
 
 interface InstaBoxProps {
@@ -43,7 +49,7 @@ interface InstaBoxProps {
   client: Client
 }
 export default function InstaBox({ postId, onDelete, onEdit, client }: InstaBoxProps) {
-  const { post, loading }= useInstaBox(postId, client)
+  const { post, images, loading }= useInstaBox(postId, client)
 
   if (loading || !post)
     return <LoadingSpinner />
@@ -66,9 +72,10 @@ export default function InstaBox({ postId, onDelete, onEdit, client }: InstaBoxP
           </div>
 
           {/* Image */}
-          <div className='object-cover w-full py-2 '>
+          <div className='w-full py-2 h-[562px]'>
               {/* <Image className='rounded-md' width={681} height={528} src={post.image} alt="post image" /> */}
-            <AdvancedImage cldImg={cldImage} />
+            {images.length < 1 && <AdvancedImage cldImg={cldImage} />}
+            {images.length > 0 && <PostCarouselForm images={images} />}
           </div>
           {/* Buttons */}
           <div className='flex justify-between px-3 pt-4'>

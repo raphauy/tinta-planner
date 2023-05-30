@@ -10,14 +10,19 @@ import { toast } from 'react-hot-toast';
 import { Pilar } from '@/app/types/Pilar';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { Post } from '@/app/types/Post';
-import { CloudinaryImage } from '@cloudinary/url-gen';
+import { Cloudinary, CloudinaryImage } from '@cloudinary/url-gen';
 import Client from '@/app/types/Client';
 import { AdvancedImage } from '@cloudinary/react';
+import Button from '@/components/form/Button';
+import { BsTrash, BsUpload } from 'react-icons/bs';
+import PostCarouselForm from './PostCarouselForm';
+import useMeasure from 'react-use-measure';
+import { TbCarouselHorizontal } from 'react-icons/tb';
 
 function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormData>();
-  const [imagePreviewUrl, setImagePreviewUrl] = useState<string>('/images/Image-placeholder.svg');
   const [loading, setLoading] = useState(true);
+  const [images, setImages] = useState<string[]>([]);
   const [toEdit, setToEdit] = useState<Post>()
   const [pilars, setPilars] = useState<Pilar[]>([]);
   const params= useParams()
@@ -25,6 +30,21 @@ function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
     throw Error("useParams() is not working")
 
   const slug= params.slug
+
+
+  function handleUpload(result: any) {
+    const img: string = result.info.secure_url;
+    setImages((prevImages) => [...prevImages,img]) 
+    setValue("image", [...images,img].join(","));
+  }
+
+  function onDeleteImage(toEliminate: string) {
+    console.log("onDeleteImage: " + toEliminate);
+    const newImages= images.filter((image) => image !== toEliminate)
+    setImages(newImages)
+    setValue("image", newImages.join(","));
+  }
+  
 
   useEffect(() => {
 
@@ -46,17 +66,18 @@ function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
       postToEdit.date && setValue("date", new Date(postToEdit.date).toISOString().split('T')[0])
 
       setValue("image", postToEdit.image)
-      setImagePreviewUrl(postToEdit.image)
+
+      const newImages= postToEdit.image.split(",")
+      setImages(newImages)
     } 
 
     setLoading(false);
 
   }, [slug, postToEdit, setValue]);
 
-
   const onSubmit = (data: FormData) => {
-    console.log("onSubmit, slug: " + slug);
-    console.log("data: " + data.image);
+
+    setValue("image", "")
 
     if (!toEdit) {
       // Guardar
@@ -93,17 +114,12 @@ function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
     setValue("hashtags", "")
     setValue("format", "")
     setValue("date", "")
-    setImagePreviewUrl('/images/Image-placeholder.svg')
-
+    setImages([])
   };
 
-  function handleUpload(result: any) {
-    const img= result.info.secure_url
-    setImagePreviewUrl(img)
-    setValue("image", img)
-  }
+  
 
-  return { onSubmit, handleUpload, imagePreviewUrl, register, handleSubmit, errors, loading, pilars, toEdit }
+  return { images, onSubmit, handleUpload, register, handleSubmit, errors, loading, pilars, toEdit, onDeleteImage }
 }
 
 type FormData = {
@@ -123,15 +139,18 @@ interface PostFormProps {
 }
 
 export default function PostForm({ onPost, postToEdit, client }: PostFormProps) {
-  const { onSubmit, handleUpload, imagePreviewUrl, register, handleSubmit, errors, loading, pilars, toEdit  }= usePostForm(onPost, postToEdit)
+  const { images, onSubmit, handleUpload, register, handleSubmit, errors, loading, pilars, toEdit, onDeleteImage  }= usePostForm(onPost, postToEdit)
+  
 
   if (loading) 
     return <LoadingSpinner />
 
+  const hCarousel= images.length === 0 ? "h-[350px]" : "h-[500px]"
+
   const avatarImage = new CloudinaryImage(client.image_insta.split("/").slice(-2).join("/"), {cloudName: 'dtm41dmrz'})
 
   return (
-    <div className='p-4 m-4 bg-white border h-fit rounded-3xl min-w-[380px] max-w-[500px]'>
+    <div className='p-4 m-4 bg-white border rounded-3xl min-w-[380px] max-w-[500px]'>
         {/* Header */}
         <div className='flex items-center'>
           <div className="relative inline-block w-8 h-8 overflow-hidden border rounded-full md:h-11 md:w-11">
@@ -140,17 +159,23 @@ export default function PostForm({ onPost, postToEdit, client }: PostFormProps) 
           <p className='pl-2 text-sm font-semibold'>{client.handle_insta}</p>
         </div>
 
-        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+        <div className={`${hCarousel} my-2`}>          
+          <PostCarouselForm images={images} onDelete={onDeleteImage} />
+        </div>
+
+        <div className="flex justify-center">
+          <CldUploadButton
+            options={{maxFiles: 1, tags: [`${client.slug}`]}}
+            onUpload={handleUpload}
+            uploadPreset="tinta-posts"
+          >              
+            <BsUpload size={30} className='w-32 h-10 p-2 bg-gray-200 border border-gray-500 rounded-md hover:bg-gray-300' />
+            {/** imagePreviewUrl && (<Image className='rounded-md cursor-pointer' width={681} height={528} src={imagePreviewUrl} alt="post image" />) */}          
+          </CldUploadButton>
+        </div>
+
+        <form className="mt-3 space-y-6" onSubmit={handleSubmit(onSubmit)}>
         
-          <div className="mt-2 mb-4">
-            <CldUploadButton
-              options={{ maxFiles: 1}}
-              onUpload={handleUpload}
-              uploadPreset="tinta-posts"
-            >
-              {imagePreviewUrl && (<Image className='rounded-md cursor-pointer' width={681} height={528} src={imagePreviewUrl} alt="post image" />)}          
-            </CldUploadButton>
-          </div>
           <input id="image" type="text" hidden
               {...register("image", { required: "Tines que cargar una imagen ☝️" })}
               className="w-full p-2 border border-gray-300 rounded"/>

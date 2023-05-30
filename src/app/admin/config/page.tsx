@@ -13,9 +13,8 @@ import { AdvancedImage } from "@cloudinary/react";
 function useConfigPage() {
   const [loading, setLoading] = useState(true);
   const [clients, setClients] = useState<Client[]>([]);
-  const [users, setUsers] = useState<User[]>();
+  const [users, setUsers] = useState<User[]>([]);
   const [userIdToEdit, setIdUserToEdit] = useState("");
-  const [total, setTotal] = useState(0)
 
   useEffect(() => {
         
@@ -23,31 +22,32 @@ function useConfigPage() {
       const { data } = await axios.get(`/api/client/all`);
       const resClients= data.data
       setClients(resClients)
-      
     }
     async function fetchUsers() {
       const { data } = await axios.get(`/api/users`);
       const resUsers= data.data     
-      
       setUsers(resUsers)
+    
     }
-
+    
     fetchClients()
     fetchUsers()
+
+    
     setLoading(false);
-  }, [total]);
+  }, [loading]);
 
   function onChange() {
-    setTotal(total+1)
     setIdUserToEdit("")
+    setLoading(true)
   }
 
-  return { loading, total, onChange, clients, userIdToEdit, setIdUserToEdit, users }
+  return { loading, onChange, clients, userIdToEdit, setIdUserToEdit, users }
 }
 
 export default function ClientConfigPage() {
 
-  const { loading, total, onChange, clients, userIdToEdit, setIdUserToEdit, users }= useConfigPage()
+  const { loading, onChange, clients, userIdToEdit, setIdUserToEdit, users }= useConfigPage()
 
   if (loading) return <LoadingSpinner />
 
@@ -70,7 +70,7 @@ export default function ClientConfigPage() {
               </thead>
               <tbody>
 
-              {
+              {users &&
               users.map((user) => {
                 const client= user.client
                 const avatarImage = new CloudinaryImage(client.image_insta.split("/").slice(-2).join("/"), {cloudName: 'dtm41dmrz'})
@@ -92,7 +92,6 @@ export default function ClientConfigPage() {
               }
               </tbody>
             </table>
-            <div className="hidden mt-3 mr-5 text-right text-gray-500">Total: {total}</div>
           </div>
       </div>
     </section>
