@@ -16,7 +16,7 @@ export async function GET(request: NextRequest, { params }: { params: {slug: str
         include: {
             pilar: true,
         }
-      });
+      });    
     
     return NextResponse.json({ data: users }, { status: 200 })
 }

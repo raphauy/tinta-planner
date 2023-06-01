@@ -8,7 +8,7 @@ import { CloudinaryImage } from '@cloudinary/url-gen';
 import axios from 'axios';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { AiOutlineHeart } from 'react-icons/ai';
+import { AiOutlineDownload, AiOutlineHeart } from 'react-icons/ai';
 import { BsBookmark, BsChat, BsThreeDots } from 'react-icons/bs';
 import { IoPaperPlaneOutline } from 'react-icons/io5';
 import PopOver from '../../../../components/modal/PopOver';
@@ -17,6 +17,8 @@ import PostCarouselForm from './PostCarouselForm';
 import useCopyToClipboard from '@/app/(client-side)/hooks/useCopyToClipboard';
 import { FiCopy } from 'react-icons/fi';
 import { toast } from 'react-hot-toast';
+import Link from 'next/link';
+import { fill } from '@cloudinary/url-gen/actions/resize';
 
 function useInstaBox(postId: string, client: Client) {
   const [value, copy] = useCopyToClipboard()
@@ -75,6 +77,7 @@ export default function InstaBox({ postId, onDelete, onEdit, client }: InstaBoxP
   const cldImage = new CloudinaryImage(post.image.split("/").slice(-2).join("/"), {cloudName: 'dtm41dmrz'})
   const avatarImage = new CloudinaryImage(client.image_insta.split("/").slice(-2).join("/"), {cloudName: 'dtm41dmrz'})
 
+
   return (
     <div>
       <div className='p-4 m-4 bg-white border rounded-3xl min-w-[380px] max-w-[500px]'>
@@ -121,10 +124,18 @@ export default function InstaBox({ postId, onDelete, onEdit, client }: InstaBoxP
         <p><span className='mr-1 font-bold'>Pilar: </span>{post.pilar.name}</p>
         <p><span className='mr-1 font-bold'>Formato: </span>{post.format}</p>
         <p><span className='mr-1 font-bold'>Fecha: </span>{post.date && new Date(post.date).toISOString().split('T')[0]}</p>
-        <div>
-          <p></p>
-          <p></p>            
-        </div>
+      </div>
+      <div className='p-4 m-4 bg-white border rounded min-w-[380px] max-w-[500px] grid-cols-3 grid gap-4'>
+        {images.map((url) => {
+          const short= url.split("/").slice(-2).join("/")
+          const image = new CloudinaryImage(short, {cloudName: 'dtm41dmrz'}).resize(fill().width(100))
+
+          return (
+            <Link key={short} href={url} target="_blank">
+              <AdvancedImage cldImg={image} />              
+            </Link>
+          )
+        })}
       </div>
 
     </div>

@@ -1,23 +1,19 @@
 "use client"
 
+import Client from '@/app/types/Client';
+import { Pilar } from '@/app/types/Pilar';
+import { Post } from '@/app/types/Post';
+import LoadingSpinner from '@/components/LoadingSpinner';
+import { AdvancedImage } from '@cloudinary/react';
+import { CloudinaryImage } from '@cloudinary/url-gen';
 import axios from 'axios';
 import { CldUploadButton } from 'next-cloudinary';
-import Image from 'next/image';
-import { redirect, useParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import { Pilar } from '@/app/types/Pilar';
-import LoadingSpinner from '@/components/LoadingSpinner';
-import { Post } from '@/app/types/Post';
-import { Cloudinary, CloudinaryImage } from '@cloudinary/url-gen';
-import Client from '@/app/types/Client';
-import { AdvancedImage } from '@cloudinary/react';
-import Button from '@/components/form/Button';
-import { BsTrash, BsUpload } from 'react-icons/bs';
+import { BsUpload } from 'react-icons/bs';
 import PostCarouselForm from './PostCarouselForm';
-import useMeasure from 'react-use-measure';
-import { TbCarouselHorizontal } from 'react-icons/tb';
 
 function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormData>();
@@ -99,7 +95,7 @@ function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
       .then((res) => {
         const post= res.data.data
         onPost(post.id)
-        toast.success("Post editado", { duration: 4000 })
+        toast.success("Post editado", { duration: 4000 })        
       })      
       .catch((e) => {
         const error= e.response.data.error ? e.response.data.error : "Algo salió mal"
