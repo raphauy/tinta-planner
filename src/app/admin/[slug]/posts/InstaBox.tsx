@@ -125,14 +125,17 @@ export default function InstaBox({ postId, onDelete, onEdit, client }: InstaBoxP
         <p><span className='mr-1 font-bold'>Formato: </span>{post.format}</p>
         <p><span className='mr-1 font-bold'>Fecha: </span>{post.date && new Date(post.date).toISOString().split('T')[0]}</p>
       </div>
-      <div className='p-4 m-4 bg-white border rounded min-w-[380px] max-w-[500px] grid-cols-3 grid gap-4'>
+      <div className='p-4 m-4 bg-white border rounded min-w-[400px] max-w-[500px] grid-cols-2 xl:grid-cols-3 grid gap-4'>
         {images.map((url) => {
           const short= url.split("/").slice(-2).join("/")
           const image = new CloudinaryImage(short, {cloudName: 'dtm41dmrz'}).resize(fill().width(100))
 
           return (
-            <Link key={short} href={url} target="_blank">
-              <AdvancedImage cldImg={image} />              
+            <Link key={short} href={url} target="_blank" >
+              <div className='flex items-center gap-1 p-1 border rounded'>
+                <AdvancedImage cldImg={image} />
+                <AiOutlineDownload size={30} className='text-gray-600'/>
+              </div>
             </Link>
           )
         })}

@@ -58,7 +58,7 @@ export default function PostsPage() {
   return (
     <>
       <main className="flex justify-center">
-        <div className="md:flex md:w-3/4">
+        <div className="md:flex md:w-4/5">
       <Feed posts={posts} />        
 
         <div className="flex-grow">            
