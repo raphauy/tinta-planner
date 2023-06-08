@@ -28,7 +28,7 @@ export default async function CalendarPage() {
         end: dateCopy,
         image: post.image || "",
         color: post.pilar.color,
-        href: `/admin/tinta/posts?id=${post.id}&edit` ,
+        href: `/cliente/posts?id=${post.id}&edit` ,
       };
     });
 

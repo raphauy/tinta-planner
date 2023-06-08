@@ -29,7 +29,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                 <div className="flex-grow">
                     {children}
                 </div>
-        </main>
+            </main>
 
         </>
     );

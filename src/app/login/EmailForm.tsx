@@ -32,9 +32,12 @@ export default function AuthForm() {
   const onSubmit: SubmitHandler<FieldValues> = (data) => { 
     
     setIsLoading(true);  
+    console.log("data " + JSON.stringify(data));
 
     signIn('email', {...data, redirect: false })
     .then((callback) => {
+      console.log(callback);
+
       if (callback?.error) {
         toast.error('Algo salió mal!');
       }
