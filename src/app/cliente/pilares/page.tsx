@@ -1,5 +1,5 @@
 import { getClientOfCurrenUser } from "@/app/(server-side)/services/getClients";
-import CommingSoon from "@/components/CommingSoon";
+import { Pilar } from "@/app/types/Pilar";
 
 export default async function PilaresPage() {
 
@@ -19,7 +19,7 @@ export default async function PilaresPage() {
         </div>
         <div className="flex flex-wrap -m-4">
           {
-            pilares.map((pilar) => {
+            pilares.map((pilar: Pilar) => {
               index++
               if (index > 3) return
               return (
