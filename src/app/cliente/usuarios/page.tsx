@@ -1,5 +1,5 @@
 import { getClientOfCurrenUser } from '@/app/(server-side)/services/getClients';
-import CommingSoon from '@/components/CommingSoon'
+import { User } from '@prisma/client';
 
 export default async function UsuariosPage() {
   const client= await getClientOfCurrenUser()
@@ -20,7 +20,7 @@ export default async function UsuariosPage() {
           </thead>
           <tbody>
           {
-          users.map((user) => (
+          users.map((user: User) => (
             <tr key={user.id} className="h-12 px-4 font-medium text-left align-middle border-b text-muted-foreground hover:bg-slate-100">
                 <td className="pl-3 text-gray-600">{user.name}</td>
                 <td className="text-gray-600">{user.email}</td>
