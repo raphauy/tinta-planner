@@ -4,8 +4,25 @@ import ToasterContext from "./(client-side)/context/ToasterContext";
 import "./globals.css";
 
 export const metadata = {
-  title: "Tinta Planner",
+  title: "Social Planner",
   description: "The content planner of tinta.wine",
+  
+  openGraph: {
+    title: 'Social Planner',
+    description: 'The content planner of tinta.wine',
+    url: 'https://tinta.wine',
+    siteName: 'Tinta Social Planner',
+    images: [
+      {
+        url: '/images/opengraph-image.png',
+        width: 800,
+        height: 600,
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+
 };
 
 export default function RootLayout({
