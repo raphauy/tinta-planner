@@ -14,7 +14,7 @@ export const metadata = {
     siteName: 'Tinta Social Planner',
     images: [
       {
-        url: 'images/opengraph-image.png',
+        url: 'https://social-planner.tinta.wine/images/opengraph-image.png',
         width: 800,
         height: 600,
       },
