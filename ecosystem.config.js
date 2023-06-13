@@ -1,7 +1,7 @@
 module.exports = {
     apps: [
       {
-        name: "agency-planner",
+        name: "social-planner",
         script: "pnpm",
         args: "run start -- -p 8056",
       },

@@ -3,8 +3,6 @@
 import { Post } from "@/app/types/Post";
 import PostBox from "./PostBox";
 import { GrAddCircle } from "react-icons/gr";
-import { Suspense } from "react";
-import LoadingSpinner from "@/components/LoadingSpinner";
 
 interface FeedProps{
   posts: Post[]
@@ -23,7 +21,7 @@ export default function Feed({ posts, onAdd, onFeedSelected }: FeedProps) {
       </div>
 
       <div  className="grid grid-cols-3 gap-1 p-2 overflow-auto max-h-[320px] md:max-h-[800px]">
-        {posts.map((post) => (
+        {posts.map((post: Post) => (
           <PostBox
             key={post.id}
             post={post}
