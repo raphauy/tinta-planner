@@ -7,11 +7,13 @@ import { BsHddStack } from "react-icons/bs";
 import { FaRegUserCircle } from "react-icons/fa";
 import getCurrentUser from "../(server-side)/services/getCurrentUser";
 import { formatter } from "../(client-side)/utils";
+import NotAlowedPage from "../auth/not-alowed/page";
 
 export default async function ClientPage() {
-  const client = await getClientOfCurrenUser();
+  const client = await getClientOfCurrenUser()
 
-  if (!client) return <LoadingSpinner />
+        {/* @ts-expect-error Server Component */}
+  if (!client) return <NotAlowedPage message="Su usuario no tiene cliente asignado, comuniquese con su agencia." />
 
   const user= await getCurrentUser()
 

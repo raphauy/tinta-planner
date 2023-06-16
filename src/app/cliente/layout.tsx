@@ -1,15 +1,12 @@
 
-import NavBar from "../NavBar";
-import Menu from "./Menu";
+import MenuCliente from "./MenuCliente";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
 
     return (
         <>
-            <NavBar />
-
             <main className="flex flex-col flex-grow">
-                <Menu />
+                <MenuCliente />
                 <div className="flex-grow">
                     {children}
                 </div>

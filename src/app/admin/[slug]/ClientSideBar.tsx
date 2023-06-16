@@ -11,8 +11,10 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 export default function ClientSideBar() {
   const path= usePathname()
   if (!path) return <LoadingSpinner />
-  
+
   const slug= getSlug(path)
+
+  if (!slug) return <div></div>
 
   const commonClasses= "flex gap-2 items-center py-1 mx-2 rounded hover:bg-gray-200"
   const selectedClasses= "font-bold bg-gray-200"

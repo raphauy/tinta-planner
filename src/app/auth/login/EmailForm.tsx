@@ -43,7 +43,7 @@ export default function AuthForm() {
       }
 
       if (callback?.ok) {
-        router.push('/login-link')
+        router.push('/auth/login-link')
       }
     })
     .finally(() => setIsLoading(false))

@@ -1,6 +1,6 @@
 import React from "react";
 import AuthForm from "./EmailForm";
-import getCurrentUser from "../(server-side)/services/getCurrentUser";
+import getCurrentUser from "../../(server-side)/services/getCurrentUser";
 import { redirect } from "next/navigation";
 
 export default async function loginPage() {
@@ -9,11 +9,15 @@ export default async function loginPage() {
   const role= user?.role
   console.log("role: " + role);
 
-  if (role === "agency")
-  redirect("/admin/tinta")
 
   if (role === "client")
     redirect("/cliente")
+
+  if (role === "agency")
+    redirect("/admin/clients")
+
+  if (role === "super")
+    redirect("/super")
 
   return (
     <div className="flex items-center justify-center min-h-screen pb-20">

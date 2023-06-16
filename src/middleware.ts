@@ -17,7 +17,7 @@ export async function middleware(req: NextRequest) {
 
 export default withAuth({
   pages: {
-    signIn: "/login",
+    signIn: "/auth/login",
     signOut: "/logout"
   },
 });

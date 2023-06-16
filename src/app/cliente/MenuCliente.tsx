@@ -3,13 +3,13 @@
 import { usePathname } from 'next/navigation'
 
 import { AiFillCalendar, AiFillInstagram, AiOutlineCalendar, AiOutlineInstagram, AiOutlineMenu } from 'react-icons/ai'
-import ClientBox from '../admin/ClientBox'
+import ClientBox from '../admin/[slug]/ClientBox'
 import { BsFillHddStackFill, BsHddStack, BsHddStackFill } from 'react-icons/bs'
 import { useState } from 'react'
 import { FaRegUserCircle, FaUserCircle } from 'react-icons/fa'
 
 
-export default function Menu() {
+export default function MenuCliente() {
   const [open, setOpen] = useState(false)
   const path= usePathname()
   if (!path)

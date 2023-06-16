@@ -2,9 +2,9 @@
 
 import { AiOutlineMenu, AiOutlinePlus } from "react-icons/ai";
 import ClientBox from "./ClientBox";
-import Client from "../types/Client";
+import Client from "../../types/Client";
 import { useState } from "react";
-import useClient from "../(client-side)/hooks/useClient";
+import useClient from "../../(client-side)/hooks/useClient";
 
 interface ClientBarProps {
   clients: Client[];

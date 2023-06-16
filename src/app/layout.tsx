@@ -1,7 +1,7 @@
 import NavBar from "./NavBar";
 import { AuthContext } from "./(client-side)/context/AuthContext";
 import ToasterContext from "./(client-side)/context/ToasterContext";
-import "./globals.css";
+import "@/styles/globals.css";
 
 export const metadata = {
   title: "Social Planner",
@@ -36,6 +36,8 @@ export default function RootLayout({
         <AuthContext>
           <ToasterContext />
           <div className="flex flex-col min-h-screen bg-tinta-natural">
+            {/* @ts-expect-error Server Component */}
+            <NavBar />
             {children}
           </div>
         </AuthContext>
