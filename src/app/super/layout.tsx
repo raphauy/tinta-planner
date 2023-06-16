@@ -13,9 +13,10 @@ export default async function SuperLayout({ children }: { children: React.ReactN
 
     const role= currentUser.role
 
-    if (role !== "super")
+    if (role !== "super") {
         {/* @ts-expect-error Server Component */}
         return <NotAlowedPage message="Se necesita permisos de Super usuario" />
+    }
  
     return (
         <>
