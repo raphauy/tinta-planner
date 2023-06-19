@@ -1,12 +1,12 @@
 "use client"
 
+import { AdvancedImage } from "@cloudinary/react";
+import { CloudinaryImage } from "@cloudinary/url-gen";
+import { fill } from "@cloudinary/url-gen/actions/resize";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { BsChevronLeft, BsChevronRight, BsTrash } from "react-icons/bs";
-import { AnimatePresence, motion } from "framer-motion"
 import useMeasure from "react-use-measure";
-import { AdvancedImage } from "@cloudinary/react";
-import { fill } from "@cloudinary/url-gen/actions/resize";
-import { CloudinaryImage } from "@cloudinary/url-gen";
 
 interface Props{
     images: string[]
@@ -21,15 +21,13 @@ export default function PostCarouselForm({images, onDelete}: Props) {
 
 
   useEffect(() => {
-    if (images.length>0)
-        setCount(images.length-1);
 
   }, [images]); 
 
   const hasMore= images.length > 1
 
-  
-  const imageName= images.length === 0 ? "tinta-posts/thxal175stlimthovo7t.png" : images[Math.abs(count) % images.length]
+  const index= Math.abs(count) % images.length
+  const imageName= images.length === 0 ? "tinta-posts/thxal175stlimthovo7t.png" : images[index]
   const image= new CloudinaryImage(imageName.split("/").slice(-2).join("/"), {cloudName: 'dtm41dmrz'}).resize(fill().width(800))
 
   const duration= images.length === 1 ? { duration: 0 } : { duration: 0.5 }
@@ -51,7 +49,8 @@ export default function PostCarouselForm({images, onDelete}: Props) {
                   {hasMore && <button onClick={() => setCount(count -1)}><BsChevronLeft fontSize={25} className="absolute left-0 z-20" /></button>}
                   {hasMore && <button onClick={() => setCount(count +1)}><BsChevronRight fontSize={25} className="absolute right-0 z-20" /></button>}
                   <AdvancedImage cldImg={image}/> 
-                  {onDelete && <BsTrash onClick={() => onDelete(imageName)} className="absolute z-20 text-white bottom-1 right-1 hover:cursor-pointer" size={30}/>}
+                  <div className="absolute z-20 text-gray-500 top-1">{index+1}/{images.length}</div>
+                  {onDelete && <BsTrash onClick={() => onDelete(imageName)} className="absolute z-20 text-red-600 bottom-1 right-1 hover:cursor-pointer" size={30}/>}
               </motion.div>
           </AnimatePresence>
         </div>            

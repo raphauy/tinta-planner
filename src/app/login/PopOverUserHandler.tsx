@@ -17,11 +17,13 @@ function usePopOver(){
 
   useEffect(() => {
     async function fetch() {
-
       const { data } = await axios.get(`/api/client/`);
-      setClient(data.data)
+      return data.data;
     }
-    fetch();
+    fetch()
+    .then((res) => setClient(res))
+    .catch(error => console.log(error))
+
 
   }, []);
 

@@ -22,7 +22,9 @@ function usePosts() {
       }
     
       fetchClient()
-      .then((res) => setClient(res));
+      .then((res) => setClient(res))
+      .catch(error => console.log(error))
+      
     }, []);
     
     useEffect(() => {

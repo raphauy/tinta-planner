@@ -22,16 +22,17 @@ export default function LoginComponent() {
       }
     
       fetchClient()
-      .then((res) => setClient(res));
+      .then((res) => setClient(res))
+      .catch(error => console.log(error))
+
     }, []);
 
     const { data:session }= useSession()
     const user= session?.user
 
     if (!user) return <LoadingSpinner />
-    if (!client) return <LoadingSpinnerChico />
 
-    const avatarImage = new CloudinaryImage(client.image_insta.split("/").slice(-2).join("/"), {cloudName: 'dtm41dmrz'})
+    const avatarImage = client && new CloudinaryImage(client.image_insta.split("/").slice(-2).join("/"), {cloudName: 'dtm41dmrz'})
 
     const avatar= (
         <div>
@@ -41,7 +42,7 @@ export default function LoginComponent() {
             { user.role === "agency" ?
             <Avatar name={user?.email || ""} round={true} size="50" color="#AF8928" className="font-bold cursor-pointer hover:opacity-80"/> :
             <div className="relative inline-block w-8 h-8 overflow-hidden border rounded-full md:h-14 md:w-14">
-                <AdvancedImage cldImg={avatarImage} />
+                {avatarImage && <AdvancedImage cldImg={avatarImage} />}
             </div>
             }
             <span className="absolute block w-2 h-2 bg-green-500 rounded-full right-8 top-4 ring-2 ring-white md:h-3 md:w-3"></span>
