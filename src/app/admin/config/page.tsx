@@ -72,8 +72,10 @@ export default function ClientConfigPage() {
 
               {users &&
               users.map((user) => {
-                const client= user.client
-                const avatarImage = new CloudinaryImage(client.image_insta.split("/").slice(-2).join("/"), {cloudName: 'dtm41dmrz'})
+                const client= user.client                
+                const name= client ? client.name : "intruso"
+                const image= client ? client.image_insta : "https://res.cloudinary.com/dtm41dmrz/image/upload/v1686868876/tinta-posts/crveyjuji6saqodofirl.webp"                
+                const avatarImage = new CloudinaryImage(image.split("/").slice(-2).join("/"), {cloudName: 'dtm41dmrz'})
                 return (
                 <tr key={user.id} className="h-12 px-4 font-medium text-left align-middle border-b text-muted-foreground hover:bg-slate-100">
                   <td className="pl-3 text-gray-600">{user.name}</td>
@@ -83,7 +85,7 @@ export default function ClientConfigPage() {
                       <AdvancedImage cldImg={avatarImage} />
                     </div>
                   </td>
-                  <td className="text-gray-600">{client.name}</td>                  
+                  <td className="text-gray-600">{name}</td>                  
                   <td onClick={() => setIdUserToEdit(user.id)}><FiEdit size={26} className="hover:cursor-pointer text-sky-400"/></td>
                 </tr>
 
