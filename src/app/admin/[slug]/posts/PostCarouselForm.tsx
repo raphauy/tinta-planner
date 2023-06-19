@@ -49,7 +49,7 @@ export default function PostCarouselForm({images, onDelete}: Props) {
                   {hasMore && <button onClick={() => setCount(count -1)}><BsChevronLeft fontSize={25} className="absolute left-0 z-20" /></button>}
                   {hasMore && <button onClick={() => setCount(count +1)}><BsChevronRight fontSize={25} className="absolute right-0 z-20" /></button>}
                   <AdvancedImage cldImg={image}/> 
-                  <div className="absolute z-20 text-gray-500 top-1">{index+1}/{images.length}</div>
+                  <div className="absolute z-20 font-bold text-white bg-black rounded-md top-1 bg-opacity-30">{index+1}/{images.length}</div>
                   {onDelete && <BsTrash onClick={() => onDelete(imageName)} className="absolute z-20 text-red-600 bottom-1 right-1 hover:cursor-pointer" size={30}/>}
               </motion.div>
           </AnimatePresence>
