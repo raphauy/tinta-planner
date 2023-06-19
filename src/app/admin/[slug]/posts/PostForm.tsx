@@ -30,7 +30,9 @@ function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
 
   function handleUpload(result: any) {
     const img: string = result.info.secure_url;
-    setImages((prevImages) => [...prevImages,img]) 
+    if (images.length === 0)
+      setImages((prevImages) => [...prevImages,img]) 
+    else setImages((prevImages) => [...prevImages,","+img])
     setValue("image", [...images,img].join(","));
   }
 

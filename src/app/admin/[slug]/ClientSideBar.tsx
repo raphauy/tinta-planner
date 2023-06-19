@@ -72,24 +72,13 @@ export default function ClientSideBar() {
         </Link>
 
         {divider()}
-        <Link href={`/admin/${slug}/clientconfig`} className={clientconfig}>
-          {clientconfigSelected ? <AiFillTool size={25}/> : <AiOutlineTool size={25}/>}
-          <p className={pClasses}>Conf. Cliente</p>
-        </Link>
-        {divider()}
 
         <div className="flex flex-col justify-end flex-grow">
 
           <div className="">
-            <Link href={`/admin/report`} className={report}>
-              {reportSelected ? <AiFillBug size={25}/> : <AiOutlineBug size={25}/>}
-              <p className={pClasses}>Report</p>            
-            </Link>
-          </div>
-          <div className="">
             <Link href={`/admin/config`} className={config}>
-              {configSelected ? <AiFillSetting size={25}/> : <AiOutlineSetting size={25}/>}
-              <p className={pClasses}>Config</p>            
+              {/** configSelected ? <AiFillSetting size={25}/> : <AiOutlineSetting size={25}/> */}
+              <p className={pClasses}></p>            
             </Link>
           </div>
         </div>
