@@ -85,7 +85,7 @@ export default function ClientSideBar() {
             </Link>
           </div>
           <div className="">
-            <Link href={`/admin/config`} className={config}>
+            <Link href={`/admin/config?refresh=${new Date().getMilliseconds()}`} className={config}>
               {configSelected ? <AiFillSetting size={25}/> : <AiOutlineSetting size={25}/>}
               <p className={pClasses}>Config</p>            
             </Link>
