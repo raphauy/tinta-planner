@@ -149,10 +149,6 @@ export default function PostForm({ onPost, postToEdit, client }: PostFormProps) 
 
   return (
     <div className='p-4 m-4 bg-white border rounded-3xl min-w-[380px] max-w-[500px]'>
-      <div>{images.map(image => (
-        <p key={image}>{image.split("/").slice(-2).join("/")}</p>
-      ))}</div>
-      <p>{images}</p>
         {/* Header */}
         <div className='flex items-center'>
           <div className="relative inline-block w-8 h-8 overflow-hidden border rounded-full md:h-11 md:w-11">
