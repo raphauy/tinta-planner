@@ -160,7 +160,7 @@ export function WineForm({ wine, slug, processData }: Props) {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Descipción</FormLabel>
+              <FormLabel>Descripción</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Descipción del vino"                  
