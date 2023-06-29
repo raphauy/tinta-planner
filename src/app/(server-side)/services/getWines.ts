@@ -37,7 +37,6 @@ export async function createWine(slug: string, data: WineFormValues) {
   const created= await prisma.wine.create({
     data: {
       ...data,
-      year: parseInt(data.year),
       clientId: client.id  
     }
   })
@@ -54,7 +53,6 @@ export async function editWine(id: string, data: WineFormValues) {
     },
     data: {
       ...data,
-      year: parseInt(data.year),
     }
   })
 
