@@ -14,21 +14,24 @@ import LoadingSpinner, { LoadingSpinnerChico } from "@/components/LoadingSpinner
 
 export default function LoginComponent() {
     const [client, setClient] = useState<Client>();
-    
+
+    const { data:session }= useSession()
+    const user= session?.user
+
     useEffect(() => {
       async function fetchClient() {
         const { data } = await axios.get(`/api/client`);
         return data.data;
       }
-    
+      if (user && user.role === "agency") {
+        return
+      }
+  
       fetchClient()
       .then((res) => setClient(res))
       .catch(error => console.log(error))
 
-    }, []);
-
-    const { data:session }= useSession()
-    const user= session?.user
+    }, [user]);
 
     if (!user) return <LoadingSpinner />
 

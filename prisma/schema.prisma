@@ -46,6 +46,7 @@ model Client {
     posts             Post[]
     agency            Agency  @relation(fields: [agencyId], references: [id], onDelete: Cascade)  
     agencyId          Int
+    wines             Wine[]
 }
 
 model Pilar {
@@ -108,4 +109,18 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Wine {
+  id            String    @id @default(cuid())
+  name          String
+  winery        String?
+  winemaker     String?
+  description   String?   @db.Text
+  notes         String?   @db.Text
+  year          String
+  grape         String?
+  image         String?   @default("https://res.cloudinary.com/dtm41dmrz/image/upload/v1688035104/wines/wine-placeholder.jpg")
+  client        Client    @relation(fields: [clientId], references: [id], onDelete: Restrict)  
+  clientId      Int
 }

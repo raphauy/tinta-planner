@@ -68,3 +68,14 @@ export async function getClientBySlug(slug: string) {
   }
 };
 
+export async function getClientById(id: number) {
+
+  const found = await prisma.client.findUnique({
+    where: {
+      id
+    },
+  })
+
+  return found
+}
+

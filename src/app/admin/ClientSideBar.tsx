@@ -6,7 +6,9 @@ import { usePathname } from "next/navigation";
 import { AiFillBug, AiFillCalendar, AiFillHome, AiFillInstagram, AiFillSetting, AiFillTool, AiOutlineBug, AiOutlineCalendar, AiOutlineHome, AiOutlineInstagram, AiOutlineSetting, AiOutlineTool } from "react-icons/ai";
 import { BsHddStack, BsHddStackFill, BsStack } from "react-icons/bs";
 import { FaRegUserCircle, FaUserCircle } from "react-icons/fa";
+import { BiWine } from "react-icons/bi";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import { Wine } from "lucide-react";
 
 export default function ClientSideBar() {
   const path= usePathname()
@@ -34,6 +36,9 @@ export default function ClientSideBar() {
 
   const usersSelected= path.endsWith("usuarios")
   const users= clsx(commonClasses, usersSelected && selectedClasses)
+
+  const winesSelected= path.endsWith("wines")
+  const wines= clsx(commonClasses, winesSelected && selectedClasses)
 
   const configSelected= path.endsWith("config")
   const config= clsx(commonClasses, configSelected && selectedClasses)
@@ -67,6 +72,10 @@ export default function ClientSideBar() {
         <Link href={`/admin/${slug}/usuarios`} className={users}>
           {usersSelected ? <FaUserCircle size={25}/> : <FaRegUserCircle size={25}/>}
           <p className={pClasses}>Usuarios</p>
+        </Link>
+        <Link href={`/admin/${slug}/wines`} className={wines}>
+          <Wine />
+          <p className={pClasses}>Vinos</p>
         </Link>
 
         {divider()}

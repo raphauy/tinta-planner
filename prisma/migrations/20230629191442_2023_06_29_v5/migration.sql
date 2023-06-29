@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Wine" ALTER COLUMN "year" SET DATA TYPE TEXT;
