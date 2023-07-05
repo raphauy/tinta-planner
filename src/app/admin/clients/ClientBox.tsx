@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button"
 import { AdvancedImage } from "@cloudinary/react"
 import { CloudinaryImage } from "@cloudinary/url-gen"
 import { Client } from "@prisma/client"
@@ -28,7 +29,9 @@ export default function ClientBox({ client }: Props) {
             <p className="flex gap-2 ml-5 text-base">@{client.handle_insta}<Instagram /></p>
         </div>
         <p className="flex-1 text-xl">{client.description}</p>
-        <div className="flex justify-end gap-3 p-1">
+        
+        <div className="flex items-center justify-end gap-3 p-1">
+            <Button className="h-8 mr-4"><Link href={`/admin/${client.slug}`} className="">Acceder al cliente</Link></Button>
             <Link href={`/admin/clients/edit?id=${client.id}`}><FiEdit size={23} className="text-sky-400"/></Link>
             <Link href={`/admin/clients/delete?id=${client.id}`}><FiTrash2 size={23} className="text-red-400"/></Link>
         </div>

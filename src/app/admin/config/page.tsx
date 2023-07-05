@@ -19,12 +19,12 @@ function useConfigPage() {
   useEffect(() => {
         
     async function fetchClients() {
-      const { data } = await axios.get(`/api/client/all`);
+      const { data } = await axios.get(`/api/agency/clients`);
       const resClients= data.data
       setClients(resClients)
     }
     async function fetchUsers() {
-      const { data } = await axios.get(`/api/users`);
+      const { data } = await axios.get(`/api/agency/users`);
       const resUsers= data.data     
       setUsers(resUsers)
     
@@ -73,7 +73,7 @@ export default function ClientConfigPage() {
               {users &&
               users.map((user) => {
                 const client= user.client                
-                const name= client ? client.name : "intruso"
+                const name= client ? user.client.name : "Agency"
                 const image= client ? client.image_insta : "https://res.cloudinary.com/dtm41dmrz/image/upload/v1686868876/tinta-posts/crveyjuji6saqodofirl.webp"                
                 const avatarImage = new CloudinaryImage(image.split("/").slice(-2).join("/"), {cloudName: 'dtm41dmrz'})                
                 return (

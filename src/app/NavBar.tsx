@@ -60,10 +60,7 @@ function agencyHeader(agency: Agency) {
           <p className="text-2xl tracking-widest text-center ml-[2px] mt-[-7px] text-tinta-vino font-medium">planner</p>
         </Link>
         <Link href={"/admin/clients"}>
-          <Button variant="link" className="text-tinta-marron">Clientes</Button>
-        </Link>
-        <Link href={"/admin/config"}>
-          <Button variant="link" className="text-tinta-marron">Config</Button>
+          <Button className="h-8 ml-4">Clientes</Button>
         </Link>
       </div>
       <p className="flex-1 ml-2 text-xl font-bold text-center"></p>

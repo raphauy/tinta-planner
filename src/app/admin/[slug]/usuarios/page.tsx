@@ -5,12 +5,15 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { AiOutlineUserSwitch } from "react-icons/ai";
 import { GrAddCircle } from "react-icons/gr";
 import { useParams } from "next/navigation";
 import UserFormModal from "./UserForm";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import User from "@/app/types/User";
 import ConfirmModal from "@/components/modal/ConfirmMoldal";
+import UserConfigForm from "../../config/UserConfForm";
+import Client from "@/app/types/Client";
 
 function useUsuario(slug: string) {
     const [users, setUsers] = useState<User[]>([]);
@@ -20,6 +23,8 @@ function useUsuario(slug: string) {
     const [idToDelete, setIdToDelete] = useState("");
     const [toEdit, setToEdit] = useState(null);
     const [clickeado, setClickeado] = useState("")
+    const [idToSwitch, setIdToSwitch] = useState("");
+    const [clients, setClients] = useState<Client[]>([]);
 
 
     async function onAdd() {
@@ -54,6 +59,12 @@ function useUsuario(slug: string) {
       setClickeado(email)
       setConfirmOpen(true)
     }
+
+    function onSwitch() {
+      setIdToSwitch("")
+      setLoading(true)
+    }
+  
   
     useEffect(() => {
       async function fetch() {
@@ -64,15 +75,22 @@ function useUsuario(slug: string) {
         setLoading(false);
       }
       fetch();
+      async function fetchClients() {
+        const { data } = await axios.get(`/api/agency/clients`);
+        const resClients= data.data
+        setClients(resClients)
+      }
+      fetchClients()
+
     }, [slug, loading]);
   
-    return { setLoading, users, loading, onAdd, onDelete, onConfirmDelete, toEdit, onEdit, formOpen, setFormOpen, confirmOpen, setConfirmOpen, clickeado }
+    return { setLoading, users, loading, onAdd, onDelete, onConfirmDelete, toEdit, onEdit, formOpen, setFormOpen, confirmOpen, setConfirmOpen, clickeado, idToSwitch, setIdToSwitch, clients, onSwitch }
   }
   
 export default function UserPage({ params }: { params: { slug: string } }) {
 
   const { slug }= params
-  const { setLoading, users, loading, onAdd, onDelete, onConfirmDelete, toEdit, onEdit, formOpen, setFormOpen, confirmOpen, setConfirmOpen, clickeado }= useUsuario(slug)
+  const { setLoading, users, loading, onAdd, onDelete, onConfirmDelete, toEdit, onEdit, formOpen, setFormOpen, confirmOpen, setConfirmOpen, clickeado, idToSwitch, setIdToSwitch, clients, onSwitch }= useUsuario(slug)
 
     if (loading) 
         return <LoadingSpinner />
@@ -103,7 +121,7 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                       <tr className="h-12 font-medium text-left text-gray-700 align-middle bg-gray-100 brder-b text-muted-foreground">
                         <th className="pl-3">Nombre</th>
                         <th className="">Email</th>
-                        <th className="w-[80px] text-center">Online</th>
+                        <th className="w-[50px]"></th>
                         <th className="w-[50px]"></th>
                         <th className="w-[50px]"></th>
                       </tr>
@@ -114,13 +132,9 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                       <tr key={user.id} className="h-12 px-4 font-medium text-left align-middle border-b text-muted-foreground hover:bg-slate-100">
                           <td className="pl-3 text-gray-600">{user.name}</td>
                           <td className="text-gray-600">{user.email}</td>
-                          <td className="pl-7">
-                            <p className="w-4 h-4 rounded-full" style={{ backgroundColor: user.sessions ? "green" : "grey" }}>
-                              &nbsp;
-                            </p>
-                          </td>
                           <td onClick={() => onEdit(user.id)}><FiEdit size={22} className="hover:cursor-pointer text-sky-400"/></td>
                           <td onClick={() => onDelete(user.id, user.email)}><FiTrash2 size={22} className="text-red-400 hover:cursor-pointer"/></td>
+                          <td onClick={() => setIdToSwitch(user.id)}><AiOutlineUserSwitch size={22} className="hover:cursor-pointer"/></td>
                       </tr>
                     ))
                     }
@@ -133,6 +147,9 @@ export default function UserPage({ params }: { params: { slug: string } }) {
                   </div>
                 </div>
             </div>
+            <section>
+              {idToSwitch && <UserConfigForm userId={idToSwitch} clients={clients} onCancel={() => setIdToSwitch("")} onSave={() => onSwitch()} />}        
+            </section>
 
         </>
     );
