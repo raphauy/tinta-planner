@@ -27,7 +27,7 @@ export default async function AdminPage() {
   return (
     <section className="flex justify-center pt-3">
       
-      <div className="flex max-w-[980px] flex-col items-center gap-4">
+      <div className="flex max-w-[980px] flex-col items-center gap-4 p-4 w-full">
         <div className="flex gap-4">
           <p className="mb-2 text-3xl font-extrabold leading-tight tracking-tighter text-center md:text-4xl">
             Clientes

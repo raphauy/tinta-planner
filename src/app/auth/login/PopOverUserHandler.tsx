@@ -10,6 +10,7 @@ import { IoIosWine } from "react-icons/io";
 import { BsAsterisk } from "react-icons/bs";
 import Client from "../../types/Client";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 
 export default function PopOverUserHandler() {
@@ -32,8 +33,10 @@ export default function PopOverUserHandler() {
             <FaUserCircle size={24} /> {user.email} 
           </li>
             {user.role === "agency" && 
-            <li className="flex items-center py-2 pl-1 rounded hover:bg-gray-100">                        
-              <Link href="/admin/clients" className="w-full">Clientes</Link>
+            <li className="flex items-center py-2 pl-1">                        
+              <Link href="/admin/clients" className="w-full">
+                <Button className="w-full" variant="outline">Clientes</Button>
+              </Link>
             </li>
             }          
           <li className="flex items-center w-full mt-16 border-t rounded-md">
