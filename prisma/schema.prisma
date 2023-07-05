@@ -113,13 +113,15 @@ model VerificationToken {
 
 model Wine {
   id            String    @id @default(cuid())
-  name          String
-  winery        String?
+  winery        String
+  wine          String
   winemaker     String?
-  description   String?   @db.Text
+  region        String
+  vintage       String
+  grapes        String
+  style         String?
   notes         String?   @db.Text
-  year          String
-  grape         String?
+  price         Float?
   image         String?   @default("https://res.cloudinary.com/dtm41dmrz/image/upload/v1688035104/wines/wine-placeholder.jpg")
   client        Client    @relation(fields: [clientId], references: [id], onDelete: Restrict)  
   clientId      Int

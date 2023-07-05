@@ -1,13 +1,12 @@
 import { WineFormValues } from "@/app/admin/[slug]/wines/add/wineForm";
 import { prisma } from "../db";
-import getCurrentUser from "./getCurrentUser";
 import { getClientBySlug } from "./getClients";
 
 export default async function getClientWines(clientId: number) {
 
   const found = await prisma.wine.findMany({
     orderBy: {
-      year: 'asc',
+      vintage: 'asc',
     },
     where: {
       clientId

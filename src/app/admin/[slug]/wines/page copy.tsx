@@ -36,9 +36,9 @@ export default async function WinesPage({ params }: Props) {
         {
         wines.map((wine) => (
           <tr key={wine.id} className="h-12 px-4 font-medium text-left align-middle border-b text-muted-foreground hover:bg-slate-100">
-              <td className="pl-3 text-gray-600">{wine.name}</td>
-              <td className="text-gray-600">{wine.year}</td>
-              <td className="text-gray-600">{wine.description}</td>
+              <td className="pl-3 text-gray-600">{wine.wine}</td>
+              <td className="text-gray-600">{wine.vintage}</td>
+              <td className="text-gray-600">{wine.notes}</td>
               <td className="text-gray-600">{wine.winery}</td>
               <td className="text-gray-600">{wine.winemaker}</td>
               <td><Link href={`/admin/${slug}/wines/edit?wineId=${wine.id}`}><FiEdit size={22} className="hover:cursor-pointer text-sky-400"/></Link></td>

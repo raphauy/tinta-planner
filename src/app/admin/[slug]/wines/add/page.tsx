@@ -32,16 +32,15 @@ export default async function AddWinePage({ params, searchParams }: Props) {
     }
 
     return (
-    <div className="flex flex-col items-center my-10 space-y-6">
-        <div className="min-w-[600px]">
+    <div className="flex flex-col items-center w-full max-w-4xl my-10 space-y-6">
         <h3 className="text-lg font-medium text-center">Agregar Vino</h3>
 
         <Separator className="my-5" />
-        
-        <WineForm slug={slug} processData={saveData} />
-        
+
+        <div className="w-full">
+            <WineForm slug={slug} processData={saveData} />
         </div>
-        
+
     </div>
     )
 }

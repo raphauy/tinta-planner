@@ -41,13 +41,15 @@ export default async function AddWinePage({ params, searchParams }: Props) {
     }
 
     return (
-    <div className="flex flex-col items-center my-10 space-y-6">
+    <div className="flex flex-col items-center w-full max-w-4xl my-10 space-y-6">
         <div className="min-w-[600px]">
         <h3 className="text-lg font-medium text-center">Agregar Vino</h3>
 
         <Separator className="my-5" />
 
-        <WineForm slug={client.slug} processData={editData} wine={wine} />        
+        <div className="w-full">
+            <WineForm slug={client.slug} processData={editData} wine={wine} />        
+        </div>
         
         </div>
         

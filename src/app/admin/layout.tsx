@@ -26,7 +26,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
             <main className="flex flex-grow">
                 <ClientSideBar />
-                <div className="flex-grow">
+                <div className="flex justify-center flex-grow">
                     {children}
                 </div>
             </main>

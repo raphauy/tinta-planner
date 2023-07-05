@@ -17,38 +17,40 @@ import { FiTrash2 } from "react-icons/fi"
 
 export type Wine = {
   id: string
-  name: string
-  winery: string | null
+  winery: string
+  wine: string
   winemaker: string | null
-  description: string | null
-  year: string | null
-  grape: string | null
+  region: string
+  vintage: string
+  grapes: string
+  style: string | null
+  notes: string | null
   clientId: number
 }
 
 export const columns: ColumnDef<Wine>[] = [
-  {
-    accessorKey: "name",
-    header: ({ column }) => {
-      return (
-        <Button variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Nombre
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
-      )
-    },
-  },
   {
     accessorKey: "winery",
     header: ({ column }) => {
         return (
           <Button variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-            Bodega
-            <ArrowUpDown className="w-4 h-4 ml-2" />
+            Winery
+            <ArrowUpDown className="w-4 h-4 ml-1" />
           </Button>
         )
+    },
+  },
+  {
+    accessorKey: "wine",
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Wine
+          <ArrowUpDown className="w-4 h-4 ml-1" />
+        </Button>
+      )
     },
   },
   {
@@ -58,22 +60,61 @@ export const columns: ColumnDef<Wine>[] = [
         <Button variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
           Winemaker
-          <ArrowUpDown className="w-4 h-4 ml-2" />
+          <ArrowUpDown className="w-4 h-4 ml-1" />
         </Button>
       )
     },
   },
   {
-    accessorKey: "description",
+    accessorKey: "region",
     header: ({ column }) => {
       return (
         <Button variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Descripción
-          <ArrowUpDown className="w-4 h-4 ml-2" />
+          Region
+          <ArrowUpDown className="w-4 h-4 ml-1" />
         </Button>
       )
     },
+  },
+  {
+    accessorKey: "vintage",
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Vintage
+          <ArrowUpDown className="w-4 h-4 ml-1" />
+        </Button>
+      )
+    },
+  },
+  {
+    accessorKey: "grapes",
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Grapes
+          <ArrowUpDown className="w-4 h-4 ml-1" />
+        </Button>
+      )
+    },
+  },
+  {
+    accessorKey: "style",
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Style
+          <ArrowUpDown className="w-4 h-4 ml-1" />
+        </Button>
+      )
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    }
   },
   {
     accessorKey: "notes",
@@ -82,31 +123,7 @@ export const columns: ColumnDef<Wine>[] = [
         <Button variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
           Notas
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
-      )
-    },
-  },
-  {
-    accessorKey: "year",
-    header: ({ column }) => {
-      return (
-        <Button variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Año
-          <ArrowUpDown className="w-4 h-4 ml-2" />
-        </Button>
-      )
-    },
-  },
-  {
-    accessorKey: "grape",
-    header: ({ column }) => {
-      return (
-        <Button variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Cepas
-          <ArrowUpDown className="w-4 h-4 ml-2" />
+          <ArrowUpDown className="w-4 h-4 ml-1" />
         </Button>
       )
     },

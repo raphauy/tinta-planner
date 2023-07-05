@@ -6,6 +6,8 @@ import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { AdvancedImage } from "@cloudinary/react"
@@ -16,15 +18,25 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { toast } from "react-hot-toast"
 
+export const wineStyles= [
+  "Fresh and usefull",
+  "bold and structured"
+]
+
 const formSchema = z.object({
-  name: z.string()
+  winery: z.string()
+    .min(2, { message: "Winery must be at least 2 characters." }),
+  wine: z.string()
     .min(2, { message: "Name must be at least 2 characters." }),
-  description: z.string().optional(),
-  notes: z.string().optional(),
-  winery: z.string().optional(),
   winemaker: z.string().optional(),
-  year: z.string({required_error: "Year is required."}),
-  grape: z.string().optional(),
+  region: z.string()
+    .min(2, { message: "Region must be at least 2 characters." }),
+  vintage: z.string({required_error: "Vintage is required."}),
+  grapes: z.string()
+    .min(2, { message: "Grapes must be at least 2 characters." }),
+  style: z.string().optional(),
+  notes: z.string().optional(),
+  price: z.number().optional(),
   image: z.string().optional(),
 })
 
@@ -67,13 +79,15 @@ export function WineForm({ wine, slug, processData }: Props) {
     // set fields por edit mode
     if (wine) {
       
-      form.setValue("name", wine.name)
-      wine.description && form.setValue("description", wine.description)
-      wine.notes && form.setValue("notes", wine.notes)
-      wine.winery && form.setValue("winery", wine.winery)
+      form.setValue("winery", wine.winery)
+      form.setValue("wine", wine.wine)
       wine.winemaker && form.setValue("winemaker", wine.winemaker)
-      form.setValue("year", wine.year+"")
-      wine.grape && form.setValue("grape", wine.grape)
+      form.setValue("region", wine.region)
+      form.setValue("vintage", wine.vintage)
+      form.setValue("grapes", wine.grapes)
+      wine.style && form.setValue("style", wine.style)
+      wine.notes && form.setValue("notes", wine.notes)
+      wine.price && form.setValue("price", wine.price)
       wine.image && form.setValue("image", wine.image)
       wine.image && setPlaceHolderImageUrl(wine.image.split("/").slice(-2).join("/"))
     }
@@ -92,12 +106,12 @@ export function WineForm({ wine, slug, processData }: Props) {
       <form onSubmit={form.handleSubmit(onSubmit)} className="p-4 space-y-8 bg-white border rounded-md">
         <FormField
           control={form.control}
-          name="name"
+          name="winery"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nombre</FormLabel>
+              <FormLabel>Winery</FormLabel>
               <FormControl>
-                <Input placeholder="Super Tannat" {...field} />
+                <Input placeholder="Winery name" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -105,12 +119,12 @@ export function WineForm({ wine, slug, processData }: Props) {
         />
         <FormField
           control={form.control}
-          name="winery"
+          name="wine"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Bodega</FormLabel>
+              <FormLabel>Wine</FormLabel>
               <FormControl>
-                <Input placeholder="GZ Winery" {...field} />
+                <Input placeholder="Wine name" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -123,7 +137,7 @@ export function WineForm({ wine, slug, processData }: Props) {
             <FormItem>
               <FormLabel>Winemaker</FormLabel>
               <FormControl>
-                <Input placeholder="El creador de vinos" {...field} />
+                <Input placeholder="(optional)" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -131,12 +145,12 @@ export function WineForm({ wine, slug, processData }: Props) {
         />
         <FormField
           control={form.control}
-          name="year"          
+          name="region"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Año</FormLabel>
+              <FormLabel>Region</FormLabel>
               <FormControl>
-                <Input placeholder="2023" {...field} />
+                <Input placeholder="Region of the wine" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -144,10 +158,23 @@ export function WineForm({ wine, slug, processData }: Props) {
         />
         <FormField
           control={form.control}
-          name="grape"
+          name="vintage"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Cepas</FormLabel>
+              <FormLabel>Vintage</FormLabel>
+              <FormControl>
+                <Input placeholder="Vintage of the wine" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="grapes"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Grapes</FormLabel>
               <FormControl>
                 <Input placeholder="Tannat, Cabernet franc, Petit Verdot." {...field} />
               </FormControl>
@@ -157,32 +184,43 @@ export function WineForm({ wine, slug, processData }: Props) {
         />
         <FormField
           control={form.control}
-          name="description"
+          name="style"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Descripción</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Descipción del vino"                  
-                  {...field}
-                  rows={3}
-                />
-              </FormControl>
+              <FormLabel>Wine Style</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    {
+                      wine ? 
+                      <SelectValue className="text-muted-foreground">{form.getValues("style")}</SelectValue> :
+                      <SelectValue className="text-muted-foreground" placeholder="Select a Wine Style (Optional)" />
+                    }
+                    
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {wineStyles.map(style => (
+                    <SelectItem key={style} value={style}>{style}</SelectItem>
+                  ))
+                  }
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
-        /> 
+        />
         <FormField
           control={form.control}
           name="notes"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Notas de cata</FormLabel>
+              <FormLabel>Tasting notes</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="En nariz..."                  
+                  placeholder="(optional)"                  
                   {...field}
-                  rows={3}
+                  rows={7}
                 />
               </FormControl>
               <FormMessage />
