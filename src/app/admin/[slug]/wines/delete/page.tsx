@@ -24,9 +24,9 @@ export default async function DeletePage({ params, searchParams }: Props) {
     async function eliminate(): Promise<Wine | null> {
         "use server"
         
-        const deleted= wine && await deleteWine(wine.id)
+        const deleted= await deleteWine(wineId)
 
-        revalidatePath("/admin/wines")
+        revalidatePath(`/admin/${slug}/wines`)
 
         return deleted
     }
