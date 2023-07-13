@@ -24,51 +24,76 @@ export async function GET(request: NextRequest, { params }: { params: {slug: str
 
 
 export async function POST(request: Request, { params }: { params: {slug: string} } ) {
-    const slug= params.slug
-    const json= await request.json()
-    console.log("json: " + JSON.stringify(json))
+    const slug = params.slug;
+    const json = await request.json();
 
-    const { title, image, format, hashtags, copy, link, date, pilarId }= json
+    const { title, image, format, hashtags, copy, link, date, pilarId }= json;
 
-    const dateWithTime = new Date(date);
-    dateWithTime.setHours(0, 0, 0, 0);
-    dateWithTime.setDate(dateWithTime.getDate()+1)
+    // Define dateWithTime solo si date tiene un valor
+    let dateWithTime: Date | undefined;
+    if (date) {
+        dateWithTime = new Date(date);
+        dateWithTime.setHours(0, 0, 0, 0);
+        dateWithTime.setDate(dateWithTime.getDate()+1);
+    }
 
-    console.table({ slug, title, image, format, hashtags, copy, link, dateWithTime, pilarId })
-
-    const client= await prisma.client.findFirst({
+    const client = await prisma.client.findFirst({
         where: {
             slug
         },
-    })
+    });
 
-    if(!client)
-        return NextResponse.json({ error: "Client not found" }, { status: 401 })
+    if (!client) {
+        return NextResponse.json({ error: "Client not found" }, { status: 401 });
+    }
 
-    const created= await prisma.post.create({
-        data: {
-            title,
-            image,
-            format,
-            hashtags,
-            copy,
-            link,
-            date: dateWithTime,
-            client: {
-                connect: {
-                    id: client.id
-                }
-            },
-            pilar: {
-                connect: {
-                    id: parseInt(pilarId)
-                }
+    // Define un objeto con el tipo específico
+    let data: {
+        title: string,
+        image: string,
+        format: string,
+        hashtags: string,
+        copy: string,
+        link: string | undefined,
+        date?: Date,
+        client: {
+            connect: {
+                id: number
+            }
+        },
+        pilar: {
+            connect: {
+                id: number
             }
         }
-    })
+    } = {
+        title,
+        image,
+        format,
+        hashtags,
+        copy,
+        link,
+        client: {
+            connect: {
+                id: client.id
+            }
+        },
+        pilar: {
+            connect: {
+                id: parseInt(pilarId)
+            }
+        }
+    };
 
-    return NextResponse.json({ data: created }, { status: 201 })
+    // Solo añade date a data si dateWithTime tiene un valor
+    if (dateWithTime) {
+        data.date = dateWithTime;
+    }
 
+    const created = await prisma.post.create({
+        data
+    });
 
+    return NextResponse.json({ data: created }, { status: 201 });
 }
 
