@@ -101,7 +101,7 @@ export default function PilaresPage({ params }: { params: { slug: string } }) {
               toEdit={pilarToEdit}
             />
 
-            <div className="max-w-4xl p-5 mx-auto">
+            <div className="w-full max-w-4xl p-5 mx-auto">
               <div className="p-5 bg-white border rounded-md">
                 <table className="w-full">
                   <thead>

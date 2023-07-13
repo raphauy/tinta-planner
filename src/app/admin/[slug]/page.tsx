@@ -23,7 +23,7 @@ export default async function DashboardPage({ params }: { params: { slug: string
 
     return (
       <>
-      <section className="text-gray-600 body-font">
+      <section className="w-full text-gray-600 body-font">
         <div className="container px-5 mx-auto py-14">
           <div className="flex flex-col w-full text-center mb-14">
             <h1 className="mb-4 text-2xl font-medium text-gray-900 sm:text-4xl title-font">{client.name}</h1>

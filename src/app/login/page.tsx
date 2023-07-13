@@ -7,7 +7,6 @@ export default async function loginPage() {
   
   const user = await getCurrentUser()
   const role= user?.role
-  console.log("role: " + role);
 
   if (role === "agency")
   redirect("/admin/tinta")

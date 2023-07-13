@@ -55,7 +55,7 @@ export default function CalendarPage({ params }: { params: { slug: string } }) {
 
   return (
     <>
-      <main className="flex flex-col h-full gap-5 px-8 py-3">
+      <main className="flex flex-col w-full h-full gap-5 px-8 py-3">
         <div className="flex flex-col h-full p-3 bg-gray-200 border border-gray-300 rounded-xl">
           <CalendarRC events={eventos}></CalendarRC>
         </div>

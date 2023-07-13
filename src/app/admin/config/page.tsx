@@ -55,7 +55,7 @@ export default function ClientConfigPage() {
 
   return (
     <>
-      <section>
+      <section className="w-full">
         <div className="max-w-4xl p-5 mx-auto">
           <div className="p-5 bg-white border rounded-md">
             <table className="w-full">

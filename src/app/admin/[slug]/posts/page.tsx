@@ -96,7 +96,7 @@ export default function PostsPage({ params }: { params: { slug: string } }) {
 
   return (
     <>
-      <main className="md:flex">
+      <main className="w-full md:flex">
         
         
         <Feed posts={posts} onAdd={onAdd} onFeedSelected={onFeedSelected}/>
