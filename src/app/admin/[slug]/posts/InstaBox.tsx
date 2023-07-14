@@ -1,24 +1,24 @@
 "use client"
 
+import useCopyToClipboard from '@/app/(client-side)/hooks/useCopyToClipboard';
 import Client from '@/app/types/Client';
 import { Post } from '@/app/types/Post';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { AdvancedImage } from '@cloudinary/react';
 import { CloudinaryImage } from '@cloudinary/url-gen';
+import { fill } from '@cloudinary/url-gen/actions/resize';
 import axios from 'axios';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { AiOutlineDownload, AiOutlineHeart } from 'react-icons/ai';
-import { BsBookmark, BsChat, BsThreeDots } from 'react-icons/bs';
+import { BsChat, BsThreeDots } from 'react-icons/bs';
+import { FiCopy } from 'react-icons/fi';
 import { IoPaperPlaneOutline } from 'react-icons/io5';
 import PopOver from '../../../../components/modal/PopOver';
 import PostHandler from './PopOverPostHandler';
 import PostCarouselForm from './PostCarouselForm';
-import useCopyToClipboard from '@/app/(client-side)/hooks/useCopyToClipboard';
-import { FiCopy } from 'react-icons/fi';
-import { toast } from 'react-hot-toast';
-import Link from 'next/link';
-import { fill } from '@cloudinary/url-gen/actions/resize';
+import slugify from 'slugify'
 
 function useInstaBox(postId: string, client: Client) {
   const [value, copy] = useCopyToClipboard()
@@ -129,14 +129,20 @@ export default function InstaBox({ postId, onDelete, onEdit, client }: InstaBoxP
         {images.map((url) => {
           const short= url.split("/").slice(-2).join("/")
           const image = new CloudinaryImage(short, {cloudName: 'dtm41dmrz'}).resize(fill().width(100))
+          //const image2 = new CloudinaryImage(short, {cloudName: 'dtm41dmrz'}).resize(fill().width(100)).addFlag(attachment("pretty_flower"))         
 
           return (
-            <Link key={short} href={url} target="_blank" >
-              <div className='flex items-center gap-1 p-1 border rounded'>
-                <AdvancedImage cldImg={image} />
-                <AiOutlineDownload size={30} className='text-gray-600'/>
-              </div>
-            </Link>
+            <button key={short}
+              className='flex items-center gap-1 p-1 border rounded' 
+              onClick={() => {
+                const link = document.createElement('a');
+                link.href = `https://res.cloudinary.com/dtm41dmrz/image/upload/fl_attachment:${slugify(post.title, { lower: true })}/${short}`;
+                link.click();
+              }}
+            >
+              <AdvancedImage cldImg={image} />
+              <AiOutlineDownload size={30} className='text-gray-600'/>
+            </button>
           )
         })}
       </div>
