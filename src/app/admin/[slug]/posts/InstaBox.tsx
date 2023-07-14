@@ -129,14 +129,14 @@ export default function InstaBox({ postId, onDelete, onEdit, client }: InstaBoxP
         {images.map((url) => {
           const short= url.split("/").slice(-2).join("/")
           const image = new CloudinaryImage(short, {cloudName: 'dtm41dmrz'}).resize(fill().width(100))
-          //const image2 = new CloudinaryImage(short, {cloudName: 'dtm41dmrz'}).resize(fill().width(100)).addFlag(attachment("pretty_flower"))         
+          const title= post.title.replace(/\+/g, " ")
 
           return (
             <button key={short}
               className='flex items-center gap-1 p-1 border rounded' 
               onClick={() => {
                 const link = document.createElement('a');
-                link.href = `https://res.cloudinary.com/dtm41dmrz/image/upload/fl_attachment:${slugify(post.title, { lower: true })}/${short}`;
+                link.href = `https://res.cloudinary.com/dtm41dmrz/image/upload/fl_attachment:${slugify(title, { lower: true })}/${short}`;
                 link.click();
               }}
             >

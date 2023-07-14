@@ -5,6 +5,8 @@
 
 nextjs_deploy_example.yml
 check_github.py
+
+pnpm-lock.yaml
 # ------------------
 
 
