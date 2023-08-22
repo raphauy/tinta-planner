@@ -3,6 +3,7 @@ version: '3.8'
 services:
   agency-planner:
     image: raphauy/agency-planner:latest
+    restart: always
     env_file:
       - .env
     build:
