@@ -9,7 +9,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 3000:3000
+      - 8056:3000
     networks:
       - rc-network
 
