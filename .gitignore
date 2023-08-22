@@ -1,5 +1,7 @@
 # Agregado por RC:
 .env
+.env.local
+.env.production
 /src/bak_middleware.ts
 #prisma/migrations
 

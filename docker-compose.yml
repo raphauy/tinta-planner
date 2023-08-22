@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  agency-planner:
+    image: raphauy/agency-planner:latest
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    networks:
+      - rc-network
+
+networks:
+  rc-network:
+    external:
+      name: rc-network
