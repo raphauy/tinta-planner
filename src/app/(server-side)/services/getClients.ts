@@ -21,7 +21,20 @@ export default async function getClients (agencyId: number) {
   } catch (error: any) {
     return [];
   }
-};
+}
+
+export async function getSelectorData() {
+  let result: { slug: string; name: string }[] = []
+
+  const clients= await getClients(1)
+
+  const selectorData= clients.map(client => ({ slug: client.slug, name: client.name }))
+  
+  result = result.concat(selectorData)
+  
+  return result;
+}
+
 
 export async function getClientOfCurrenUser() {
   const currentUser = await getCurrentUser();

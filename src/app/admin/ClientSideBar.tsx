@@ -49,13 +49,7 @@ export default function ClientSideBar() {
   const pClasses= "hidden sm:block lg:w-36"
   return (
     <>
-      <section className="flex flex-col gap-3 py-4 border-r border-r-tinta-vino/50">
-        <Link href={`/admin/${slug}`} className={dashboard}>
-          {dashboardSelected ? <AiFillHome size={25} /> : <AiOutlineHome size={25}/>}          
-          <p className={pClasses}>Dashboard</p>                  
-        </Link>
-
-        {divider()}
+      <section className="flex flex-col gap-3">
 
         <Link href={`/admin/${slug}/calendar`} className={calendar}>
           {calendarSelected ? <AiFillCalendar size={25}/> : <AiOutlineCalendar size={25}/>}          
