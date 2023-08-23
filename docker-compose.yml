@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   agency-planner:
+    container_name: agency-planner
     image: raphauy/agency-planner:latest
     restart: always
     env_file:
