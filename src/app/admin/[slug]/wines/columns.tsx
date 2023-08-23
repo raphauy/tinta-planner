@@ -33,7 +33,7 @@ export const columns: ColumnDef<DataWine>[] = [
       const short= url.split("/").slice(-2).join("/")
       const image = new CloudinaryImage(short, {cloudName: 'dtm41dmrz'}).resize(fill().width(80))
       return (        
-        <div className="flex justify-center w-28">
+        <div className="flex justify-center w-14">
           <AdvancedImage cldImg={image} />
         </div>
         
@@ -58,7 +58,7 @@ export const columns: ColumnDef<DataWine>[] = [
       const short= url.split("/").slice(-2).join("/")
       const image = new CloudinaryImage(short, {cloudName: 'dtm41dmrz'}).resize(fill().width(80))
       return (
-        <div className="flex flex-col w-32 gap-4">
+        <div className="flex flex-col w-36 gap-7">
           <div>
             <p className="font-bold">{wine.winery}</p>
           </div>
