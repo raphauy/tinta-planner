@@ -18,6 +18,8 @@ import { DataWine } from "@/app/types/Wine"
 import { AdvancedImage } from "@cloudinary/react"
 import { CloudinaryImage } from "@cloudinary/url-gen"
 import { fill } from "@cloudinary/url-gen/actions/resize"
+import { AiOutlineDownload } from "react-icons/ai"
+import slugify from "slugify"
 
 
 export const columns: ColumnDef<DataWine>[] = [
@@ -34,7 +36,16 @@ export const columns: ColumnDef<DataWine>[] = [
       const image = new CloudinaryImage(short, {cloudName: 'dtm41dmrz'}).resize(fill().width(80))
       return (        
         <div className="flex justify-center w-14">
-          <AdvancedImage cldImg={image} />
+          <button
+            onClick={() => {
+              const link = document.createElement('a');
+              link.href = `https://res.cloudinary.com/dtm41dmrz/image/upload/fl_attachment:${slugify(wine.wine+"_"+wine.vintage, { lower: true })}/${short}`;
+              link.click();
+            }}
+          >
+            <AdvancedImage cldImg={image} />
+          </button>
+
         </div>
         
       )
