@@ -62,32 +62,31 @@ export const columns: ColumnDef<DataWine>[] = [
     },
     cell: ({ row }) => {
       const wine = row.original     
-      const url= wine.image
-      if (!url) return null
-      const short= url.split("/").slice(-2).join("/")
-      const image = new CloudinaryImage(short, {cloudName: 'dtm41dmrz'}).resize(fill().width(80))
       return (
-        <div className="flex flex-col gap-6 w-44">
-          <div>
-            <p className="font-bold">{wine.winery}</p>
+        <Link href={`/admin/${wine.clientSlug}/wines/edit?wineId=${wine.id}`} className="flex items-center">
+          <div className="flex flex-col gap-6 w-44">
+            <div>
+              <p className="font-bold">{wine.winery}</p>
+            </div>
+            <div className="flex-1">
+              <p className="text-sm">{wine.wine}</p>
+              <p className="text-sm">{wine.vintage}</p>            
+              {wine.alcohol ? 
+                <p className="text-sm">{wine.alcohol}% alc.</p> :
+                ""
+              }
+              {wine.price ? 
+                <p className="text-sm">Precio: {wine.price} UYU</p> :
+                ""
+              }
+            </div>
+            <div>
+              <p className="mb-1 text-sm">{wine.winemaker}</p>            
+              <p className="text-sm">Región: {wine.region}</p>
+            </div>
           </div>
-          <div className="flex-1">
-            <p className="text-sm">{wine.wine}</p>
-            <p className="text-sm">{wine.vintage}</p>            
-            {wine.alcohol ? 
-              <p className="text-sm">{wine.alcohol}% alc.</p> :
-              ""
-            }
-            {wine.price ? 
-              <p className="text-sm">Precio: {wine.price} UYU</p> :
-              ""
-            }
-          </div>
-          <div>
-            <p className="mb-1 text-sm">{wine.winemaker}</p>            
-            <p className="text-sm">Región: {wine.region}</p>
-          </div>
-        </div>
+        </Link>
+
       )
     }
   },

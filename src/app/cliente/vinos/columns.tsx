@@ -1,24 +1,12 @@
 "use client"
 
-import { ColumnDef } from "@tanstack/react-table"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-  } from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
-import { ArrowUpDown, MoreHorizontal } from "lucide-react"
-import Link from "next/link"
-import { Edit } from "lucide-react"
-import { FiTrash2 } from "react-icons/fi"
 import { DataWine } from "@/app/types/Wine"
+import { Button } from "@/components/ui/button"
 import { AdvancedImage } from "@cloudinary/react"
 import { CloudinaryImage } from "@cloudinary/url-gen"
 import { fill } from "@cloudinary/url-gen/actions/resize"
-import { AiOutlineDownload } from "react-icons/ai"
+import { ColumnDef } from "@tanstack/react-table"
+import { ArrowUpDown } from "lucide-react"
 import slugify from "slugify"
 
 
