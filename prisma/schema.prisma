@@ -121,7 +121,7 @@ model Wine {
   grapes        String
   style         String?
   notes         String?   @db.Text
-  price         Float?
+  price         String?
   image         String?   @default("https://res.cloudinary.com/dtm41dmrz/image/upload/v1688035104/wines/wine-placeholder.jpg")
   client        Client    @relation(fields: [clientId], references: [id], onDelete: Restrict)  
   clientId      Int

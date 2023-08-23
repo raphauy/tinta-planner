@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Wine" ALTER COLUMN "price" SET DATA TYPE TEXT;

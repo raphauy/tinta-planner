@@ -29,10 +29,10 @@ export default function DeleteForm({ slug, eliminate }: Props) {
         variant={"secondary"}
         className="w-32"
       >
-        Cancel
+        Cancelar
       </Button>
       <Button onClick={handleClick} variant="destructive" className="w-32 ml-2">
-        Delete
+        Eliminar
       </Button>
     </div>
   )

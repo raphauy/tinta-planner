@@ -1,8 +1,15 @@
 import { WineFormValues } from "@/app/admin/[slug]/wines/add/wineForm";
 import { prisma } from "../db";
-import { getClientBySlug } from "./getClients";
+import { getClientById, getClientBySlug } from "./getClients";
+import { DataWine } from "@/app/types/Wine";
 
-export default async function getClientWines(clientId: number) {
+export default async function getClientWines(clientId: number): Promise<DataWine[]> {
+
+  const res: DataWine[]= []
+
+  const client= await getClientById(clientId)
+  if (!client)
+    throw new Error()  
 
   const found = await prisma.wine.findMany({
     orderBy: {
@@ -13,8 +20,26 @@ export default async function getClientWines(clientId: number) {
     },
   })
 
-  return found;
-};
+  found.forEach(wine => {
+    res.push({      
+      id: wine.id,
+      grapes: wine.grapes,
+      notes: wine.notes,
+      region: wine.region,
+      style: wine.style,
+      vintage: wine.vintage,
+      winemaker: wine.winemaker,
+      winery: wine.winery,
+      wine: wine.wine,
+      clientSlug: client.slug,
+      image: wine.image,
+      price: wine.price
+    })
+  })
+
+  return res
+}
+
 
 
 export async function getWine(id: string) {

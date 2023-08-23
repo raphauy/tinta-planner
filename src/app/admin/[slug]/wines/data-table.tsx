@@ -33,11 +33,17 @@ import { DataTableToolbar } from "./data-table-toolbar"
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  wineNames: string[]
+  regions: string[]
+  vintages: string[]
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  wineNames,
+  regions,
+  vintages,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
@@ -70,14 +76,15 @@ export function DataTable<TData, TValue>({
   })
   React.useEffect(() => {
     table.setPageSize(20)  
-    table.getColumn("notes")?.toggleVisibility(false)
+    table.getColumn("wine")?.toggleVisibility(false)
+    table.getColumn("region")?.toggleVisibility(false)
+    table.getColumn("vintage")?.toggleVisibility(false)
     table.getColumn("winemaker")?.toggleVisibility(false)
-  // eslint-disable-next-line react-hooks/exhaustive-deps  
-  }, [])
+  }, [table])
 
   return (
     <div className="w-full space-y-4">
-      <DataTableToolbar table={table} />
+      <DataTableToolbar table={table} wineNames={wineNames} regions={regions} vintages={vintages} />
       <div className="border rounded-md">
         <Table>
           <TableHeader>

@@ -3,6 +3,7 @@ import { Wine } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
 import DeleteForm from './deleteForm'
 import { deleteWine, getWine } from '@/app/(server-side)/services/getWines'
+import { getClientBySlug } from '@/app/(server-side)/services/getClients'
 
 interface Props{
     params: {
@@ -15,6 +16,7 @@ interface Props{
   
 export default async function DeletePage({ params, searchParams }: Props) {
     const slug= params.slug
+    
     const wineId= searchParams.wineId
   
     const wine= await getWine(wineId)
@@ -35,11 +37,11 @@ export default async function DeletePage({ params, searchParams }: Props) {
     return (
         <div className="flex flex-col items-center w-full my-5 space-y-6">
             <div className="flex flex-col items-center">
-                <h3 className="text-xl font-medium text-center">Delete Wine {wine?.wine}</h3>
+                <h3 className="text-xl font-medium text-center">Desea eliminar el vino {wine?.wine}?</h3>
 
                 <Separator className="my-5" />
                 
-                <p className="mb-5 text-lg">This operation cannot be undone</p>
+                <p className="mb-5 text-lg">Esta acción no se puede deshacer</p>
 
                 <DeleteForm slug={slug} eliminate={eliminate} />
             </div>

@@ -14,50 +14,91 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import Link from "next/link"
 import { Edit } from "lucide-react"
 import { FiTrash2 } from "react-icons/fi"
+import { DataWine } from "@/app/types/Wine"
+import { AdvancedImage } from "@cloudinary/react"
+import { CloudinaryImage } from "@cloudinary/url-gen"
+import { fill } from "@cloudinary/url-gen/actions/resize"
 
-export type Wine = {
-  id: string
-  winery: string
-  wine: string
-  winemaker: string | null
-  region: string
-  vintage: string
-  grapes: string
-  style: string | null
-  notes: string | null
-  clientId: number
-}
 
-export const columns: ColumnDef<Wine>[] = [
+export const columns: ColumnDef<DataWine>[] = [
+  {
+    accessorKey: "image",
+    header: ({ column }) => {
+      return <></>
+    },
+    cell: ({ row }) => {
+      const wine = row.original     
+      const url= wine.image
+      if (!url) return null
+      const short= url.split("/").slice(-2).join("/")
+      const image = new CloudinaryImage(short, {cloudName: 'dtm41dmrz'}).resize(fill().width(80))
+      return (        
+        <div className="flex justify-center w-28">
+          <AdvancedImage cldImg={image} />
+        </div>
+        
+      )
+    }
+  },
   {
     accessorKey: "winery",
     header: ({ column }) => {
         return (
-          <Button variant="ghost"
+          <Button variant="ghost" className="pl-0"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-            Winery
+            Vino
             <ArrowUpDown className="w-4 h-4 ml-1" />
           </Button>
         )
     },
+    cell: ({ row }) => {
+      const wine = row.original     
+      const url= wine.image
+      if (!url) return null
+      const short= url.split("/").slice(-2).join("/")
+      const image = new CloudinaryImage(short, {cloudName: 'dtm41dmrz'}).resize(fill().width(80))
+      return (
+        <div className="flex flex-col w-32 gap-4">
+          <div>
+            <p className="font-bold">{wine.winery}</p>
+          </div>
+          <div className="flex-1">
+            <p className="text-sm">{wine.wine}</p>
+            <p className="text-sm">{wine.vintage}</p>
+            <p className="text-sm">{wine.winemaker}</p>
+          </div>
+          <div>
+            
+            {wine.price ? 
+              <p className="text-sm">Precio: {wine.price} pesos</p> :
+              ""
+            }
+            <p className="text-sm">Región: {wine.region}</p>
+          </div>
+        </div>
+      )
+    }
   },
   {
     accessorKey: "wine",
     header: ({ column }) => {
       return (
-        <Button variant="ghost"
+        <Button variant="ghost" className="pl-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Wine
+          Vino
           <ArrowUpDown className="w-4 h-4 ml-1" />
         </Button>
       )
     },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    }
   },
   {
     accessorKey: "winemaker",
     header: ({ column }) => {
       return (
-        <Button variant="ghost"
+        <Button variant="ghost" className="pl-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
           Winemaker
           <ArrowUpDown className="w-4 h-4 ml-1" />
@@ -69,33 +110,39 @@ export const columns: ColumnDef<Wine>[] = [
     accessorKey: "region",
     header: ({ column }) => {
       return (
-        <Button variant="ghost"
+        <Button variant="ghost" className="pl-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
           Region
           <ArrowUpDown className="w-4 h-4 ml-1" />
         </Button>
       )
     },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    }
   },
   {
     accessorKey: "vintage",
     header: ({ column }) => {
       return (
-        <Button variant="ghost"
+        <Button variant="ghost" className="pl-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Vintage
+          Añada
           <ArrowUpDown className="w-4 h-4 ml-1" />
         </Button>
       )
     },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    }
   },
   {
     accessorKey: "grapes",
     header: ({ column }) => {
       return (
-        <Button variant="ghost"
+        <Button variant="ghost" className="pl-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Grapes
+          Cepas
           <ArrowUpDown className="w-4 h-4 ml-1" />
         </Button>
       )
@@ -105,9 +152,9 @@ export const columns: ColumnDef<Wine>[] = [
     accessorKey: "style",
     header: ({ column }) => {
       return (
-        <Button variant="ghost"
+        <Button variant="ghost" className="pl-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Style
+          Estilo
           <ArrowUpDown className="w-4 h-4 ml-1" />
         </Button>
       )
@@ -120,13 +167,16 @@ export const columns: ColumnDef<Wine>[] = [
     accessorKey: "notes",
     header: ({ column }) => {
       return (
-        <Button variant="ghost"
+        <Button variant="ghost" className="pl-0"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
           Notas
           <ArrowUpDown className="w-4 h-4 ml-1" />
         </Button>
       )
     },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    }
   },
   {
     id: "actions",
@@ -145,13 +195,13 @@ export const columns: ColumnDef<Wine>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-                <Link href={`/admin/${wine.clientId}/wines/edit?wineId=${wine.id}`} className="flex items-center">
-                    <Edit size={22} className="pr-2 hover:cursor-pointer text-sky-400"/>Editar
+                <Link href={`/admin/${wine.clientSlug}/wines/edit?wineId=${wine.id}`} className="flex items-center">
+                    <Edit size={23} className="pr-2 hover:cursor-pointer text-sky-400"/>Editar
                 </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
-                <Link href={`/admin/${wine.clientId}/wines/delete?wineId=${wine.id}`} className="flex items-center">
-                    <FiTrash2 size={22} className="text-red-400 hover:cursor-pointer"/>Eliminar
+                <Link href={`/admin/${wine.clientSlug}/wines/delete?wineId=${wine.id}`} className="flex items-center">
+                    <FiTrash2 size={22} className="pr-2 text-red-400 hover:cursor-pointer"/>Eliminar
                 </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>

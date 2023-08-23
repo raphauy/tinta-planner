@@ -12,43 +12,48 @@ import { wineStyles } from "./add/wineForm"
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
+  wineNames: string[]
+  regions: string[]
+  vintages: string[]
 }
 
 export function DataTableToolbar<TData>({
   table,
+  wineNames,
+  regions,
+  vintages,
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
 
   return (
     <div className="flex flex-col gap-1">
-      <div className="grid w-full grid-cols-3 gap-1">
-        <Input className="max-w-xs" placeholder="Winery filter..."
-            value={(table.getColumn("winery")?.getFilterValue() as string) ?? ""}
-            onChange={(event) => table.getColumn("winery")?.setFilterValue(event.target.value)}                
-        />
-        <Input className="max-w-xs" placeholder="Wine filter..."
-            value={(table.getColumn("wine")?.getFilterValue() as string) ?? ""}
-            onChange={(event) => table.getColumn("wine")?.setFilterValue(event.target.value)}                
-        />
-        <Input className="max-w-xs" placeholder="Region filter..." 
-            value={(table.getColumn("region")?.getFilterValue() as string ?? "")}
-            onChange={(event) => table.getColumn("region")?.setFilterValue(event.target.value)}
-        />
-        <Input className="max-w-xs" placeholder="Vintage filter..." 
-            value={(table.getColumn("vintage")?.getFilterValue() as string ?? "")}
-            onChange={(event) => table.getColumn("vintage")?.setFilterValue(event.target.value)}
-        />
-        <Input className="max-w-xs" placeholder="Grapes filter..."
-            value={(table.getColumn("grapes")?.getFilterValue() as string) ?? ""}
-            onChange={(event) => table.getColumn("grapes")?.setFilterValue(event.target.value)}                
-        />
-      </div>
 
       <div className="flex justify-between w-full">
+        {table.getColumn("wine") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("wine")}
+            title="Vino"
+            options={wineNames}
+          />
+        )}
+        {table.getColumn("vintage") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("vintage")}
+            title="Añada"
+            options={vintages}
+          />
+        )}
+        {table.getColumn("region") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("region")}
+            title="Región"
+            options={regions}
+          />
+        )}
         {table.getColumn("style") && (
           <DataTableFacetedFilter
             column={table.getColumn("style")}
-            title="Wine Style"
+            title="Estilo"
             options={wineStyles}
           />
         )}
@@ -64,6 +69,16 @@ export function DataTableToolbar<TData>({
         )}
         <DataTableViewOptions table={table}/>
       </div>
-    </div>
+      <div className="grid w-full grid-cols-3 gap-1">
+        <Input className="" placeholder="Filtrar cepas..."
+            value={(table.getColumn("grapes")?.getFilterValue() as string) ?? ""}
+            onChange={(event) => table.getColumn("grapes")?.setFilterValue(event.target.value)}                
+        />
+        <Input className="" placeholder="Filtrar notas de cata..."
+            value={(table.getColumn("notes")?.getFilterValue() as string) ?? ""}
+            onChange={(event) => table.getColumn("notes")?.setFilterValue(event.target.value)}                
+        />
+      </div>
+   </div>
   )
 }
