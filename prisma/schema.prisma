@@ -125,4 +125,5 @@ model Wine {
   image         String?   @default("https://res.cloudinary.com/dtm41dmrz/image/upload/v1688035104/wines/wine-placeholder.jpg")
   client        Client    @relation(fields: [clientId], references: [id], onDelete: Restrict)  
   clientId      Int
+  alcohol       String?
 }

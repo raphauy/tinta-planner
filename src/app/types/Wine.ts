@@ -11,5 +11,6 @@ export type DataWine = {
     clientSlug: string
     image: string | null
     price: string | null
+    alcohol: string | null
   }
   

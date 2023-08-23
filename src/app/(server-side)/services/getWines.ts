@@ -33,7 +33,8 @@ export default async function getClientWines(clientId: number): Promise<DataWine
       wine: wine.wine,
       clientSlug: client.slug,
       image: wine.image,
-      price: wine.price
+      price: wine.price,
+      alcohol: wine.alcohol,
     })
   })
 

@@ -44,10 +44,8 @@ export const columns: ColumnDef<DataWine>[] = [
     accessorKey: "winery",
     header: ({ column }) => {
         return (
-          <Button variant="ghost" className="pl-0"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          <Button variant="ghost" className="pl-0">
             Vino
-            <ArrowUpDown className="w-4 h-4 ml-1" />
           </Button>
         )
     },
@@ -58,21 +56,24 @@ export const columns: ColumnDef<DataWine>[] = [
       const short= url.split("/").slice(-2).join("/")
       const image = new CloudinaryImage(short, {cloudName: 'dtm41dmrz'}).resize(fill().width(80))
       return (
-        <div className="flex flex-col w-44 gap-7">
+        <div className="flex flex-col gap-6 w-44">
           <div>
             <p className="font-bold">{wine.winery}</p>
           </div>
           <div className="flex-1">
             <p className="text-sm">{wine.wine}</p>
-            <p className="text-sm">{wine.vintage}</p>
-            <p className="text-sm">{wine.winemaker}</p>
-          </div>
-          <div>
-            
+            <p className="text-sm">{wine.vintage}</p>            
+            {wine.alcohol ? 
+              <p className="text-sm">{wine.alcohol}% alc.</p> :
+              ""
+            }
             {wine.price ? 
               <p className="text-sm">Precio: {wine.price} UYU</p> :
               ""
             }
+          </div>
+          <div>
+            <p className="mb-1 text-sm">{wine.winemaker}</p>            
             <p className="text-sm">Región: {wine.region}</p>
           </div>
         </div>

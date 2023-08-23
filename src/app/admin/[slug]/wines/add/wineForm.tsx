@@ -37,6 +37,7 @@ const formSchema = z.object({
   style: z.string().optional(),
   notes: z.string().optional(),
   price: z.string().optional(),
+  alcohol: z.string().optional(),
   image: z.string().optional(),
 })
 
@@ -217,7 +218,20 @@ export function WineForm({ wine, slug, processData }: Props) {
             <FormItem>
               <FormLabel>Precio</FormLabel>
               <FormControl>
-                <Input type="number" placeholder="" {...field} />
+                <Input placeholder="" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="alcohol"          
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>% Alcohol</FormLabel>
+              <FormControl>
+                <Input placeholder="" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
