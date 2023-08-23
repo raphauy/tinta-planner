@@ -58,7 +58,7 @@ export const columns: ColumnDef<DataWine>[] = [
       const short= url.split("/").slice(-2).join("/")
       const image = new CloudinaryImage(short, {cloudName: 'dtm41dmrz'}).resize(fill().width(80))
       return (
-        <div className="flex flex-col w-36 gap-7">
+        <div className="flex flex-col w-44 gap-7">
           <div>
             <p className="font-bold">{wine.winery}</p>
           </div>
@@ -70,7 +70,7 @@ export const columns: ColumnDef<DataWine>[] = [
           <div>
             
             {wine.price ? 
-              <p className="text-sm">Precio: {wine.price} pesos</p> :
+              <p className="text-sm">Precio: {wine.price} UYU</p> :
               ""
             }
             <p className="text-sm">Región: {wine.region}</p>
