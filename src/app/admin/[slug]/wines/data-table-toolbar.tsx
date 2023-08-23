@@ -74,10 +74,6 @@ export function DataTableToolbar<TData>({
             value={(table.getColumn("grapes")?.getFilterValue() as string) ?? ""}
             onChange={(event) => table.getColumn("grapes")?.setFilterValue(event.target.value)}                
         />
-        <Input className="" placeholder="Filtrar notas de cata..."
-            value={(table.getColumn("notes")?.getFilterValue() as string) ?? ""}
-            onChange={(event) => table.getColumn("notes")?.setFilterValue(event.target.value)}                
-        />
       </div>
    </div>
   )
