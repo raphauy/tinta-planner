@@ -7,6 +7,7 @@ import ClientBox from '../admin/ClientBox'
 import { BsFillHddStackFill, BsHddStack, BsHddStackFill } from 'react-icons/bs'
 import { useState } from 'react'
 import { FaRegUserCircle, FaUserCircle } from 'react-icons/fa'
+import { Wine } from 'lucide-react'
 
 
 export default function Menu() {
@@ -22,6 +23,8 @@ export default function Menu() {
   const postsIcon= postsActive ? AiFillInstagram : AiOutlineInstagram
   const pilaresActive= path.endsWith("pilares")
   const pilaresIcon= pilaresActive ? BsHddStackFill : BsHddStack
+  const vinosActive= path.endsWith("vinos")
+  const vinosIcon= Wine
   const usuariosActive= path.endsWith("usuarios")
   const usuariosIcon= usuariosActive ? FaUserCircle : FaRegUserCircle
 
@@ -32,6 +35,7 @@ export default function Menu() {
           <ClientBox label='Calendario' href='/cliente/calendario' active={calendarActive} icon={calendarIcon}/>
           <ClientBox label='Posts' href='/cliente/posts' active={postsActive} icon={postsIcon}/>
           <ClientBox label='Pilares de contenido' href='/cliente/pilares' active={pilaresActive} icon={pilaresIcon}/>
+          <ClientBox label='Vinos' href='/cliente/vinos' active={vinosActive} icon={vinosIcon}/>
           <ClientBox label='Usuarios' href='/cliente/usuarios' active={usuariosActive} icon={usuariosIcon}/>
       </div>
     </>
