@@ -40,7 +40,7 @@ export default function ClientConfigPage({ params }: { params: { slug: string } 
   if (!client) return <LoadingSpinner />
 
   return (
-    <>
+    <div>
       <section className="w-full text-gray-600 body-font">
         <div className="container px-5 py-4 mx-auto">
           <div className="flex flex-col w-full text-center mb-14">
@@ -52,7 +52,7 @@ export default function ClientConfigPage({ params }: { params: { slug: string } 
       <section>
         <ClientConfigForm slug={slug} onChange={() => onChange()} />
       </section>
-    </>
+    </div>
   );
 }
 
