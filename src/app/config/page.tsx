@@ -54,7 +54,7 @@ export default function ClientConfigPage() {
   if (!users) return <LoadingSpinner />
 
   return (
-    <>
+    <div>
       <section className="w-full">
         <div className="max-w-4xl p-5 mx-auto">
           <div className="p-5 bg-white border rounded-md">
@@ -98,9 +98,9 @@ export default function ClientConfigPage() {
       </div>
     </section>
     <section>
-        {userIdToEdit && <UserConfigForm userId={userIdToEdit} clients={clients} onCancel={() => setIdUserToEdit("")} onSave={() => onChange()} />}        
-      </section>
-    </>
+      {userIdToEdit && <UserConfigForm userId={userIdToEdit} clients={clients} onCancel={() => setIdUserToEdit("")} onSave={() => onChange()} />}        
+    </section>
+    </div>
   );
 }
 
