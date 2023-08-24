@@ -40,16 +40,17 @@ export default function ClientSideBar() {
   const winesSelected= path.endsWith("wines")
   const wines= clsx(commonClasses, winesSelected && selectedClasses)
 
-  const configSelected= path.endsWith("config")
-  const config= clsx(commonClasses, configSelected && selectedClasses)
-
-  const reportSelected= path.endsWith("report")
-  const report= clsx(commonClasses, reportSelected && selectedClasses)
-
   const pClasses= "hidden sm:block lg:w-36"
   return (
     <>
       <section className="flex flex-col gap-3">
+
+        <Link href={`/admin/${slug}`} className={dashboard}>
+          {dashboardSelected ? <AiFillHome size={25} /> : <AiOutlineHome size={25}/>}          
+          <p className={pClasses}>Dashboard</p>                  
+        </Link>
+
+        {divider()}
 
         <Link href={`/admin/${slug}/calendar`} className={calendar}>
           {calendarSelected ? <AiFillCalendar size={25}/> : <AiOutlineCalendar size={25}/>}          
@@ -73,27 +74,12 @@ export default function ClientSideBar() {
         </Link>
 
         {divider()}
+
         <Link href={`/admin/${slug}/clientconfig`} className={clientconfig}>
           {clientconfigSelected ? <AiFillTool size={25}/> : <AiOutlineTool size={25}/>}
-          <p className={pClasses}>Conf. Cliente</p>
+          <p className={pClasses}>Configuración</p>
         </Link>
         {divider()}
-
-        <div className="flex flex-col justify-end flex-grow">
-
-          <div className="">
-            <Link href={`/admin/report`} className={report}>
-              {reportSelected ? <AiFillBug size={25}/> : <AiOutlineBug size={25}/>}
-              <p className={pClasses}>Report</p>            
-            </Link>
-          </div>
-          <div className="">
-            <Link href={`/admin/config?refresh=${new Date().getMilliseconds()}`} className={config}>
-              {configSelected ? <AiFillSetting size={25}/> : <AiOutlineSetting size={25}/>}
-              <p className={pClasses}>Config</p>            
-            </Link>
-          </div>
-        </div>
 
       </section>
     </>
