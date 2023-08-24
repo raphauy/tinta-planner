@@ -64,13 +64,13 @@ export default function ClientSideBar() {
           {pilarsSelected ? <BsHddStackFill size={25}/> : <BsHddStack size={25}/>}
           <p className={pClasses}>Pilares</p>
         </Link>
-        <Link href={`/admin/${slug}/usuarios`} className={users}>
-          {usersSelected ? <FaUserCircle size={25}/> : <FaRegUserCircle size={25}/>}
-          <p className={pClasses}>Usuarios</p>
-        </Link>
         <Link href={`/admin/${slug}/wines`} className={wines}>
           <Wine />
           <p className={pClasses}>Vinos</p>
+        </Link>
+        <Link href={`/admin/${slug}/usuarios`} className={users}>
+          {usersSelected ? <FaUserCircle size={25}/> : <FaRegUserCircle size={25}/>}
+          <p className={pClasses}>Usuarios</p>
         </Link>
 
         {divider()}
