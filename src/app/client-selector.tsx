@@ -35,6 +35,8 @@ export function ClientSelector({ selectors }: Props) {
     const router= useRouter()
     const path= usePathname()
 
+    const basePath= getBasePath(path)
+
     React.useEffect(() => {
       const slug= path.split('/')[2]
       
@@ -94,7 +96,7 @@ export function ClientSelector({ selectors }: Props) {
                       } else {
                         setValue(currentValue)
                         const restOfPath = path.split('/').slice(3).join('/')
-                        router.push(`/admin/${line.slug}/${restOfPath}`)
+                        router.push(`/${basePath}/${line.slug}/${restOfPath}`)
                       }
                       setSearchValue("")
                       setOpen(false)
@@ -118,3 +120,9 @@ export function ClientSelector({ selectors }: Props) {
     )
   }
   
+
+  function getBasePath(path: string) {
+    const segments = path.split("/");
+    const slug = segments[1];
+    return slug;
+}

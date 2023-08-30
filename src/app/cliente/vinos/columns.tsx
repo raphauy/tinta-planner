@@ -1,6 +1,6 @@
 "use client"
 
-import { DataWine } from "@/app/types/Wine"
+import { DataWine } from "@/app/types/DataTypes"
 import { Button } from "@/components/ui/button"
 import { AdvancedImage } from "@cloudinary/react"
 import { CloudinaryImage } from "@cloudinary/url-gen"

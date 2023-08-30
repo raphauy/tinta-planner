@@ -72,6 +72,8 @@ export async function getClientBySlug(slug: string) {
         users: true,
         pilars: true,
         posts: true,
+        services: true,
+        leads: true,
       }
     });
 

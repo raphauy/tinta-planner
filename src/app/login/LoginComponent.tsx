@@ -33,7 +33,7 @@ export default function LoginComponent() {
 
     }, [user]);
 
-    if (!user) return <LoadingSpinner />
+    if (!user) return <LoadingSpinnerChico />
 
     const avatarImage = client && new CloudinaryImage(client.image_insta.split("/").slice(-2).join("/"), {cloudName: 'dtm41dmrz'})
 

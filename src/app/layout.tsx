@@ -1,8 +1,6 @@
-import NavBar from "./NavBar";
 import { AuthContext } from "./(client-side)/context/AuthContext";
 import ToasterContext from "./(client-side)/context/ToasterContext";
 import "./globals.css";
-import Selector from "./admin/selector";
 
 export const metadata = {
   title: "Tinta Planner",

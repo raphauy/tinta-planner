@@ -3,11 +3,11 @@
 import { usePathname } from 'next/navigation'
 
 import { AiFillCalendar, AiFillInstagram, AiOutlineCalendar, AiOutlineInstagram, AiOutlineMenu } from 'react-icons/ai'
-import ClientBox from '../admin/ClientBox'
 import { BsFillHddStackFill, BsHddStack, BsHddStackFill } from 'react-icons/bs'
 import { useState } from 'react'
 import { FaRegUserCircle, FaUserCircle } from 'react-icons/fa'
 import { Wine } from 'lucide-react'
+import ClientBox from './client-box'
 
 
 export default function Menu() {

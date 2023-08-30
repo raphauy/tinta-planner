@@ -1,7 +1,7 @@
 import { getClientOfCurrenUser } from '@/app/(server-side)/services/getClients';
-import getClientWines from '@/app/(server-side)/services/getWines';
 import { columns } from './columns';
-import { DataTable } from '@/app/admin/[slug]/wines/data-table';
+import { DataTable } from '@/app/agency/[slug]/social/wines/data-table';
+import getClientWines from '@/services/wineService';
 
 export default async function ClientWinesPage() {
     const client= await getClientOfCurrenUser()

@@ -1,14 +1,12 @@
-import { Client, User } from "@prisma/client";
-import { getClientOfCurrenUser } from "../(server-side)/services/getClients";
+import { Wine } from "lucide-react";
 import Link from "next/link";
-import LoadingSpinner from "@/components/LoadingSpinner";
 import { AiOutlineInstagram } from "react-icons/ai";
 import { BsHddStack } from "react-icons/bs";
 import { FaRegUserCircle } from "react-icons/fa";
-import getCurrentUser from "../(server-side)/services/getCurrentUser";
 import { formatter } from "../(client-side)/utils";
-import getClientWines from "../(server-side)/services/getWines";
-import { Wine } from "lucide-react";
+import { getClientOfCurrenUser } from "../(server-side)/services/getClients";
+import getCurrentUser from "../(server-side)/services/getCurrentUser";
+import getClientWines from "@/services/wineService";
 
 export default async function ClientPage() {
   const client = await getClientOfCurrenUser();

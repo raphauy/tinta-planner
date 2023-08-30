@@ -1,7 +1,7 @@
 
 import getCurrentUser from "@/app/(server-side)/services/getCurrentUser";
 import { getPostsBySlug, getPostsWithDate } from "@/app/(server-side)/services/postServices";
-import CalendarRC from "@/app/admin/[slug]/calendar/CalendarRC";
+import CalendarRC from "@/app/agency/[slug]/social/calendar/CalendarRC";
 import { Pilar, Post } from "@prisma/client";
 
 export default async function CalendarPage() {

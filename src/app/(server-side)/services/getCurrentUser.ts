@@ -1,4 +1,3 @@
-import { User } from "@prisma/client";
 import { prisma } from "../db";
 import getSession from "./getSession";
 

@@ -53,17 +53,19 @@ export default function PopOverUserHandler() {
             <FaUserCircle size={24} /> {user.email} 
           </li>
           <li className="flex items-center gap-2 pb-2 pl-1 ml-9">
-            {user.role} {user.role === "agency" ? "(admin)" : ""}
+            {user.role === "agency" ? user.role+"(admin)" : ""}
           </li>
-          <li className="flex items-center gap-2 pb-2 pl-1 mb-5 border-b">            
+          <li className="flex items-center gap-2 pb-2 pl-1 mb-3 border-b">            
             
           </li>
-          <li className="flex items-center gap-2 pl-1 mb-2 hover:bg-gray-100">            
-            <Link href={`/config?refresh=${new Date().getMilliseconds()}`} className="flex items-center gap-2">
-              <AiFillSetting size={25}/> Cambiar Usuarios
-            </Link>
-          </li>
-          <li className="flex items-center w-full mt-10 border-t rounded-md">
+          {user.role === "agency" &&
+            <li className="flex items-center gap-2 pb-3 pl-1 mb-2 border-b hover:bg-gray-100">
+              <Link href={`/config?refresh=${new Date().getMilliseconds()}`} className="flex items-center gap-2">
+                <AiFillSetting size={25}/> Cambiar Usuarios
+              </Link>
+            </li>
+          }
+          <li className="flex items-center w-full mt-10 rounded-md">
             <div onClick={onLogout} 
               className="flex items-center flex-grow px-1 py-3 mt-2 rounded-md cursor-pointer hover:border hover:border-gray-500 hover:bg-gray-200">
               <GrLogout size={20} className="mr-2" />Logout

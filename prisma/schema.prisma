@@ -47,6 +47,8 @@ model Client {
     agency            Agency  @relation(fields: [agencyId], references: [id], onDelete: Cascade)  
     agencyId          Int
     wines             Wine[]
+    services          Service[]
+    leads             Lead[]
 }
 
 model Pilar {
@@ -127,3 +129,37 @@ model Wine {
   clientId      Int
   alcohol       String?
 }
+
+model Service {
+  id            String    @id @default(cuid())
+  name          String
+  description   String?   @db.Text
+  price         Float?
+  emoji         String?   @default("🍷")
+  client        Client    @relation(fields: [clientId], references: [id], onDelete: Restrict)  
+  clientId      Int
+  leads         Lead[]
+}
+
+model Lead {
+  id            String    @id @default(cuid())
+  company       String
+  status        String    @default("Potencial")
+  priority      String    @default("0")
+  value         Float?
+  contactName   String?
+  contactEmail  String?
+  contactPhone  String?
+  lastContact   DateTime?
+  client        Client    @relation(fields: [clientId], references: [id], onDelete: Restrict)  
+  clientId      Int
+  service       Service  @relation(fields: [serviceId], references: [id], onDelete: Restrict)
+  serviceId     String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  website       String?
+  linkedin      String?
+  instagram     String?
+  twitter       String?
+}
+

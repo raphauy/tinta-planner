@@ -1,7 +1,7 @@
 "use client"
 
-import Feed from "@/app/admin/[slug]/posts/Feed";
-import InstaBox from "@/app/admin/[slug]/posts/InstaBox";
+import Feed from "@/app/agency/[slug]/social/posts/Feed";
+import InstaBox from "@/app/agency/[slug]/social/posts/InstaBox";
 import Client from "@/app/types/Client";
 import { Post } from "@/app/types/Post";
 import LoadingSpinner from "@/components/LoadingSpinner";
