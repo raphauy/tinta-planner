@@ -102,6 +102,20 @@ export async function createLead(data: LeadFormValues) {
   return created
 }
 
+export async function updateStatus(id: string, status: string) {
+
+  const updated= await prisma.lead.update({
+    where: {
+      id
+    },
+    data: {
+      status
+    }
+  })
+
+  return updated
+}
+
 export async function editLead(id: string, data: LeadFormValues) {
   console.log(data);
   const service= await getService(data.serviceId)

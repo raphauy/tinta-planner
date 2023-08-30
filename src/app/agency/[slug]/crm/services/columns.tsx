@@ -17,7 +17,17 @@ export const columns: ColumnDef<DataService>[] = [
             Nombre
             <ArrowUpDown className="w-4 h-4 ml-1" />
           </Button>
-    )
+      )
+    },
+    cell: ({ row }) => {
+      const data= row.original
+
+      return (
+        <div className="flex items-center gap-2">
+            <p>{ data.emoji && data.emoji }</p>
+            <p>{ data.name }</p>
+        </div>
+      )
     },
   },
   {
@@ -41,8 +51,8 @@ export const columns: ColumnDef<DataService>[] = [
           Precio
           <ArrowUpDown className="w-4 h-4 ml-1" />
         </Button>
-    )
-  },
+      )
+    },
     cell: ({ row }) => {
       const data= row.original
 
@@ -53,12 +63,6 @@ export const columns: ColumnDef<DataService>[] = [
         </p>
       )
     },
-  },
-  {
-    accessorKey: "emoji",
-    header: ({ column }) => {
-      return (<></>)
-  },
   },
   {
     id: "actions",

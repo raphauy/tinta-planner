@@ -4,7 +4,7 @@ import { Lead } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { getClientById } from "@/app/(server-side)/services/getClients";
 import { LeadFormValues } from "./main-form";
-import { createLead, deleteLead, editLead, getData, getLead } from "@/services/leadService";
+import { createLead, deleteLead, editLead, getData, getLead, updateStatus } from "@/services/leadService";
 
 export type DataLead = {
     id: string
@@ -60,6 +60,18 @@ export async function update(id: string, data: LeadFormValues): Promise<Lead | n
     revalidatePath(`/agency/${client.slug}/crm/leads`)
     
     return edited
+}
+
+export async function updateStatusAction(id: string, status: string): Promise<Lead | null> {  
+    const updated= await updateStatus(id, status)
+    if (!updated) return updated
+
+    const client= await getClientById(updated.clientId)
+    if (!client) return updated
+
+    revalidatePath(`/agency/${client.slug}/crm/leads`)
+    
+    return updated
 }
 
 

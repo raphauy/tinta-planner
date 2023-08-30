@@ -53,9 +53,6 @@ export function LeadForm({ id, services, create, update, closeDialog }: Props) {
   })
   const [loading, setLoading] = useState(false)
   const [leadToEdit, setLeadToEdit] = useState<DataLead>()
-  //const [serviceId, setServiceId] = useState("Seleccionar servicio")
-  const path= usePathname()
-  const slug= getSlug(path)
 
   async function onSubmit(data: LeadFormValues) {
     setLoading(true)

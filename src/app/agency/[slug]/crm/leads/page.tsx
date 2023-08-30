@@ -36,7 +36,7 @@ export default async function LeadsPage({ params }: Props) {
       </div>
 
       <div className="p-3 mx-auto bg-white border rounded-md text-muted-foreground dark:text-white">
-        <DataTable title="Lead" columns={columns} data={leads} services={services} columnsOff={["contactPhone"]}/>      
+        <DataTable title="Lead" columns={columns} data={leads} services={services} columnsOff={["contactEmail", "contactPhone", "status", "serviceName"]}/>      
       </div>
     </div>
 )

@@ -7,6 +7,7 @@ import { DataLead, create, eliminate, update } from "./(crud)/actions"
 import { DeleteDialog } from "./(crud)/delete-dialog"
 import { LeadDialog } from "./(crud)/main-dialog"
 import Link from "next/link"
+import { MenubarDemo } from "./status-menu"
 
 export const columns: ColumnDef<DataLead>[] = [
   {
@@ -15,7 +16,7 @@ export const columns: ColumnDef<DataLead>[] = [
         return (
           <Button variant="ghost" className="pl-0 dark:text-white"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-            Compañía
+            Lead
             <ArrowUpDown className="w-4 h-4 ml-1" />
           </Button>
       )
@@ -24,31 +25,39 @@ export const columns: ColumnDef<DataLead>[] = [
       const data= row.original
 
       return (
-        <div className="flex flex-col gap-5">
-          <div>
-            <p className="text-base font-bold whitespace-nowrap">{ data.company }</p>
+        <div className="flex flex-col gap-1 pr-0 md:pr-4 lg:pr-10">
+          <div className="flex items-center justify-between min-w-[250px]">
+            <p className="pl-6 text-base font-bold border-b whitespace-nowrap">{ data.company }</p>
+            <MenubarDemo status={data.status} id={data.id} />
           </div>
           <div className="flex items-center gap-2">
-            { data.website !== "" ?
-              <Link href={data.website} target="_blank"><Globe size={17} className="text-green-400" /></Link> :
-              <Globe size={17} />
-            }
-            { data.linkedin !== "" ?
-              <Link href={"https://www.linkedin.com/in/" + data.linkedin} target="_blank"><Linkedin size={17} className="text-blue-400" /></Link> :
-              <Linkedin size={17} />
-            }
-            { data.instagram !== "" ?
-              <Link href={"https://www.instagram.com/" + data.instagram} target="_blank"><Instagram size={17} className="text-pink-400" /></Link> :
-              <Instagram size={17} />
-            }
-            { data.twitter !== "" ?
-              <Link href={"https://twitter.com/" + data.twitter} target="_blank"><Twitter size={17} className="text-blue-400" /></Link> :
-              <Twitter size={17} />
-            }
-            
+              <p>{ data.serviceEmoji }</p>
+              <p>{ data.serviceName }</p>
           </div>
-
+          <div className="flex items-center justify-between mt-4">
+            <div className="flex items-center justify-center gap-3">
+              { data.website !== "" ?
+                <Link href={data.website} target="_blank"><Globe size={17} className="text-green-400" /></Link> :
+                <Globe size={17} />
+              }
+              { data.linkedin !== "" ?
+                <Link href={"https://www.linkedin.com/in/" + data.linkedin} target="_blank"><Linkedin size={17} className="text-blue-400" /></Link> :
+                <Linkedin size={17} />
+              }
+              { data.instagram !== "" ?
+                <Link href={"https://www.instagram.com/" + data.instagram} target="_blank"><Instagram size={17} className="text-pink-400" /></Link> :
+                <Instagram size={17} />
+              }
+              { data.twitter !== "" ?
+                <Link href={"https://twitter.com/" + data.twitter} target="_blank"><Twitter size={17} className="text-blue-400" /></Link> :
+                <Twitter size={17} />
+              }              
+            </div>
+            <p className="pr-4">
+              { data.value && data.value !== 0 ? (data.value.toLocaleString('es-ES', { minimumFractionDigits: 0 } ) + " USD") : ""}
+            </p>
             
+          </div>           
         </div>
       )
     },
@@ -79,24 +88,18 @@ export const columns: ColumnDef<DataLead>[] = [
     },
   },
   {
-    accessorKey: "value",
+    accessorKey: "status",
     header: ({ column }) => {
       return (
         <Button variant="ghost" className="pl-0 dark:text-white"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Valor
+          Status
           <ArrowUpDown className="w-4 h-4 ml-1" />
         </Button>
       )
     },
-    cell: ({ row }) => {
-      const data= row.original
-
-      return (
-        <p className="">
-            { data.value && data.value !== 0 ? (data.value.toLocaleString('es-ES', { minimumFractionDigits: 0 } ) + " USD") : ""}
-        </p>
-      )
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
     },
   },
   {
@@ -105,9 +108,20 @@ export const columns: ColumnDef<DataLead>[] = [
       return (
         <Button variant="ghost" className="pl-0 dark:text-white"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Nombre Contacto
+          Contacto
           <ArrowUpDown className="w-4 h-4 ml-1" />
         </Button>
+      )
+    },
+    cell: ({ row }) => {
+      const data= row.original
+
+      return (
+        <div className="">
+            <p>{ data.contactName }</p>
+            <p>{ data.contactEmail }</p>
+            <p>{ data.contactPhone }</p>
+        </div>
       )
     },
   },

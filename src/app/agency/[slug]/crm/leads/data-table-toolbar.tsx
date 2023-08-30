@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
 
+const statuses= ["Potencial", "Calificado", "Propuesta", "Negociación", "En Curso", "Cerrado", "Perdido"]
+
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
   services: string[]
@@ -16,6 +18,7 @@ interface DataTableToolbarProps<TData> {
 
 export function DataTableToolbar<TData>({ table, services }: DataTableToolbarProps<TData>) {
   const [service, setService] = useState("")
+  const [status, setStatus] = useState("")
 
   const isFiltered = table.getState().columnFilters.length > 0
 
@@ -23,6 +26,12 @@ export function DataTableToolbar<TData>({ table, services }: DataTableToolbarPro
     if (filterValues === undefined)
       setService("")
     else setService(filterValues.join(","))
+  }
+
+  async function setStatusFilterValues(filterValues: string[]) {
+    if (filterValues === undefined)
+      setStatus("")
+    else setStatus(filterValues.join(","))
   }
 
   return (
@@ -35,6 +44,15 @@ export function DataTableToolbar<TData>({ table, services }: DataTableToolbarPro
                 title="Servicio"
                 options={services}
                 setFilterValues={setServiceFilterValues}
+              />
+            )}
+
+            {table.getColumn("status") && (
+              <DataTableFacetedFilter
+                column={table.getColumn("status")}
+                title="Estado"
+                options={statuses}
+                setFilterValues={setStatusFilterValues}
               />
             )}
 
