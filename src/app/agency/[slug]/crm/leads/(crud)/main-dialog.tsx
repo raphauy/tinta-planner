@@ -2,11 +2,9 @@
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Lead } from "@prisma/client"
-import { use, useEffect, useState } from "react"
-import { LeadForm, LeadFormValues } from "./main-form"
+import { useEffect, useState } from "react"
 import { DataService, getDataServices } from "../../services/(crud)/actions"
-import getClientServices from "@/services/serviceService"
-import { getLead } from "@/services/leadService"
+import { LeadForm, LeadFormValues } from "./main-form"
 
 interface Props{
   title: string

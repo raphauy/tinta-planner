@@ -1,9 +1,38 @@
-import { DataLead } from "@/app/agency/[slug]/crm/leads/(crud)/actions";
+import { DataLead, DataNote } from "@/app/agency/[slug]/crm/leads/(crud)/actions";
 import { prisma } from "../app/(server-side)/db";
 import { getClientById, getClientBySlug } from "../app/(server-side)/services/getClients";
 import { LeadFormValues } from "@/app/agency/[slug]/crm/leads/(crud)/main-form";
-import { Client, Lead, Service } from "@prisma/client";
+import { Client, Lead, Note, Service } from "@prisma/client";
 import { getService } from "./serviceService";
+import { NoteFormValues } from "@/app/agency/[slug]/crm/leads/(crud)/note-form";
+
+export function getData(lead: Lead, service: Service, clientSlug: string) {
+  const res: DataLead= {
+    id: lead.id,
+    company: lead.company,
+    status: lead.status,
+    priority: lead.priority,
+    value: lead.value || 0,
+    contactName: lead.contactName || "",
+    contactEmail: lead.contactEmail || "",
+    contactPhone: lead.contactPhone || "",
+    lastContact: lead.lastContact,
+    clientId: lead.clientId,
+    clientSlug: clientSlug,
+    serviceId: lead.serviceId,
+    serviceName: service.name,
+    serviceEmoji: service.emoji || "",
+    createdAt: lead.createdAt,
+    updatedAt: lead.updatedAt,
+    website: lead.website || "",
+    linkedin: lead.linkedin || "",
+    instagram: lead.instagram || "",
+    twitter: lead.twitter || "",
+  }
+
+  return res
+}
+
 
 export default async function getClientLeads(clientId: number): Promise<DataLead[]> {
 
@@ -29,33 +58,6 @@ export default async function getClientLeads(clientId: number): Promise<DataLead
     const data= getData(lead, lead.service, client.slug)
     res.push(data)
   })
-
-  return res
-}
-
-export function getData(lead: Lead, service: Service, clientSlug: string) {
-  const res: DataLead= {
-    id: lead.id,
-    company: lead.company,
-    status: lead.status,
-    priority: lead.priority,
-    value: lead.value || 0,
-    contactName: lead.contactName || "",
-    contactEmail: lead.contactEmail || "",
-    contactPhone: lead.contactPhone || "",
-    lastContact: lead.lastContact,
-    clientId: lead.clientId,
-    clientSlug: clientSlug,
-    serviceId: lead.serviceId,
-    serviceName: service.name,
-    serviceEmoji: service.emoji || "",
-    createdAt: lead.createdAt,
-    updatedAt: lead.updatedAt,
-    website: lead.website || "",
-    linkedin: lead.linkedin || "",
-    instagram: lead.instagram || "",
-    twitter: lead.twitter || "",
-  }
 
   return res
 }
@@ -154,4 +156,116 @@ export async function deleteLead(id: string) {
   })
 
   return deleted
+}
+
+/**
+ * Notes section
+ */
+
+export function getDataNote(note: Note, leadCompany: string) {
+  const res: DataNote= {
+    id: note.id,
+    text: note.text,
+    createdAt: note.createdAt,
+    updatedAt: note.updatedAt,
+    leadId: note.leadId,
+    leadCompany,
+  }
+
+  return res
+}
+
+export async function getLeadNotes(leadId: string): Promise<DataNote[]> {
+
+  const res: DataNote[]= []
+
+  const found = await prisma.note.findMany({
+    orderBy: {
+      createdAt: 'asc',
+    },
+    where: {
+      leadId
+    },
+  })
+
+  const lead= await getLead(leadId)
+  found.forEach(note => {
+    const data= getDataNote(note, lead?.company || "")
+    res.push(data)
+  })
+
+  return res
+}
+
+export async function getNote(id: string) {
+
+  const found = await prisma.note.findUnique({
+    where: {
+      id
+    },
+    include: {
+      lead: true
+    }
+  })
+
+  if (!found) return null
+
+  const lead= await getLead(found.leadId)
+
+  return getDataNote(found, lead?.company || "")
+}
+
+export async function createNote(data: NoteFormValues) {
+  
+  const created= await prisma.note.create({
+    data: {
+      ...data
+    }
+  })
+
+  return created
+}
+
+export async function updateNote(id: string, data: NoteFormValues) {
+
+  const updated= await prisma.note.update({
+    where: {
+      id
+    },
+    data: {
+      ...data
+    }
+  })
+
+  return updated
+}
+
+export async function deleteNote(id: string) {
+    
+    const deleted= await prisma.note.delete({
+      where: {
+        id
+      },
+    })
+  
+    return deleted
+}
+
+export async function getNotes(leadId: string): Promise<DataNote[]> {
+  const notes= await prisma.note.findMany({
+    where: {
+      leadId
+    }
+  })
+
+  const lead= await getLead(leadId)
+
+  const res: DataNote[]= []
+
+  notes.forEach(note => {
+    const data= getDataNote(note, lead?.company || "")
+    res.push(data)
+  })
+
+  return res
 }

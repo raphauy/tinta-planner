@@ -161,5 +161,15 @@ model Lead {
   linkedin      String?
   instagram     String?
   twitter       String?
+  notes         Note[]
+}
+
+model Note {
+  id            String    @id @default(cuid())
+  text          String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lead          Lead    @relation(fields: [leadId], references: [id], onDelete: Restrict)  
+  leadId        String
 }
 

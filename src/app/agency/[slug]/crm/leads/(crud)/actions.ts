@@ -1,10 +1,11 @@
 "use server"
 
-import { Lead } from "@prisma/client";
-import { revalidatePath } from "next/cache";
 import { getClientById } from "@/app/(server-side)/services/getClients";
+import { createLead, createNote, deleteLead, deleteNote, editLead, getData, getDataNote, getLead, getNote, getNotes, updateNote, updateStatus } from "@/services/leadService";
+import { Lead, Note } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 import { LeadFormValues } from "./main-form";
-import { createLead, deleteLead, editLead, getData, getLead, updateStatus } from "@/services/leadService";
+import { NoteFormValues } from "./note-form";
 
 export type DataLead = {
     id: string
@@ -27,6 +28,15 @@ export type DataLead = {
     linkedin: string
     instagram: string
     twitter: string
+}
+
+export type DataNote = {
+    id: string
+    text: string
+    createdAt: Date
+    updatedAt: Date
+    leadId: string
+    leadCompany: string
 }
   
 
@@ -88,3 +98,71 @@ export async function eliminate(id: string): Promise<Lead | null> {
     return deleted
 }
 
+
+/**
+ * Notes 
+ */
+
+export async function getDataNoteAction(id: string): Promise<DataNote | null>{
+    const note= await getNote(id)
+    if (!note) return null
+
+    const lead= await getLead(note.leadId)
+    const data: DataNote= await getDataNote(note, lead?.company || "")
+    return data
+}
+
+
+export async function createNoteAction(data: NoteFormValues): Promise<Note | null> {       
+    const created= await createNote(data)
+    if (!created) return created
+
+    if (!created?.leadId) return created
+
+    const lead= await getLead(created.leadId)
+    if (!lead) return created
+    
+    const client= await getClientById(lead.clientId)
+    if (!client) return created
+
+    revalidatePath(`/agency/${client.slug}/crm/leads`)
+
+    return created
+}
+  
+export async function updateNoteAction(id: string, data: NoteFormValues): Promise<Note | null> {  
+    const updated= await updateNote(id, data)
+
+    if (!updated) return updated
+
+    const lead= await getLead(updated.leadId)
+    if (!lead) return updated
+
+    const client= await getClientById(lead.clientId)
+    if (!client) return updated
+
+    revalidatePath(`/agency/${client.slug}/crm/leads`)
+    
+    return updated
+}
+
+export async function eliminateNoteAction(id: string): Promise<Note | null> {
+    const deleted= await deleteNote(id)
+
+    if (!deleted?.leadId) return deleted
+
+    const lead= await getLead(deleted.leadId)
+    if (!lead) return deleted
+
+    const client= await getClientById(lead.clientId)
+    if (!client) return deleted
+
+    revalidatePath(`/agency/${client.slug}/crm/leads`)
+
+    return deleted
+}
+
+export async function getNotesAction(leadId: string): Promise<DataNote[]> {
+    const notes= await getNotes(leadId)
+    return notes
+}

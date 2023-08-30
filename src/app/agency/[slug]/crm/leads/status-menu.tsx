@@ -51,7 +51,7 @@ function getNode(status: string) {
   const lightColor= getLightColor(status)
   const darkColor= getDarkColor(status)
   const res= (
-    <div className={`flex items-center h-6 gap-1 px-3 rounded-2xl cursor-pointer ${lightColor}`}>
+    <div className={`flex w-28 justify-center items-center h-6 gap-1 rounded-2xl cursor-pointer ${lightColor}`}>
       <p className={`w-2 h-2 rounded-full ${darkColor}`}></p>
       <p className="">{status}</p>
     </div>

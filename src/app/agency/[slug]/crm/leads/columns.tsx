@@ -2,12 +2,14 @@
 
 import { Button } from "@/components/ui/button"
 import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown, Edit, Globe, Instagram, Linkedin, Trash2, Twitter } from "lucide-react"
-import { DataLead, create, eliminate, update } from "./(crud)/actions"
+import { ArrowUpDown, Edit, Globe, Instagram, Linkedin, PlusCircle, Trash2, Twitter } from "lucide-react"
+import Link from "next/link"
+import { DataLead, create, createNoteAction, eliminate, update, updateNoteAction } from "./(crud)/actions"
 import { DeleteDialog } from "./(crud)/delete-dialog"
 import { LeadDialog } from "./(crud)/main-dialog"
-import Link from "next/link"
+import { NoteDialog } from "./(crud)/note-dialog"
 import { MenubarDemo } from "./status-menu"
+import Notes from "./notes"
 
 export const columns: ColumnDef<DataLead>[] = [
   {
@@ -23,18 +25,21 @@ export const columns: ColumnDef<DataLead>[] = [
     },
     cell: ({ row }) => {
       const data= row.original
-
       return (
-        <div className="flex flex-col gap-1 pr-0 md:pr-4 lg:pr-10">
+        <div className="flex flex-col gap-2 pr-0 md:pr-4 lg:pr-10">
           <div className="flex items-center justify-between min-w-[250px]">
             <p className="pl-6 text-base font-bold border-b whitespace-nowrap">{ data.company }</p>
             <MenubarDemo status={data.status} id={data.id} />
           </div>
-          <div className="flex items-center gap-2">
-              <p>{ data.serviceEmoji }</p>
-              <p>{ data.serviceName }</p>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+                <p>{ data.serviceEmoji }</p>
+                <p>{ data.serviceName }</p>
+            </div>
+            <Notes leadId={data.id} />
+
           </div>
-          <div className="flex items-center justify-between mt-4">
+          <div className="flex items-center justify-between mt-2">
             <div className="flex items-center justify-center gap-3">
               { data.website !== "" ?
                 <Link href={data.website} target="_blank"><Globe size={17} className="text-green-400" /></Link> :
@@ -161,7 +166,7 @@ export const columns: ColumnDef<DataLead>[] = [
  
       return (
         <div className="flex items-center justify-end gap-2">
-          <LeadDialog create={create} update={update} clientId={data.clientId} title="Editar Servicio" trigger={editTrigger} id={data.id} />
+          <LeadDialog create={create} update={update} clientId={data.clientId} title="Editar Servicio" trigger={editTrigger} id={data.id} />          
           <DeleteDialog eliminate={eliminate} title={title} description={description} trigger={eliminateTrigger} id={data.id} />
         </div>
 
