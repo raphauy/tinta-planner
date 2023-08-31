@@ -10,6 +10,7 @@ import { LeadDialog } from "./(crud)/main-dialog"
 import { NoteDialog } from "./(crud)/note-dialog"
 import { MenubarDemo } from "./status-menu"
 import Notes from "./notes"
+import Contact from "./contact"
 
 export const columns: ColumnDef<DataLead>[] = [
   {
@@ -121,13 +122,7 @@ export const columns: ColumnDef<DataLead>[] = [
     cell: ({ row }) => {
       const data= row.original
 
-      return (
-        <div className="flex flex-col gap-3">
-            <p className="font-bold">{ data.contactName }</p>
-            <p>{ data.contactEmail }</p>
-            <p>{ data.contactPhone }</p>
-        </div>
-      )
+      return (<Contact lead={data} />)
     },
   },
   {
