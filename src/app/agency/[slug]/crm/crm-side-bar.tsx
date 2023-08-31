@@ -30,6 +30,7 @@ export default function CRMSideBar() {
   const wsetsSelected= path.endsWith("wsets")
   const wsets= clsx(commonClasses, wsetsSelected && selectedClasses , visible)
 
+  const refresh= wsetsSelected ? `?refresh=${new Date().getMilliseconds()}` : ""
   const pClasses= "hidden sm:block lg:w-36"
 
   return (
@@ -48,7 +49,7 @@ export default function CRMSideBar() {
           <p className={pClasses}>Servicios</p>
         </Link>
 
-        <Link href={`/${basePath}/${slug}/crm/leads`} className={leads}>
+        <Link href={`/${basePath}/${slug}/crm/leads${refresh}`} className={leads}>
           <Magnet />
           <p className={pClasses}>Leads</p>
         </Link>
