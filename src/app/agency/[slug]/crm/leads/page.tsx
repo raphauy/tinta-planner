@@ -21,7 +21,6 @@ export default async function LeadsPage({ params }: Props) {
   if (!client) return <div>Client not found</div>
   
   const leads= await getClientLeads(client.id)
-  // get unique services
   const services= leads.map(lead => lead.serviceName)
   const uniqueServices= Array.from(new Set(services))
 
@@ -35,7 +34,7 @@ export default async function LeadsPage({ params }: Props) {
       </div>
 
       <div className="p-3 mx-auto bg-white border rounded-md text-muted-foreground dark:text-white">
-        <DataTable title="Lead" columns={columns} data={leads} services={services} columnsOff={["contactEmail", "contactPhone", "status", "serviceName"]}/>      
+        <DataTable title="Lead" columns={columns} data={leads} services={uniqueServices} columnsOff={["contactEmail", "contactPhone", "status", "serviceName"]}/>      
       </div>
     </div>
 )

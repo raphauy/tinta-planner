@@ -32,7 +32,8 @@ export type DataLead = {
 
 export type DataNote = {
     id: string
-    text: string
+    title: string
+    text: string | null
     createdAt: Date
     updatedAt: Date
     leadId: string

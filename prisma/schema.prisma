@@ -166,10 +166,21 @@ model Lead {
 
 model Note {
   id            String    @id @default(cuid())
-  text          String
+  title         String    @default("")
+  text          String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-  lead          Lead    @relation(fields: [leadId], references: [id], onDelete: Restrict)  
+  lead          Lead    @relation(fields: [leadId], references: [id], onDelete: Cascade)  
   leadId        String
 }
 
+
+model Wset {
+  id            String    @id @default(cuid())
+  institute     String
+  location      String?
+  email         String?
+  phone         String?
+  website       String?
+  imported      Boolean   @default(false)
+}

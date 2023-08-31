@@ -165,6 +165,7 @@ export async function deleteLead(id: string) {
 export function getDataNote(note: Note, leadCompany: string) {
   const res: DataNote= {
     id: note.id,
+    title: note.title,
     text: note.text,
     createdAt: note.createdAt,
     updatedAt: note.updatedAt,

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "wset": "tsx src/services/wset-script.ts"
   },
   "dependencies": {
     "@cloudinary/react": "^1.11.2",
@@ -65,6 +66,7 @@
     "tailwind-merge": "^1.12.0",
     "tailwindcss": "3.3.2",
     "tailwindcss-animate": "^1.0.6",
+    "tsx": "^3.12.7",
     "typescript": "5.0.4",
     "zod": "^3.21.4"
   },

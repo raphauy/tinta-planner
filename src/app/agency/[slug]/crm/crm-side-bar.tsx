@@ -2,7 +2,7 @@
 
 import { getBasePath, getSlug } from "@/lib/utils"
 import clsx from "clsx"
-import { Home, LayoutDashboard, Magnet, Target } from "lucide-react"
+import { GraduationCap, Home, LayoutDashboard, Magnet, Target } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { AiFillHome, AiOutlineHome } from "react-icons/ai"
@@ -26,6 +26,10 @@ export default function CRMSideBar() {
   const leadsSelected= path.endsWith("leads")
   const leads= clsx(commonClasses, leadsSelected && selectedClasses)
 
+  const visible= slug === "tinta" ? "visible" : "hidden"
+  const wsetsSelected= path.endsWith("wsets")
+  const wsets= clsx(commonClasses, wsetsSelected, selectedClasses , visible)
+
   const pClasses= "hidden sm:block lg:w-36"
 
   return (
@@ -48,7 +52,13 @@ export default function CRMSideBar() {
           <Magnet />
           <p className={pClasses}>Leads</p>
         </Link>
-        
+
+        {divider()}
+
+        <Link href={`/${basePath}/${slug}/crm/wsets`} className={wsets}>
+          <GraduationCap />
+          <p className={pClasses}>wsets</p>
+        </Link>
 
       </section>
     </>

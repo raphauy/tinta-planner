@@ -122,8 +122,8 @@ export const columns: ColumnDef<DataLead>[] = [
       const data= row.original
 
       return (
-        <div className="">
-            <p>{ data.contactName }</p>
+        <div className="flex flex-col gap-3">
+            <p className="font-bold">{ data.contactName }</p>
             <p>{ data.contactEmail }</p>
             <p>{ data.contactPhone }</p>
         </div>

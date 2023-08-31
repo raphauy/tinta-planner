@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Note" ADD COLUMN     "title" TEXT NOT NULL DEFAULT '',
+ALTER COLUMN "text" DROP NOT NULL;

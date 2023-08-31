@@ -16,9 +16,11 @@ import { utcToZonedTime } from "date-fns-tz"
 import { format } from "date-fns"
 import { es } from "date-fns/locale"
 import { Note } from "@prisma/client"
+import { Input } from "@/components/ui/input"
 
 const schema = z.object({
-  text: z.string().nonempty({ message: "Campo obligatorio" }),
+  title: z.string().nonempty({ message: "Campo obligatorio" }),
+  text: z.string().optional(),
   leadId: z.string(),
 })
 
@@ -71,7 +73,8 @@ export function NoteForm({ id, leadId, create, update, closeDialog }: Props) {
       getDataNoteAction(id).then((data) => {
         if (!data) return
         setNoteToEdit(data)
-        form.setValue("text", data.text)
+        form.setValue("title", data.title)
+        form.setValue("text", data.text || "")
         date= new Date(data.createdAt)
       })      
     }
@@ -89,13 +92,27 @@ export function NoteForm({ id, leadId, create, update, closeDialog }: Props) {
 
         <FormField
           control={form.control}
-          name="text"
+          name="title"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="flex justify-between">
-                <p>Nota</p>
+                <p>Título</p>
                 <p>{noteDate}</p>                
               </FormLabel>
+              <FormControl>
+                <Input placeholder="Nombre de la compañía" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="text"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Texto</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Texto de la nota"                  

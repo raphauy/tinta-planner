@@ -3,37 +3,37 @@
 import { LoadingSpinnerChico } from "@/components/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
-import { Lead } from "@prisma/client";
+import { Wset } from "@prisma/client";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 interface Props {
   id: string
-  eliminate: (id: string) => Promise<Lead | null>
+  importWset: (id: string) => void
   closeDialog: () => void
 }
 
-export default function DeleteForm({ id, eliminate, closeDialog }: Props) {
+export default function ImportForm({ id, importWset, closeDialog }: Props) {
   const [loading, setLoading] = useState(false)
   const path= usePathname()
 
   async function handleClick() {
     setLoading(true)
-    await eliminate(id)
+    await importWset(id)
     setLoading(false)
     closeDialog && closeDialog()
 
-    toast({title: "Lead eliminado" })
+    toast({title: "Wset Institute importado" })
   }
   
   return (
     <div>
       <Button onClick={() => closeDialog && closeDialog()} type="button" variant={"secondary"} className="w-32">Cancelar</Button>
-      <Button onClick={handleClick} variant="destructive" className="w-32 ml-2">
+      <Button onClick={handleClick} className="w-32 ml-2">
       {
           loading ? 
           <LoadingSpinnerChico /> :
-          <p>Eliminar</p>
+          <p>importar</p>
         }
       </Button>
     </div>

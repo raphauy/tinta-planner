@@ -27,13 +27,11 @@ export function HoverNote({ note }: Props) {
       <HoverCardContent className="w-80">
         <div className="flex justify-between space-x-4">
           <div className="space-y-1">
-            <p className="text-sm font-semibold">{note.leadCompany}</p>
-            <p className="text-sm">
-              {note.text}
-            </p>
+            <p className="text-lg font-semibold">{note.title}</p>
+            <div className="py-4" dangerouslySetInnerHTML={{ __html: note.text || "" }} />
             <div className="flex items-center pt-2">
               <CalendarDays className="w-4 h-4 mr-2 opacity-70" />{" "}
-              <span className="text-xs text-muted-foreground">
+              <span className="text-xs text-muted-foreground">              
                 {formattedCreated}
               </span>
             </div>

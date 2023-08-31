@@ -3,13 +3,13 @@
 import { LoadingSpinnerChico } from "@/components/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
-import { Lead } from "@prisma/client";
+import { Wset } from "@prisma/client";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 interface Props {
   id: string
-  eliminate: (id: string) => Promise<Lead | null>
+  eliminate: (id: string) => Promise<Wset | null>
   closeDialog: () => void
 }
 
@@ -23,7 +23,7 @@ export default function DeleteForm({ id, eliminate, closeDialog }: Props) {
     setLoading(false)
     closeDialog && closeDialog()
 
-    toast({title: "Lead eliminado" })
+    toast({title: "Usuario eliminado" })
   }
   
   return (
