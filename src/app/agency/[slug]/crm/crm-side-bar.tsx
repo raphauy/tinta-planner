@@ -28,7 +28,7 @@ export default function CRMSideBar() {
 
   const visible= slug === "tinta" ? "visible" : "hidden"
   const wsetsSelected= path.endsWith("wsets")
-  const wsets= clsx(commonClasses, wsetsSelected, selectedClasses , visible)
+  const wsets= clsx(commonClasses, wsetsSelected && selectedClasses , visible)
 
   const pClasses= "hidden sm:block lg:w-36"
 
