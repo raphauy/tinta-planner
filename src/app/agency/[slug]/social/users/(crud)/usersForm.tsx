@@ -68,8 +68,6 @@ export function UserForm({ id, create, update, closeDialog }: Props) {
         form.setValue("name", data.name || "")
         form.setValue("email", data.email || "")
       })
-      
-
     }
   
   }, [form, id])
