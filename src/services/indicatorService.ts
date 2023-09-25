@@ -9,7 +9,7 @@ export default async function getIndicators(): Promise<DataIndicator[]> {
 
   const found = await prisma.indicator.findMany({
     orderBy: {
-      name: 'asc',
+      type: 'asc',
     },
   })
 
@@ -23,6 +23,15 @@ export default async function getIndicators(): Promise<DataIndicator[]> {
       order: indicator.order
     })
   })
+
+  res.sort((a, b) => {
+    if (a.type > b.type) return 1
+    if (a.type < b.type) return -1
+    if (a.order > b.order) return 1
+    if (a.order < b.order) return -1
+    return 0
+  })
+  
 
   return res
 }

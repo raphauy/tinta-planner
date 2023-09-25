@@ -12,6 +12,18 @@ import React from "react"
 
 export const columns: ColumnDef<DataIndicator>[] = [
   {
+    accessorKey: "order",
+    header: ({ column }) => {
+        return (
+          <Button variant="ghost" className="pl-0 dark:text-white"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            Orden
+            <ArrowUpDown className="w-4 h-4 ml-1" />
+          </Button>
+    )
+    },
+  },
+  {
     accessorKey: "icon",
     header: ({ column }) => {
       return (

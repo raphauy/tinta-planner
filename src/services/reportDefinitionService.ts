@@ -32,6 +32,7 @@ export default async function getReportDefinitions(): Promise<DataReportDefiniti
         description: indicator.description,
         type: indicator.type,
         icon: indicator.icon,
+        order: indicator.order
       })),
       complementIndicators: indicators.filter(indicator => !reportdefinition.indicators.find(i => i.id === indicator.id))
     })
