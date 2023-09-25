@@ -25,7 +25,6 @@ export const types= [
   "Instagram",
   "Facebook",
   "Linkedin",
-  "Otro",
 ]
 
 export const icons= [
@@ -51,6 +50,7 @@ const schema = z.object({
   description: z.string().optional(),
   type: z.string(),
   icon: z.string(),
+  order: z.string().refine((val) => !isNaN(Number(val)), { message: "(debe ser un número)" }).optional(),
 })
 
 export type IndicatorFormValues = z.infer<typeof schema>
@@ -100,6 +100,7 @@ export function IndicatorForm({ id, create, update, closeDialog }: Props) {
         form.setValue("description", data.description || "")
         form.setValue("type", data.type)
         form.setValue("icon", data.icon)
+        form.setValue("order", data.order+"")
       })
     }
   
@@ -208,6 +209,23 @@ export function IndicatorForm({ id, create, update, closeDialog }: Props) {
             </FormItem>
           )}
         />
+
+        <FormField
+          control={form.control}
+          name="order"
+          render={({ field }) => (
+            <FormItem>
+              <div className="flex items-center h-8 gap-4">
+                <FormLabel>Orden de aparición en el informe</FormLabel>                
+                <FormMessage />
+              </div>
+              <FormControl>                
+                <Input placeholder="" {...field} />
+              </FormControl>              
+            </FormItem>
+          )}
+        />
+
 
        <div className="flex justify-end">
           <Button onClick={() => closeDialog && closeDialog()} type="button" variant={"secondary"} className="w-32">Cancelar</Button>

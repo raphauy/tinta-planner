@@ -19,7 +19,8 @@ export default async function getIndicators(): Promise<DataIndicator[]> {
       name: indicator.name,
       description: indicator.description,
       type: indicator.type,
-      icon: indicator.icon
+      icon: indicator.icon,
+      order: indicator.order
     })
   })
 
@@ -42,7 +43,10 @@ export async function getIndicator(id: string) {
 export async function createIndicator(data: IndicatorFormValues) {
   
   const created= await prisma.indicator.create({
-    data
+    data: {
+      ...data,
+      order: parseInt(data.order as string)
+    }
   })
 
   return created
@@ -57,6 +61,7 @@ export async function editIndicator(id: string, data: IndicatorFormValues) {
     },
     data: {
       ...data,
+      order: parseInt(data.order as string)
     }
   })
 

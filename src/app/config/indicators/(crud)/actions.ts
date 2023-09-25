@@ -12,6 +12,7 @@ export type DataIndicator = {
     description: string | null
     type: string
     icon: string
+    order: number
 }
   
 
@@ -24,7 +25,8 @@ export async function getDataIndicator(indicatorId: string): Promise<DataIndicat
         name: indicator.name,
         description: indicator.description,
         type: indicator.type,
-        icon: indicator.icon
+        icon: indicator.icon,
+        order: indicator.order
     }
     return data
 }
