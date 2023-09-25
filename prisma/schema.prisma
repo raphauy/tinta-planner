@@ -194,6 +194,7 @@ model Indicator {
   description         String?   @db.Text
   type                String    @default("Instagram")
   icon                String    @default("AreaChart")
+  order               Int       @default(0)
   reportDefinitions   ReportDefinition[] 
   indicatorReportDefinitions IndicatorReportDefinition[]
   dataIndicators      DataIndicator[]

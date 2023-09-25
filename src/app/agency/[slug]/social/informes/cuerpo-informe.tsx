@@ -37,10 +37,12 @@ function getIndicatorValues(type: string, dataIndicators: any[]) {
         description: indicator.indicator.description,
         type: indicator.indicator.type,
         icon: indicator.indicator.icon,
+        order: indicator.indicator.order,
         value: indicator.value,
         previousValue: indicator.previousValue,
         indicatorId: indicator.indicatorId
       }
-    })  
+    })
+    .sort((a, b) => a.order - b.order)
   
 }

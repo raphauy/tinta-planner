@@ -39,6 +39,7 @@ export default async function getInformes(): Promise<DataInforme[]> {
           description: dataIndicator.indicator.description,
           type: dataIndicator.indicator.type,
           icon: dataIndicator.indicator.icon,
+          order: dataIndicator.indicator.order,
           previousValue: dataIndicator.previousValue,
           value: dataIndicator.value,
           indicatorId: dataIndicator.indicatorId
@@ -92,6 +93,7 @@ export async function getInformesOfClient(clientId: number): Promise<DataInforme
           description: dataIndicator.indicator.description,
           type: dataIndicator.indicator.type,
           icon: dataIndicator.indicator.icon,
+          order: dataIndicator.indicator.order,
           previousValue: dataIndicator.previousValue,
           value: dataIndicator.value,
           indicatorId: dataIndicator.indicatorId
@@ -99,13 +101,13 @@ export async function getInformesOfClient(clientId: number): Promise<DataInforme
       })
     })
   })
-  // sort indicators by type in firs place and then by name
+  // sort indicators by type in first place and then by order
   res.forEach(informe => {
     informe.indicators.sort((a, b) => {
       if (a.type < b.type) return -1
       if (a.type > b.type) return 1
-      if (a.name < b.name) return -1
-      if (a.name > b.name) return 1
+      if (a.order < b.order) return -1
+      if (a.order > b.order) return 1
       return 0
     })
   })

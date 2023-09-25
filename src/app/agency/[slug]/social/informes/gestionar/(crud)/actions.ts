@@ -12,6 +12,7 @@ export type IndicatorValue = {
     description: string | null
     type: string
     icon: string
+    order: number
     previousValue: number
     value: number
     indicatorId: string
@@ -48,6 +49,7 @@ export async function getDataInforme(id: string): Promise<DataInforme | null>{
                 description: dataIndicator.indicator.description,
                 type: dataIndicator.indicator.type,
                 icon: dataIndicator.indicator.icon,
+                order: dataIndicator.indicator.order,
                 previousValue: dataIndicator.previousValue,
                 value: dataIndicator.value,
                 indicatorId: dataIndicator.indicatorId
@@ -93,6 +95,7 @@ export async function updateDataIndicatorsAction(slug: string, json: string) {
     updateDataIndicators(json)
 
     revalidatePath(`/agency/${slug}/social/informes`)
+    revalidatePath(`/agency/${slug}/social/informes/gestionar`)
 }
 
 export async function getDataToGraphAction(indicatorId: string, clientId: number) {
