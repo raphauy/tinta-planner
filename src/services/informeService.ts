@@ -116,6 +116,7 @@ export async function getInformesOfClient(clientId: number): Promise<DataInforme
 
 
 export async function getInforme(id: string) {
+  if (!id) return null
 
   const found = await prisma.informe.findUnique({
     where: {

@@ -43,7 +43,7 @@ export default async function InformesPage({ params, searchParams }: Props) {
           {/** @ts-expect-error Server Component */}
           { informeId && <CuerpoInformesPage informeId={informeId} /> }
           { !informeId && 
-            <Link href={`/agency/${slug}/social/informes/gestionar`}>
+            <Link href={`/agency/${slug}/social/informes/gestionar`} className="self-center">
               <Button><ListChecks className="mr-2" />Gestionar</Button>              
             </Link>
           }

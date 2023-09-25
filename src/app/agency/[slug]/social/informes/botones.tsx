@@ -12,7 +12,7 @@ interface Props {
 
 export default async function Botones({ informeId, slug }: Props) {
     const informe= await getDataInforme(informeId)
-    if (!informe) return <div>Informe no encontrado</div>
+    if (!informe) return <div></div>
   
     const draft= informe.status === "draft"
 
