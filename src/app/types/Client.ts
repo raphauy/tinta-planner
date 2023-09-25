@@ -5,5 +5,6 @@ export default interface Client {
     slug: string
     handle_insta: string
     image_insta: string
+    reportDefinitionId: string
 }
 

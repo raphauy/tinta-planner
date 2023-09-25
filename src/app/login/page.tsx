@@ -9,7 +9,7 @@ export default async function loginPage() {
   const role= user?.role
 
   if (role === "agency")
-  redirect("/admin/tinta")
+  redirect("/agency/tinta/social")
 
   if (role === "client")
     redirect("/cliente")

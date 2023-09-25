@@ -53,7 +53,7 @@ export async function PUT(request: Request, { params }: { params: {slug: string,
             }
         }
     })
-    revalidatePath("/admin/")
+    revalidatePath("/agency/")
 
 
     return NextResponse.json({ data: updated }, { status: 200})

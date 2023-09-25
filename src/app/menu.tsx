@@ -17,7 +17,7 @@ export default function Menu() {
 
     const user= session?.data?.user
     
-    if (!user || !slug || user.role !== "agency") return <div></div>
+    if (!user || !slug || user.role !== "agency" || path.split("/")[1] !== "agency") return <div></div>
 
     return (
         <nav className="text-muted-foreground">

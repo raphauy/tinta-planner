@@ -1,3 +1,4 @@
+import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { AuthContext } from "./(client-side)/context/AuthContext";
 import ToasterContext from "./(client-side)/context/ToasterContext";
 import "./globals.css";
@@ -20,6 +21,7 @@ export default function RootLayout({
           <div className="flex flex-col min-h-screen bg-tinta-natural">
             {children}
           </div>
+          <TailwindIndicator />
         </AuthContext>
       </body>
     </html>

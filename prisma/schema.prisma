@@ -49,6 +49,9 @@ model Client {
     wines             Wine[]
     services          Service[]
     leads             Lead[]
+    informes          Informe[]
+    reportDefinition  ReportDefinition? @relation(fields: [reportDefinitionId], references: [id], onDelete: Restrict)
+    reportDefinitionId String?
 }
 
 model Pilar {
@@ -183,4 +186,56 @@ model Wset {
   phone         String?
   website       String?
   imported      Boolean   @default(false)
+}
+
+model Indicator {
+  id                  String    @id @default(cuid())
+  name                String
+  description         String?   @db.Text
+  type                String    @default("Instagram")
+  icon                String    @default("AreaChart")
+  reportDefinitions   ReportDefinition[] 
+  indicatorReportDefinitions IndicatorReportDefinition[]
+  dataIndicators      DataIndicator[]
+}
+
+model ReportDefinition {
+  id            String    @id @default(cuid())
+  name          String
+  description   String?   @db.Text
+  indicators    Indicator[]
+  indicatorReportDefinitions IndicatorReportDefinition[]
+  clients       Client[]
+}
+
+model IndicatorReportDefinition {
+  id                  String    @id @default(cuid())
+  indicator           Indicator @relation(fields: [indicatorId], references: [id])
+  indicatorId         String
+  reportDefinition    ReportDefinition @relation(fields: [reportDefinitionId], references: [id])
+  reportDefinitionId  String
+}
+
+model Informe {
+  id              String    @id @default(cuid())
+  name            String
+  month           DateTime
+  dataIndicators  DataIndicator[]
+  client          Client    @relation(fields: [clientId], references: [id], onDelete: Restrict)
+  clientId        Int
+  notasFacebook   String?   @db.Text
+  notasInstagram  String?   @db.Text
+  notasLinkedin   String?   @db.Text
+  status          String    @default("draft")
+}
+
+model DataIndicator {
+  id            String    @id @default(cuid())
+  indicator     Indicator @relation(fields: [indicatorId], references: [id])
+  indicatorId   String
+  date          DateTime
+  previousValue Float
+  value         Float  
+  informe       Informe   @relation(fields: [informeId], references: [id], onDelete: Cascade)
+  informeId     String
 }

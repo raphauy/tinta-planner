@@ -12,6 +12,8 @@ import { BsAsterisk, BsPersonWorkspace } from "react-icons/bs";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { AiFillSetting, AiOutlineSetting } from "react-icons/ai";
+import { Gauge, User } from "lucide-react";
+import { AreaChart } from "lucide-react";
 
 function usePopOver(){
   const [client, setClient] = useState<Client>()
@@ -55,16 +57,28 @@ export default function PopOverUserHandler() {
           <li className="flex items-center gap-2 pb-2 pl-1 ml-9">
             {user.role === "agency" ? user.role+"(admin)" : ""}
           </li>
-          <li className="flex items-center gap-2 pb-2 pl-1 mb-3 border-b">            
+          <li className="flex items-center gap-2 pb-2 pl-1 border-b">            
             
           </li>
           {user.role === "agency" &&
-            <li className="flex items-center gap-2 pb-3 pl-1 mb-2 border-b hover:bg-gray-100">
-              <Link href={`/config?refresh=${new Date().getMilliseconds()}`} className="flex items-center gap-2">
-                <AiFillSetting size={25}/> Cambiar Usuarios
+            <>            
+              <li className="border-b">
+                <Link href={`/config/reports`} className="flex items-center gap-2 py-2 hover:bg-gray-100">
+                  <AreaChart /> Reportes
+                </Link>
+              </li>
+              <li className="border-b">
+                <Link href={`/config/indicators`} className="flex items-center gap-2 py-2 hover:bg-gray-100">
+                  <Gauge /> Indicadores
+                </Link>
+              </li>
+              <li className="border-b">
+              <Link href={`/config/users?refresh=${new Date().getMilliseconds()}`}  className="flex items-center gap-2 py-2 hover:bg-gray-100">
+                <User size={25}/> Cambiar Usuarios
               </Link>
             </li>
-          }
+          </>
+        }
           <li className="flex items-center w-full mt-10 rounded-md">
             <div onClick={onLogout} 
               className="flex items-center flex-grow px-1 py-3 mt-2 rounded-md cursor-pointer hover:border hover:border-gray-500 hover:bg-gray-200">

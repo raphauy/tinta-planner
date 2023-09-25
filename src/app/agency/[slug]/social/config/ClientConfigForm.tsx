@@ -67,8 +67,8 @@ export default function ClientConfigForm({ slug, onChange }: Props ) {
 
   return (
     <>
-      <section className="flex justify-center">
-        <form className="w-5/6 space-y-6 " onSubmit={handleSubmit(onSubmit)}>
+      <section className="flex justify-center w-full">
+        <form className="w-full space-y-6 lg:mx-10" onSubmit={handleSubmit(onSubmit)}>
           <Input
             required
             id="name"

@@ -74,7 +74,7 @@ export function ClientSelector({ selectors }: Props) {
             >
               {value
                 ? selectors.find(selector => selector.name.toLowerCase() === value.toLowerCase())?.name
-                : "Seleccionar línea..."}
+                : "Seleccionar cliente..."}
               <ChevronsUpDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
             </Button>
           </PopoverTrigger>
@@ -82,10 +82,10 @@ export function ClientSelector({ selectors }: Props) {
             <Command filter={customFilter} >
               <div className='flex items-center w-full gap-1 p-2 border border-gray-300 rounded-md shadow'>
                   <Search className="w-4 h-4 mx-1 opacity-50 shrink-0" />
-                  <input placeholder="Buscar línea..." onInput={handleInputChange} value={searchValue} className="w-full bg-transparent focus:outline-none"/>
+                  <input placeholder="Buscar cliente..." onInput={handleInputChange} value={searchValue} className="w-full bg-transparent focus:outline-none"/>
               </div>
               
-              <CommandEmpty>Línea no encontrada</CommandEmpty>
+              <CommandEmpty>Cliente no encontrado</CommandEmpty>
               <CommandGroup>
                 {filteredValues.map((line) => (
                   <CommandItem

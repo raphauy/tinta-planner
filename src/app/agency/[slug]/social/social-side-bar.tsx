@@ -3,6 +3,8 @@
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { getBasePath, getSlug } from "@/lib/utils";
 import clsx from "clsx";
+import { AreaChart } from "lucide-react";
+import { ListChecks } from "lucide-react";
 import { Wine } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -41,6 +43,12 @@ export default function SocialSideBar() {
   const winesSelected= path.endsWith("wines")
   const wines= clsx(commonClasses, winesSelected && selectedClasses)
 
+  const informesSelected= path.endsWith("informes")
+  const informes= clsx(commonClasses, informesSelected && selectedClasses)
+
+  const gestionarSelected= path.endsWith("gestionar")
+  const gestionar= clsx(commonClasses, gestionarSelected && selectedClasses)
+
   const pClasses= "hidden sm:block lg:w-36"
   return (
     <>
@@ -76,10 +84,22 @@ export default function SocialSideBar() {
 
         {divider()}
 
+        <Link href={`/${basePath}/${slug}/social/informes`} className={informes}>
+          <AreaChart />
+          <p className={pClasses}>Informes</p>
+        </Link>
+        <Link href={`/${basePath}/${slug}/social/informes/gestionar`} className={gestionar}>
+          <ListChecks />
+          <p className={pClasses}>Gestionar</p>
+        </Link>
+
+        {divider()}
+
         <Link href={`/${basePath}/${slug}/social/config`} className={clientconfig}>
           {clientconfigSelected ? <AiFillTool size={25}/> : <AiOutlineTool size={25}/>}
           <p className={pClasses}>Configuración</p>
         </Link>
+        
         {divider()}
 
       </section>
