@@ -3,7 +3,7 @@ import { getClientOfCurrenUser } from "@/app/(server-side)/services/getClients"
 import CuerpoInformesPage from "@/app/agency/[slug]/social/informes/cuerpo-informe"
 import { InformeSelector } from "@/app/agency/[slug]/social/informes/informe-selector"
 import PdfPage from "@/app/agency/[slug]/social/informes/pdf"
-import { getInforme, getSelectorData } from "@/services/informeService"
+import { getInforme, getPublishedSelectorData, getSelectorData } from "@/services/informeService"
 
 interface Props{
   searchParams: {
@@ -18,7 +18,7 @@ export default async function InformesPage({ searchParams }: Props) {
 
     let informeId= searchParams.id
     
-    const selectors= await getSelectorData(client.id)
+    const selectors= await getPublishedSelectorData(client.id)
 
     if (!informeId && selectors.length>0) 
       informeId= selectors[0].id

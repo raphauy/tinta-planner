@@ -253,6 +253,21 @@ export async function getSelectorData(clientId: number) {
   return result;
 }
 
+export async function getPublishedSelectorData(clientId: number) {
+  let result: { id: string; name: string }[] = []
+
+  const informes= await getInformesOfClient(clientId)
+
+  // filter only published informes
+  const published= informes.filter(informe => informe.status === 'published')
+
+  const selectorData= published.map(informe => ({ id: informe.id, name: informe.name }))
+  
+  result = result.concat(selectorData)
+  
+  return result;
+}
+
 
 export async function getLastDataIndicatorValue(indicatorId: string, clientId: number, month: Date) {
   const dataIndicator= await prisma.dataIndicator.findFirst({
