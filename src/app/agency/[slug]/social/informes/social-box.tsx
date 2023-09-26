@@ -55,7 +55,7 @@ export default function SocialBox({ type, indicators, notes, clientId }: Props) 
                                         </CardHeader>
                                         <CardContent>
                                             <div className="text-3xl font-bold text-left">
-                                                {indicator.value} 
+                                                {indicator.value.toLocaleString(undefined, {localeMatcher: 'best fit', style: 'decimal', useGrouping: true}).replace(/,/g, '.')}
                                             </div>
                                             <div className="flex items-center justify-between">
                                                 <div className="flex items-center gap-1 text-xs">
@@ -73,7 +73,7 @@ export default function SocialBox({ type, indicators, notes, clientId }: Props) 
                                 {
                                     indicator.description &&
                                     <TooltipContent>
-                                        <p>{indicator.description}</p>
+                                        <p className="max-w-[400px]">{indicator.description}</p>
                                     </TooltipContent>
                                 }
                             </Tooltip>
