@@ -3,7 +3,6 @@
 import { createIndicator, deleteIndicator, editIndicator, getIndicator } from "@/services/indicatorService";
 import { Indicator } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { getClientById } from "@/app/(server-side)/services/getClients";
 import { IndicatorFormValues } from "./indicator-form";
 
 export type DataIndicator = {

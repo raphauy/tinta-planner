@@ -3,6 +3,7 @@
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { getBasePath, getSlug } from "@/lib/utils";
 import clsx from "clsx";
+import { CalendarHeart } from "lucide-react";
 import { AreaChart, Gauge, Home, User } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -24,10 +25,13 @@ export default function ConfigSideBar() {
   const reportSelected= path.endsWith("reports")
   const report= clsx(commonClasses, reportSelected && selectedClasses)
 
+  const datesSelected= path.endsWith("dates")
+  const dates= clsx(commonClasses, datesSelected && selectedClasses)
+
   const usersSelected= path.endsWith("users")
   const users= clsx(commonClasses, usersSelected && selectedClasses)
 
-  const pClasses= "hidden sm:block lg:w-36"
+  const pClasses= "hidden sm:block lg:w-36 whitespace-nowrap"
   return (
     <>
       <section className="flex flex-col gap-3 mt-6">
@@ -46,6 +50,13 @@ export default function ConfigSideBar() {
         <Link href={`/config/indicators`} className={indicator}>
           <Gauge size={25}/>
           <p className={pClasses}>Indicadores</p>
+        </Link>
+
+        {divider()}
+
+        <Link href={`/config/dates`} className={dates}>
+          <CalendarHeart size={25} />
+          <p className={pClasses}>Fechas Importantes</p>
         </Link>
 
         {divider()}

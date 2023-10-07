@@ -3,7 +3,7 @@
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { getBasePath, getSlug } from "@/lib/utils";
 import clsx from "clsx";
-import { AreaChart } from "lucide-react";
+import { AreaChart, CalendarHeart } from "lucide-react";
 import { ListChecks } from "lucide-react";
 import { Wine } from "lucide-react";
 import Link from "next/link";
@@ -28,6 +28,9 @@ export default function SocialSideBar() {
   const calendarSelected= path.endsWith("calendar")
   const calendar= clsx(commonClasses, calendarSelected && selectedClasses)
 
+  const datesSelected= path.endsWith("dates")
+  const dates= clsx(commonClasses, datesSelected && selectedClasses)
+
   const postsSelected= path.endsWith("posts")
   const posts= clsx(commonClasses, postsSelected && selectedClasses)
 
@@ -49,7 +52,7 @@ export default function SocialSideBar() {
   const gestionarSelected= path.endsWith("gestionar")
   const gestionar= clsx(commonClasses, gestionarSelected && selectedClasses)
 
-  const pClasses= "hidden sm:block lg:w-36"
+  const pClasses= "hidden sm:block lg:w-36 whitespace-nowrap"
   return (
     <>
       <section className="flex flex-col gap-3">
@@ -64,6 +67,10 @@ export default function SocialSideBar() {
         <Link href={`/${basePath}/${slug}/social/calendar`} className={calendar}>
           {calendarSelected ? <AiFillCalendar size={25}/> : <AiOutlineCalendar size={25}/>}          
           <p className={pClasses}>Calendario</p>
+        </Link>
+        <Link href={`/${basePath}/${slug}/social/dates`} className={dates}>
+          <CalendarHeart size={25} />
+          <p className={pClasses}>Fechas Importantes</p>
         </Link>
         <Link href={`/${basePath}/${slug}/social/posts`} className={posts}>
           {postsSelected ? <AiFillInstagram size={25}/> : <AiOutlineInstagram size={25}/>}          

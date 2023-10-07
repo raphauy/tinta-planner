@@ -52,6 +52,7 @@ model Client {
     informes          Informe[]
     reportDefinition  ReportDefinition? @relation(fields: [reportDefinitionId], references: [id], onDelete: Restrict)
     reportDefinitionId String?
+    fechasImportantes FechaImportante[]
 }
 
 model Pilar {
@@ -239,4 +240,12 @@ model DataIndicator {
   value         Float  
   informe       Informe   @relation(fields: [informeId], references: [id], onDelete: Cascade)
   informeId     String
+}
+
+model FechaImportante {
+  id            String    @id @default(cuid())
+  title         String
+  date          DateTime
+  client        Client?    @relation(fields: [clientId], references: [id], onDelete: Restrict)
+  clientId      Int?
 }
