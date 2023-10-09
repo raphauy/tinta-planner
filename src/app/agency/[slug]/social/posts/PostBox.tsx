@@ -24,7 +24,7 @@ export default function PostBox({ post, onSelected }: PostBoxProps) {
   useEffect(() => {
         
     async function fetchClient() {
-      slug ? setLink(`/agency/${slug}/social/posts`) : setLink(`cliente/posts`)
+      slug ? setLink(`/agency/${slug}/social/posts`) : setLink(`/cliente/posts`)
     }
     fetchClient()
   }, [slug]);
