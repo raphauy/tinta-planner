@@ -43,12 +43,7 @@ export type DataNote = {
 
 export async function getDataLead(id: string): Promise<DataLead | null>{
     const lead= await getLead(id)
-    if (!lead) return null
-    const client= lead.client
-    if (!client) return null
-
-    const data: DataLead= getData(lead, lead.service, client.slug)
-    return data
+    return lead
 }
 
 export async function create(data: LeadFormValues): Promise<Lead | null> {       
@@ -127,6 +122,7 @@ export async function createNoteAction(data: NoteFormValues): Promise<Note | nul
     if (!client) return created
 
     revalidatePath(`/agency/${client.slug}/crm/leads`)
+    revalidatePath(`/agency/${client.slug}/crm/leads/${lead.id}`)
 
     return created
 }
@@ -143,6 +139,7 @@ export async function updateNoteAction(id: string, data: NoteFormValues): Promis
     if (!client) return updated
 
     revalidatePath(`/agency/${client.slug}/crm/leads`)
+    revalidatePath(`/agency/${client.slug}/crm/leads/${lead.id}`)
     
     return updated
 }

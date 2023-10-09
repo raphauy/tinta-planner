@@ -62,6 +62,35 @@ export default async function getClientLeads(clientId: number): Promise<DataLead
   return res
 }
 
+export async function filterClientLeadsByStatus(clientId: number, status: string): Promise<DataLead[]> {
+  
+    const res: DataLead[]= []
+  
+    const client= await getClientById(clientId)
+    if (!client)
+      throw new Error()  
+  
+    const found = await prisma.lead.findMany({
+      orderBy: {
+        company: 'asc',
+      },
+      include: {
+        service: true
+      },
+      where: {
+        clientId,
+        status
+      },
+    })
+  
+    found.forEach(lead => {
+      const data= getData(lead, lead.service, client.slug)
+      res.push(data)
+    })
+  
+    return res
+}
+
 
 export async function getLead(id: string) {
 
@@ -75,7 +104,12 @@ export async function getLead(id: string) {
     }
   })
 
-  return found
+  if (!found) return null
+
+  const res= getData(found, found.service, found.client.slug)
+
+
+  return res
 }
 
 export async function createLead(data: LeadFormValues) {

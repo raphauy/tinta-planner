@@ -2,6 +2,7 @@
 
 import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar"
 import { updateStatusAction } from "./(crud)/actions"
+import { getStatusDarkColor, getStatusLightColor } from "@/lib/utils"
 
 interface Props {
   id: string
@@ -48,8 +49,8 @@ export function MenubarDemo({ id, status }: Props) {
 }
 
 function getNode(status: string) {
-  const lightColor= getLightColor(status)
-  const darkColor= getDarkColor(status)
+  const lightColor= getStatusLightColor(status)
+  const darkColor= getStatusDarkColor(status)
   const res= (
     <div className={`flex w-28 justify-center items-center h-6 gap-1 rounded-2xl cursor-pointer ${lightColor}`}>
       <p className={`w-2 h-2 rounded-full ${darkColor}`}></p>
@@ -59,44 +60,3 @@ function getNode(status: string) {
   return res
 }
 
-function getLightColor(status: string) {
-  switch (status) {
-    case "Potencial":
-      return "bg-pink-100"
-    case "Calificado":
-      return "bg-orange-100"
-    case "Propuesta":
-      return "bg-blue-100"
-    case "Negociación":
-      return "bg-purple-100"
-    case "En Curso":
-      return "bg-sky-100"
-    case "Cerrado":
-      return "bg-green-100"
-      case "Perdido":
-        return "bg-red-100"
-      default:
-      return "bg-gray-100"
-  }  
-}
-
-function getDarkColor(status: string) {
-  switch (status) {
-    case "Potencial":
-      return "bg-pink-400"
-    case "Calificado":
-      return "bg-orange-400"
-    case "Propuesta":
-      return "bg-blue-400"
-    case "Negociación":
-      return "bg-purple-400"
-    case "En Curso":
-      return "bg-sky-400"
-    case "Cerrado":
-      return "bg-green-400"
-      case "Perdido":
-        return "bg-red-400"
-      default:
-      return "bg-gray-400"
-  }  
-}

@@ -12,7 +12,7 @@ interface Props{
   leadId: string
   create: (json: NoteFormValues) => Promise<Note | null>
   update: (id: string, json: NoteFormValues) => Promise<Note | null>
-  updateNotes: () => void
+  updateNotes?: () => void
 }
 
 
@@ -21,7 +21,7 @@ export function NoteDialog({ title, trigger, id, leadId, create, update, updateN
 
   function handleClose() {
     setOpen(false)
-    updateNotes()
+    updateNotes && updateNotes()
   }
   
   return (
