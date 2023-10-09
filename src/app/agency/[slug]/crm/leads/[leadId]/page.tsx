@@ -24,17 +24,17 @@ export default async function LeadPage({ params }: Props) {
     const noteTrigger= (<div className="flex items-center cursor-pointer"><Button variant="ghost" className="p-1"><PlusCircle size={20} className="mr-2"/>Agregar Nota</Button></div>)
 
     return (
-        <div className="flex flex-col w-full max-w-2xl gap-5 p-4 pr-0 my-auto mt-5 bg-white border rounded-lg md:pr-4 lg:pr-10">
+        <div className="flex flex-col w-full max-w-4xl gap-5 p-4 pr-0 my-auto mt-5 bg-white border rounded-lg md:pr-4 lg:pr-10">
           <div className="flex items-center justify-between min-w-[250px]">
             <p className="pl-6 text-base font-bold border-b whitespace-nowrap">{ lead.company }</p>
-            <MenubarDemo status={lead.status} id={lead.id} />
-          </div>
-          <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
                 <p>{ lead.serviceEmoji }</p>
                 <p>{ lead.serviceName }</p>
             </div>
-          </div>
+            </div>
+                <MenubarDemo status={lead.status} id={lead.id} />
+            </div>
           <div>
             <div className="flex justify-end">
                 <NoteDialog create={createNoteAction} update={updateNoteAction} leadId={leadId} title="Agregar Nota" trigger={noteTrigger}  />          
