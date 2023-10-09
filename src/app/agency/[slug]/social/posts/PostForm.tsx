@@ -67,7 +67,9 @@ function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
 
       const newImages= postToEdit.image.split(",")
       setImages(newImages)
-    } 
+    } else {
+      setValue("copy", "...")
+    }
 
     setLoading(false);
 

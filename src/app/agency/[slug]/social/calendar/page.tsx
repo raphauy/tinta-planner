@@ -77,7 +77,7 @@ export default function CalendarPage({ params }: { params: { slug: string } }) {
   eventosFechaImportante?.forEach((evento) => {
     eventos?.unshift(evento)
   })
-
+  
   if (!slug) return <div>Slug not found</div>;
 
   return (
