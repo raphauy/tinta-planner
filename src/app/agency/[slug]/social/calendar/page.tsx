@@ -68,10 +68,9 @@ export default function CalendarPage({ params }: { params: { slug: string } }) {
       start: dateCopy,
       end: dateCopy,
       image: "",
-      color: "rgb(187 247 208 / 50)",
+      color: "rgb(229 231 235)",
       href: "#",
     }
-
   })
 
   // agregar eventosFechaImportante a eventos pero deben quedar primero eventosFechaImportante y luego eventos
@@ -83,7 +82,7 @@ export default function CalendarPage({ params }: { params: { slug: string } }) {
 
   return (
     <>
-      <main className="flex flex-col w-full h-full gap-5 px-8 py-3">
+      <main className="flex flex-col w-full h-full gap-5 px-8 py-3 bg-gray-100">
         <div className="flex flex-col h-full p-3 bg-gray-200 border border-gray-300 rounded-xl">
           <CalendarRC events={eventos}></CalendarRC>
         </div>

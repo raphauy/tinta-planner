@@ -2,6 +2,7 @@
 import getCurrentUser from "@/app/(server-side)/services/getCurrentUser";
 import { getPostsBySlug, getPostsWithDate } from "@/app/(server-side)/services/postServices";
 import CalendarRC from "@/app/agency/[slug]/social/calendar/CalendarRC";
+import { getClientAndGlobalFechaImportantesBySlug } from "@/app/config/dates/(crud)/actions";
 import { Pilar, Post } from "@prisma/client";
 
 export default async function CalendarPage() {
@@ -11,6 +12,7 @@ export default async function CalendarPage() {
     return <div>Client not found</div>
 
   const posts = await getPostsBySlug(client.slug);
+  const fechas = await getClientAndGlobalFechaImportantesBySlug(client.slug)
 
   const eventos = posts
     .filter((post: Post): post is { date: Date } & typeof post => post.date !== null)
@@ -31,6 +33,26 @@ export default async function CalendarPage() {
         href: `/cliente/posts?id=${post.id}&edit` ,
       };
     });
+
+  const eventosFechaImportante = fechas?.map((fecha) => {
+    let dateCopy = new Date(fecha.fecha)
+    dateCopy.setDate(dateCopy.getDate())
+
+    return {
+      title: fecha.titulo,
+      content: "",
+      start: dateCopy,
+      end: dateCopy,
+      image: "",
+      color: "rgb(229 231 235)",
+      href: "#",
+    }
+  })
+  
+  eventosFechaImportante?.forEach((evento) => {
+    eventos?.unshift(evento)
+  })
+
 
   return (
     <>
