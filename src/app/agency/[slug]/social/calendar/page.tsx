@@ -38,8 +38,6 @@ export default function CalendarPage({ params }: { params: { slug: string } }) {
   const { loading, posts, fechas }= useCalendar(slug)
 
   if (loading) return <LoadingSpinner />
-
-  console.log("posts: " + posts.length)
   
   const eventos = posts
     .filter((post): post is { date: Date } & typeof post => post.date !== null)
@@ -54,29 +52,21 @@ export default function CalendarPage({ params }: { params: { slug: string } }) {
         end: dateCopy,
         image: post.image || "",
         color: post.pilar.color,
-        href: `/agency/${slug}/social/posts?id=${post.id}&edit` ,
+        href: `/agency/${slug}/social/posts?id=${post.id}&edit`,
+        fechaImportante: "",
       }
     })
-  
-  const eventosFechaImportante = fechas?.map((fecha) => {
-    let dateCopy = new Date(fecha.fecha)
-    dateCopy.setDate(dateCopy.getDate())
 
-    return {
-      title: fecha.titulo,
-      content: "",
-      start: dateCopy,
-      end: dateCopy,
-      image: "",
-      color: "rgb(229 231 235)",
-      href: "#",
-    }
-  })
+    // recorrer los eventos y para cada evento averiguar si existe una fechaImportante con esa fecha, 
+    // si existe setear el valor fechaImportante en el evento con el titulo de la fechaImportante
+    // si no existe no hacer nada
+    eventos.forEach((evento) => {
+      const fecha= fechas?.find((fecha) => fecha.fecha.getDate() === evento.start.getDate())
+      if (fecha) {
+        evento.fechaImportante= fecha.titulo
+      }
+    })   
 
-  // agregar eventosFechaImportante a eventos pero deben quedar primero eventosFechaImportante y luego eventos
-  eventosFechaImportante?.forEach((evento) => {
-    eventos?.unshift(evento)
-  })
   
   if (!slug) return <div>Slug not found</div>;
 

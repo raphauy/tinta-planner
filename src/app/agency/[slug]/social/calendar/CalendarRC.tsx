@@ -19,9 +19,10 @@ const CalendarRC: React.FC<MyCalendarProps> = ({ events }) => {
      
       return {
         style: {
-          backgroundColor: event.color,
-          border: '1px solid',
-          borderColor: '#9ca3af',
+          backgroundColor: "transparent",
+          padding: "0px",
+          //border: '1px solid',
+          //borderColor: '#9ca3af',
         },
       };
     };
