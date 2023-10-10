@@ -28,6 +28,7 @@ export function getData(lead: Lead, service: Service, clientSlug: string) {
     linkedin: lead.linkedin || "",
     instagram: lead.instagram || "",
     twitter: lead.twitter || "",
+    type: lead.type || null,
   }
 
   return res
@@ -132,6 +133,7 @@ export async function createLead(data: LeadFormValues) {
       linkedin: data.linkedin,
       instagram: data.instagram,
       twitter: data.twitter,
+      type: data.type
     }
   })
 
@@ -175,6 +177,7 @@ export async function editLead(id: string, data: LeadFormValues) {
       linkedin: data.linkedin,
       instagram: data.instagram,
       twitter: data.twitter,
+      type: data.type
     }
   })
 
@@ -304,3 +307,20 @@ export async function getNotes(leadId: string): Promise<DataNote[]> {
 
   return res
 }
+
+export async function getTotalValue(clientId: number, status: string) {
+  const leads= await prisma.lead.findMany({
+    where: {
+      clientId,
+      status
+    }
+  })
+
+  let total= 0
+  leads.forEach(lead => {
+    total+= lead.value || 0
+  })
+
+  return total
+}
+  

@@ -6,6 +6,7 @@ import { Magnet, Target } from "lucide-react";
 import Link from "next/link";
 import StateBox from "./state-box";
 import getClientLeads from "@/services/leadService";
+import StateFlow from "./state-flow";
 
 
 export default async function DashboardPage({ params }: { params: { slug: string } }) {
@@ -28,14 +29,13 @@ export default async function DashboardPage({ params }: { params: { slug: string
 
     return (
       <div className="w-full">
-        <div className="flex flex-col w-full py-10 text-center text-muted-foreground">
+        <div className="flex flex-col w-full py-5 text-center text-muted-foreground">
           <h1 className="text-2xl font-medium sm:text-4xl title-font">{client.name}</h1>
         </div>
+
+        <StateFlow />      
         
-        
-        <section className="grid grid-cols-1 gap-1 mb-16 sm:grid-cols-2 lg:grid-cols-3">
-          {/** @ts-expect-error Server Component */}
-          <StateBox status="Potencial" clientId={client.id} totalLeads={totalLeads}/>
+        <section className="grid grid-cols-1 mb-16 sm:grid-cols-4">
           {/** @ts-expect-error Server Component */}
           <StateBox status="Calificado" clientId={client.id} totalLeads={totalLeads}/>
           {/** @ts-expect-error Server Component */}
@@ -43,9 +43,7 @@ export default async function DashboardPage({ params }: { params: { slug: string
           {/** @ts-expect-error Server Component */}
           <StateBox status="Negociación" clientId={client.id} totalLeads={totalLeads}/>
           {/** @ts-expect-error Server Component */}
-          <StateBox status="En Curso" clientId={client.id} totalLeads={totalLeads}/>
-          {/** @ts-expect-error Server Component */}
-          <StateBox status="Cerrado" clientId={client.id} totalLeads={totalLeads}/>
+          <StateBox status="Ganado" clientId={client.id} totalLeads={totalLeads}/>
         </section>
 
         <section className="grid w-full max-w-4xl grid-cols-1 gap-8 px-5 mx-auto text-gray-600 md:grid-cols-2 lg:grid-cols-2 body-font">
@@ -64,7 +62,6 @@ export default async function DashboardPage({ params }: { params: { slug: string
             </div>
           </Link>
         </section>
-
       </div>
     )
   }

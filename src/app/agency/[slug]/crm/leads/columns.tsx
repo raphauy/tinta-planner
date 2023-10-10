@@ -31,7 +31,7 @@ export const columns: ColumnDef<DataLead>[] = [
             <Link href={`/agency/${data.clientSlug}/crm/leads/${data.id}`}>
               <p className="pl-6 text-base font-bold border-b whitespace-nowrap">{ data.company }</p>
             </Link>
-            <MenubarDemo status={data.status} id={data.id} />
+            <MenubarDemo status={data.status} id={data.id} />            
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -39,7 +39,6 @@ export const columns: ColumnDef<DataLead>[] = [
                 <p>{ data.serviceName }</p>
             </div>
             <Notes leadId={data.id} />
-
           </div>
           <div className="flex items-center justify-between mt-2">
             <div className="flex items-center justify-center gap-3">
@@ -58,9 +57,11 @@ export const columns: ColumnDef<DataLead>[] = [
               { data.twitter !== "" ?
                 <Link href={"https://twitter.com/" + data.twitter} target="_blank"><Twitter size={17} className="text-blue-400" /></Link> :
                 <Twitter size={17} />
-              }              
+              }
+              <p className="ml-5 text-orange-600">{data.type}</p>
+
             </div>
-            <p className="pr-4">
+            <p className="mr-4">
               { data.value && data.value !== 0 ? (data.value.toLocaleString('es-ES', { minimumFractionDigits: 0 } ) + " USD") : ""}
             </p>
             
@@ -101,6 +102,21 @@ export const columns: ColumnDef<DataLead>[] = [
         <Button variant="ghost" className="pl-0 dark:text-white"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
           Status
+          <ArrowUpDown className="w-4 h-4 ml-1" />
+        </Button>
+      )
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    },
+  },
+  {
+    accessorKey: "type",
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" className="pl-0 dark:text-white"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Tipo
           <ArrowUpDown className="w-4 h-4 ml-1" />
         </Button>
       )

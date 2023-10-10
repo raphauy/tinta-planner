@@ -19,6 +19,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { DataService } from "../../services/(crud)/actions"
 
+export const types = ["Bodega", "Distribuidor", "Importador", "WSET"]
+
 const schema = z.object({
   company: z.string().nonempty({ message: "Campo obligatorio" }),
   value: z.string().refine((val) => !isNaN(Number(val)), { message: "(debe ser un número)" }).optional(),
@@ -30,6 +32,7 @@ const schema = z.object({
   linkedin: z.string().optional(),
   instagram: z.string().optional(),
   twitter: z.string().optional(),
+  type: z.string().optional(),
 })
 
 export type LeadFormValues = z.infer<typeof schema>
@@ -87,6 +90,7 @@ export function LeadForm({ id, services, create, update, closeDialog }: Props) {
         form.setValue("linkedin", data.linkedin)
         form.setValue("instagram", data.instagram)
         form.setValue("twitter", data.twitter)
+        data.type && form.setValue("type", data.type)
       })
     }
   
@@ -96,6 +100,45 @@ export function LeadForm({ id, services, create, update, closeDialog }: Props) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="py-2 space-y-2 bg-white ">
+      <FormField
+          control={form.control}
+          name="company"
+          render={({ field }) => (
+            <FormItem>
+              <div className="flex items-center h-8 gap-4">
+              <FormLabel>Compañía</FormLabel>
+                <FormMessage />
+              </div>
+              <FormControl>
+                <Input placeholder="Nombre de la compañía" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <p>Tipo</p>
+        <Select
+          onValueChange={(value:string)=> form.setValue("type", value)} 
+        >
+          <SelectTrigger>
+            {
+              leadToEdit ?               
+            //@ts-ignore
+            <SelectValue className="text-muted-foreground" placeholder={leadToEdit.type}/> :
+              <SelectValue placeholder="Seleccionar tipo" />
+            }                        
+            
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {types.map(type => (
+                <SelectItem key={type} value={type}>{type}</SelectItem>
+              ))
+              }
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+
         <p>Servicio</p>
         <Select
           onValueChange={(value:string)=> form.setValue("serviceId", value)} 
@@ -118,22 +161,6 @@ export function LeadForm({ id, services, create, update, closeDialog }: Props) {
             </SelectGroup>
           </SelectContent>
         </Select>
-
-        <FormField
-          control={form.control}
-          name="company"
-          render={({ field }) => (
-            <FormItem>
-              <div className="flex items-center h-8 gap-4">
-              <FormLabel>Compañía</FormLabel>
-                <FormMessage />
-              </div>
-              <FormControl>
-                <Input placeholder="Nombre de la compañía" {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
 
         <FormField
           control={form.control}

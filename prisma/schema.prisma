@@ -166,6 +166,7 @@ model Lead {
   instagram     String?
   twitter       String?
   notes         Note[]
+  type          String?
 }
 
 model Note {

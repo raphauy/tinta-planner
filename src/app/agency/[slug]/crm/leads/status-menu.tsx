@@ -1,8 +1,8 @@
 "use client"
 
-import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar"
+import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from "@/components/ui/menubar"
+import { cn, getStatusColor } from "@/lib/utils"
 import { updateStatusAction } from "./(crud)/actions"
-import { getStatusDarkColor, getStatusLightColor } from "@/lib/utils"
 
 interface Props {
   id: string
@@ -33,11 +33,8 @@ export function MenubarDemo({ id, status }: Props) {
           <MenubarItem onClick={() => handleClick("Negociación")}>
             {getNode("Negociación")}
           </MenubarItem>
-          <MenubarItem onClick={() => handleClick("En Curso")}>
-            {getNode("En Curso")}
-          </MenubarItem>
-          <MenubarItem onClick={() => handleClick("Cerrado")}>
-            {getNode("Cerrado")}
+          <MenubarItem onClick={() => handleClick("Ganado")}>
+            {getNode("Ganado")}
           </MenubarItem>
           <MenubarItem onClick={() => handleClick("Perdido")}>
             {getNode("Perdido")}
@@ -49,12 +46,15 @@ export function MenubarDemo({ id, status }: Props) {
 }
 
 function getNode(status: string) {
-  const lightColor= getStatusLightColor(status)
-  const darkColor= getStatusDarkColor(status)
+  const lightColor= getStatusColor(status, "0.3")
+  const darkColor= getStatusColor(status)
+  console.log("lightColor: " + lightColor)
+  console.log("darkColor: " + darkColor)
+
   const res= (
-    <div className={`flex w-28 justify-center items-center h-6 gap-1 rounded-2xl cursor-pointer ${lightColor}`}>
-      <p className={`w-2 h-2 rounded-full ${darkColor}`}></p>
-      <p className="">{status}</p>
+    <div className={cn("flex w-28 justify-center text-gray-700 font-bold items-center h-6 gap-1 rounded-2xl cursor-pointer")} style={{ backgroundColor: lightColor }}>
+      <p className={cn("w-2 h-2 rounded-full")} style={{ backgroundColor: darkColor }}></p>
+      <p>{status}</p>
     </div>
   )  
   return res

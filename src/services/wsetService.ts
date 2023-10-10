@@ -63,6 +63,7 @@ export async function importWset(id: string) {
       website: wset.website,
       serviceId: service.id,
       clientId: service.clientId,
+      type: "WSET",
     },
   })
   // create note and link to lead

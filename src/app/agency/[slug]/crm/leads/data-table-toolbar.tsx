@@ -7,7 +7,9 @@ import { DataTableFacetedFilter } from "@/components/data-table/data-table-facet
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { types } from "./(crud)/main-form"
+import { useSearchParams } from "next/navigation"
 
 const statuses= ["Potencial", "Calificado", "Propuesta", "Negociación", "En Curso", "Cerrado", "Perdido"]
 
@@ -19,8 +21,29 @@ interface DataTableToolbarProps<TData> {
 export function DataTableToolbar<TData>({ table, services }: DataTableToolbarProps<TData>) {
   const [service, setService] = useState("")
   const [status, setStatus] = useState("")
+  const [type, setType] = useState("")
+  const searchParams= useSearchParams()
 
   const isFiltered = table.getState().columnFilters.length > 0
+
+  useEffect(() => {
+    const typesParam= searchParams.get("types")    
+    if (typesParam) {
+      table.getColumn("type")?.setFilterValue(typesParam.split(","))
+    } else {
+      table.getColumn("type")?.setFilterValue("")
+    }
+
+    const statusParam= searchParams.get("status")
+    if (statusParam) {
+      table.getColumn("status")?.setFilterValue(statusParam.split(","))
+    } else {
+      table.getColumn("status")?.setFilterValue("")
+    }
+
+
+  }, [searchParams, table])
+  
 
   async function setServiceFilterValues(filterValues: string[]) {
     if (filterValues === undefined)
@@ -32,6 +55,14 @@ export function DataTableToolbar<TData>({ table, services }: DataTableToolbarPro
     if (filterValues === undefined)
       setStatus("")
     else setStatus(filterValues.join(","))
+  }
+
+  async function setTypeFilterValues(filterValues: string[]) {
+    console.log("filterValues: " + filterValues);
+    
+    if (filterValues === undefined)
+      setType("")
+    else setType(filterValues.join(","))
   }
 
   return (
@@ -53,6 +84,15 @@ export function DataTableToolbar<TData>({ table, services }: DataTableToolbarPro
                 title="Estado"
                 options={statuses}
                 setFilterValues={setStatusFilterValues}
+              />
+            )}
+
+            {table.getColumn("type") && (
+              <DataTableFacetedFilter
+                column={table.getColumn("type")}
+                title="Tipo"
+                options={types}
+                setFilterValues={setTypeFilterValues}
               />
             )}
 

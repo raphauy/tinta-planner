@@ -18,45 +18,46 @@ export function getBasePath(path: string) {
 }
 
 
-export function getStatusLightColor(status: string) {
+// returns the colors in rgba format
+export function getStatusColor(status: string, opacity?: string) {
+
+
+  // switch (status) {
+  //   case "Potencial":
+  //     return "pink"
+  //   case "Calificado":
+  //     return "orange"
+  //   case "Propuesta":
+  //     return "blue"
+  //   case "Negociación" || "Negociacion":
+  //     return "purple"
+  //   case "En Curso":
+  //     return "sky"
+  //   case "Ganado":
+  //     return "green"
+  //   case "Perdido":
+  //     return "red"
+  //   default:
+  //     return "gray"
+  // }  
   switch (status) {
     case "Potencial":
-      return "bg-pink-100"
+      return `rgba(252, 165, 165, ${opacity || 1})`; // pink
     case "Calificado":
-      return "bg-orange-100"
+      return `rgba(51, 153, 255, ${opacity || 1})`; // sky
     case "Propuesta":
-      return "bg-blue-100"
-    case "Negociación" || "Negociacion":
-      return "bg-purple-100"
+      return `rgba(255, 140, 0, ${opacity || 1})`; // orange
+    case "Negociación":
+    case "Negociacion":
+      return `rgba(0, 0, 255, ${opacity || 1})`; // blue
     case "En Curso":
-      return "bg-sky-100"
-    case "Cerrado":
-      return "bg-green-100"
-      case "Perdido":
-        return "bg-red-100"
-      default:
-      return "bg-gray-100"
-  }  
+      return `rgba(163, 155, 254, ${opacity || 1})`; // purple
+    case "Ganado":
+      return `rgba(0, 128, 0, ${opacity || 1})`; // green
+    case "Perdido":
+      return `rgba(255, 0, 0, ${opacity || 1})`; // red
+    default:
+      return `rgba(156, 163, 175, ${opacity || 1})`; // gray
+  }
 }
 
-export function getStatusDarkColor(status: string) {
-  
-  switch (status) {
-    case "Potencial":
-      return "bg-pink-400"
-    case "Calificado":
-      return "bg-orange-400"
-    case "Propuesta":
-      return "bg-blue-400"
-    case "Negociación" || "Negociacion":
-      return "bg-purple-400"
-    case "En Curso":
-      return "bg-sky-400"
-    case "Cerrado":
-      return "bg-green-400"
-    case "Perdido":
-        return "bg-red-400"
-    default:
-      return "bg-gray-400"
-  }  
-}

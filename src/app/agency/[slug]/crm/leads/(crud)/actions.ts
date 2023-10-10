@@ -28,6 +28,7 @@ export type DataLead = {
     linkedin: string
     instagram: string
     twitter: string
+    type: string | null
 }
 
 export type DataNote = {
