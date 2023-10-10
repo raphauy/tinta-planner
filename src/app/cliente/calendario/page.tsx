@@ -42,7 +42,7 @@ export default async function CalendarPage() {
     fechas?.forEach((fecha) => {
       const fechaImportanteTitle= fecha.titulo
 
-      const evento= eventos.find(evento => format(evento.start, "YYYY-MM-dd") === format(fecha.fecha, "YYYY-MM-dd"))
+      const evento= eventos.find(evento => format(evento.start, "yyyy-MM-dd") === format(fecha.fecha, "yyyy-MM-dd"))
       if (evento) {
         evento.fechaImportante= fechaImportanteTitle
       } else {
