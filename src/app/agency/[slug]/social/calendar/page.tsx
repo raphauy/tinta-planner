@@ -7,6 +7,7 @@ import LoadingSpinner from "@/components/LoadingSpinner"
 import axios from "axios"
 import { DataFechaImportante, getClientAndGlobalFechaImportantesBySlug, getClientIdBySlug } from "@/app/config/dates/(crud)/actions"
 import { getClientAndGlobalFechaImportantes } from "@/services/fechaImportanteService"
+import { Event } from "./CustomEvent"
 
 function useCalendar(slug: string) {
   const [loading, setLoading] = useState(true)
@@ -57,16 +58,34 @@ export default function CalendarPage({ params }: { params: { slug: string } }) {
       }
     })
 
-    // recorrer los eventos y para cada evento averiguar si existe una fechaImportante con esa fecha, 
-    // si existe setear el valor fechaImportante en el evento con el titulo de la fechaImportante
-    // si no existe no hacer nada
-    eventos.forEach((evento) => {
-      const fecha= fechas?.find((fecha) => fecha.fecha.getDate() === evento.start.getDate())
-      if (fecha) {
-        evento.fechaImportante= fecha.titulo
-      }
-    })   
+    const eventosDeFechasSinPost: Event[]= []
 
+    // recorrer las fechasImportantes y para cada fecha averiguar si existe un evento con esa fecha, 
+    // si existe setear el valor fechaImportante en el evento con el titulo de la fechaImportante
+    // si no existe agregar un evento con el titulo de la fechaImportante a los eventosDeFechasSinPost
+
+    fechas?.forEach((fecha) => {
+      const fechaImportanteTitle= fecha.titulo
+
+      const evento= eventos.find(evento => evento.start.getDate() === fecha.fecha.getDate())
+      if (evento) {
+        evento.fechaImportante= fechaImportanteTitle
+      } else {
+        eventosDeFechasSinPost.push({
+          title: "",
+          content: "",
+          start: fecha.fecha,
+          end: fecha.fecha,
+          image: "",
+          color: "",
+          href: "#",
+          fechaImportante: fechaImportanteTitle,
+        })
+      }
+    })
+
+    // agregar los eventosDeFechasSinPost a los eventos pero al principio
+    eventos.unshift(...eventosDeFechasSinPost)
   
   if (!slug) return <div>Slug not found</div>;
 
