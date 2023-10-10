@@ -2,6 +2,7 @@
 import getCurrentUser from "@/app/(server-side)/services/getCurrentUser";
 import { getPostsBySlug, getPostsWithDate } from "@/app/(server-side)/services/postServices";
 import CalendarRC from "@/app/agency/[slug]/social/calendar/CalendarRC";
+import { Event } from "@/app/agency/[slug]/social/calendar/CustomEvent";
 import { getClientAndGlobalFechaImportantesBySlug } from "@/app/config/dates/(crud)/actions";
 import { Pilar, Post } from "@prisma/client";
 
@@ -31,27 +32,34 @@ export default async function CalendarPage() {
         image: post.image || "",
         color: post.pilar.color,
         href: `/cliente/posts?id=${post.id}&edit` ,
+        fechaImportante: "",
       };
     });
 
-  const eventosFechaImportante = fechas?.map((fecha) => {
-    let dateCopy = new Date(fecha.fecha)
-    dateCopy.setDate(dateCopy.getDate())
+    const eventosDeFechasSinPost: Event[]= []
 
-    return {
-      title: fecha.titulo,
-      content: "",
-      start: dateCopy,
-      end: dateCopy,
-      image: "",
-      color: "rgb(229 231 235)",
-      href: "#",
-    }
-  })
-  
-  eventosFechaImportante?.forEach((evento) => {
-    eventos?.unshift(evento)
-  })
+    fechas?.forEach((fecha) => {
+      const fechaImportanteTitle= fecha.titulo
+
+      const evento= eventos.find(evento => evento.start.getDate() === fecha.fecha.getDate())
+      if (evento) {
+        evento.fechaImportante= fechaImportanteTitle
+      } else {
+        eventosDeFechasSinPost.push({
+          title: "",
+          content: "",
+          start: fecha.fecha,
+          end: fecha.fecha,
+          image: "",
+          color: "",
+          href: "#",
+          fechaImportante: fechaImportanteTitle,
+        })
+      }
+    })
+
+    // agregar los eventosDeFechasSinPost a los eventos pero al principio
+    eventos.unshift(...eventosDeFechasSinPost)
 
 
   return (

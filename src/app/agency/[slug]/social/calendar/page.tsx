@@ -60,10 +60,6 @@ export default function CalendarPage({ params }: { params: { slug: string } }) {
 
     const eventosDeFechasSinPost: Event[]= []
 
-    // recorrer las fechasImportantes y para cada fecha averiguar si existe un evento con esa fecha, 
-    // si existe setear el valor fechaImportante en el evento con el titulo de la fechaImportante
-    // si no existe agregar un evento con el titulo de la fechaImportante a los eventosDeFechasSinPost
-
     fechas?.forEach((fecha) => {
       const fechaImportanteTitle= fecha.titulo
 
