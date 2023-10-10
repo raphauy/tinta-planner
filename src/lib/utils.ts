@@ -21,25 +21,6 @@ export function getBasePath(path: string) {
 // returns the colors in rgba format
 export function getStatusColor(status: string, opacity?: string) {
 
-
-  // switch (status) {
-  //   case "Potencial":
-  //     return "pink"
-  //   case "Calificado":
-  //     return "orange"
-  //   case "Propuesta":
-  //     return "blue"
-  //   case "Negociación" || "Negociacion":
-  //     return "purple"
-  //   case "En Curso":
-  //     return "sky"
-  //   case "Ganado":
-  //     return "green"
-  //   case "Perdido":
-  //     return "red"
-  //   default:
-  //     return "gray"
-  // }  
   switch (status) {
     case "Potencial":
       return `rgba(252, 165, 165, ${opacity || 1})`; // pink

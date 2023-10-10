@@ -48,8 +48,6 @@ export function MenubarDemo({ id, status }: Props) {
 function getNode(status: string) {
   const lightColor= getStatusColor(status, "0.3")
   const darkColor= getStatusColor(status)
-  console.log("lightColor: " + lightColor)
-  console.log("darkColor: " + darkColor)
 
   const res= (
     <div className={cn("flex w-28 justify-center text-gray-700 font-bold items-center h-6 gap-1 rounded-2xl cursor-pointer")} style={{ backgroundColor: lightColor }}>

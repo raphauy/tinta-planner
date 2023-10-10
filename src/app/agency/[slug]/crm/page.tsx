@@ -35,7 +35,7 @@ export default async function DashboardPage({ params }: { params: { slug: string
 
         <StateFlow />      
         
-        <section className="grid grid-cols-1 mb-16 sm:grid-cols-4">
+        <section className="grid grid-cols-1 mb-16 md:grid-cols-2 lg:grid-cols-4">
           {/** @ts-expect-error Server Component */}
           <StateBox status="Calificado" clientId={client.id} totalLeads={totalLeads}/>
           {/** @ts-expect-error Server Component */}
