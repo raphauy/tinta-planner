@@ -63,7 +63,7 @@ export default function CalendarPage({ params }: { params: { slug: string } }) {
     fechas?.forEach((fecha) => {
       const fechaImportanteTitle= fecha.titulo
 
-      const evento= eventos.find(evento => evento.start.getDate() === fecha.fecha.getDate())
+      const evento= eventos.find(evento => evento.start.getDay() === fecha.fecha.getDay())
       if (evento) {
         evento.fechaImportante= fechaImportanteTitle
       } else {
