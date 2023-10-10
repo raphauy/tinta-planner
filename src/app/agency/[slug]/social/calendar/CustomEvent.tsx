@@ -31,7 +31,7 @@ const CustomEvent: React.FC<CustomEventProps> = ({ event }) => {
     <>
       {
         event.fechaImportante &&
-        (<div className="h-5 px-1 mb-1 text-sm font-bold text-gray-600 bg-gray-100 border rounded-md">{event.fechaImportante}</div>)
+        (<div className="h-5 px-1 mb-1 text-sm font-bold text-gray-600 bg-gray-100 border border-gray-400 rounded-md ">{event.fechaImportante}</div>)
       }
       
       <div className="px-1 border rounded-md" style={{ backgroundColor: `${event.color}`}}>
