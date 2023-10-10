@@ -8,6 +8,7 @@ import axios from "axios"
 import { DataFechaImportante, getClientAndGlobalFechaImportantesBySlug, getClientIdBySlug } from "@/app/config/dates/(crud)/actions"
 import { getClientAndGlobalFechaImportantes } from "@/services/fechaImportanteService"
 import { Event } from "./CustomEvent"
+import { format } from "date-fns"
 
 function useCalendar(slug: string) {
   const [loading, setLoading] = useState(true)
@@ -63,7 +64,7 @@ export default function CalendarPage({ params }: { params: { slug: string } }) {
     fechas?.forEach((fecha) => {
       const fechaImportanteTitle= fecha.titulo
 
-      const evento= eventos.find(evento => evento.start.getDay() === fecha.fecha.getDay())
+      const evento= eventos.find(evento => format(evento.start, "YYYY-MM-dd") === format(fecha.fecha, "YYYY-MM-dd"))
       if (evento) {
         evento.fechaImportante= fechaImportanteTitle
       } else {

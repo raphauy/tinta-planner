@@ -5,6 +5,7 @@ import CalendarRC from "@/app/agency/[slug]/social/calendar/CalendarRC";
 import { Event } from "@/app/agency/[slug]/social/calendar/CustomEvent";
 import { getClientAndGlobalFechaImportantesBySlug } from "@/app/config/dates/(crud)/actions";
 import { Pilar, Post } from "@prisma/client";
+import { format } from "date-fns";
 
 export default async function CalendarPage() {
   const currentUser= await getCurrentUser()
@@ -41,7 +42,7 @@ export default async function CalendarPage() {
     fechas?.forEach((fecha) => {
       const fechaImportanteTitle= fecha.titulo
 
-      const evento= eventos.find(evento => evento.start.getDay() === fecha.fecha.getDay())
+      const evento= eventos.find(evento => format(evento.start, "YYYY-MM-dd") === format(fecha.fecha, "YYYY-MM-dd"))
       if (evento) {
         evento.fechaImportante= fechaImportanteTitle
       } else {
