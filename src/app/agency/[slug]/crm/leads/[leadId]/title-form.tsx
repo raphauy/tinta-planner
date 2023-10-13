@@ -1,26 +1,18 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { set, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form"
 
 import { LoadingSpinnerChico } from "@/components/LoadingSpinner"
 import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
-import { getSlug } from "@/lib/utils"
-import { Lead } from "@prisma/client"
-import { usePathname, useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
-import { DataLead, getDataLead } from "../(crud)/actions"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { DataService } from "../../services/(crud)/actions"
-import Link from "next/link"
-import { IconBadge } from "@/components/icon-badge"
-import { LayoutDashboard, Pencil } from "lucide-react"
+import { Pencil } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
 
 export const types = ["Bodega", "Distribuidor", "Importador", "WSET"]
 
@@ -59,66 +51,59 @@ export function TitleForm({ id, initialData, update }: Props) {
     if (ok)
       toast({title: "Título editado" })
     else
-      toast({title: "Error al editar la nota", variant: "destructive"})
+      toast({title: "Error al editar el título", variant: "destructive"})
 
     toggleEdit()
 
     router.refresh()
 
     setLoading(false)
-    }
+  }
 
 
   return (
     <div>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
 
-          <div className="flex items-center justify-between font-medium">
             {
               isEditing ? (
-                <FormField
-                  control={form.control}
-                  name="title"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input                   
-                          className="bg-white"
-                          autoFocus
-                          disabled={isSubmitting}
-                          placeholder="e.g. 'Advanced web development'"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                ) : (
-                  <Button onClick={toggleEdit} variant="ghost" type="button" className="p-0 text-lg font-bold">
-                    {initialData.title}
-                  </Button>
-                )
-            }
-            <Button onClick={toggleEdit} variant="ghost" type="button">
-              {isEditing ? (
-                <>Cancelar</>
-              ) : (
-                <>
-                  <Pencil size={18}/>
-                </>
-              )}
-            </Button>
-          </div>
 
-          <div className="flex items-center gap-x-2">
-            <Button type="submit" className="hidden" >
-              {loading ? <LoadingSpinnerChico /> : <p>Guardar</p>}
-            </Button>
-          </div>
-        </form>
-      </Form>
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)}>
+                    <div className="flex items-center justify-between gap-1 font-medium">
+                      <FormField
+                        control={form.control}
+                        name="title"
+                        render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              className="h-8 bg-white"
+                              autoFocus
+                              disabled={isSubmitting}
+                              placeholder="ej: 'Primer contacto'"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                      />
+                      <Button onClick={toggleEdit} variant="ghost" type="button">
+                        <>Cancelar</>
+                      </Button>
+                      <Button type="submit" className="h-8" >
+                        {loading ? <LoadingSpinnerChico /> : <p>Guardar</p>}
+                      </Button>
+                    </div>
+                  </form>
+                </Form>
+
+              ) : (
+                <Button onClick={toggleEdit} variant="ghost" type="button" className="p-0 text-lg font-bold">
+                  {initialData.title}
+                </Button>
+              )
+            }
     </div>
   )
 }

@@ -5,7 +5,8 @@ import { createNote, deleteNote, getDataNote, getLead, getNote, getNotes, update
 import { Note } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { TitleFormValues } from "../title-form";
-import { updateTitle } from "@/services/noteService";
+import { updateDescription, updateTitle } from "@/services/noteService";
+import { DescriptionFormValues } from "../description-form";
 
 
 
@@ -49,6 +50,24 @@ import { updateTitle } from "@/services/noteService";
 // }
 export async function updateNoteTitleAction(id: string, data: TitleFormValues): Promise<boolean> {  
     const updated= await updateTitle(id, data)
+
+    if (!updated) return false
+
+    const lead= await getLead(updated.leadId)
+    if (!lead) return false
+
+    const client= await getClientById(lead.clientId)
+    if (!client) return false
+
+    revalidatePath(`/agency/${client.slug}/crm/leads`)
+    revalidatePath(`/agency/${client.slug}/crm/leads/${lead.id}`)
+    
+    return true
+}
+
+export async function updateNoteDescriptionAction(id: string, data: DescriptionFormValues): Promise<boolean> {  
+    
+    const updated= await updateDescription(id, data)
 
     if (!updated) return false
 
