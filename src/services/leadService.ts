@@ -82,7 +82,7 @@ export async function getClientActiveLeads(clientId: number): Promise<DataLead[]
     where: {
       clientId,
       status: {
-        notIn: ["Ganado", "Perdido", "Potencial"]
+        notIn: ["Perdido", "Potencial"]
       }
     },
   })
