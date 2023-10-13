@@ -25,7 +25,7 @@ const schema = z.object({
   company: z.string().nonempty({ message: "Campo obligatorio" }),
   value: z.string().refine((val) => !isNaN(Number(val)), { message: "(debe ser un número)" }).optional(),
   contactName: z.string().optional(),
-  contactEmail: z.string().email("Revisa el formato del mail").optional(),
+  contactEmail: z.string().optional(),
   contactPhone: z.string().optional(),
   serviceId: z.string(),
   website: z.string().optional(),

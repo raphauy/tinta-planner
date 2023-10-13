@@ -12,6 +12,8 @@ import { StatusSelector } from "../status-selector"
 import { DeleteDialog } from "./_notes/delete-dialog"
 import NoteBox from "./note-box"
 import { IconBadge } from "@/components/icon-badge"
+import Contact from "./contact"
+import { HoverContact } from "./hover-contact"
 
 interface Props {
     params: {
@@ -38,7 +40,10 @@ export default async function LeadPage({ params }: Props) {
           <div className="flex justify-between p-2 border rounded-md">
 
             <div className="flex flex-col justify-between gap-2 mt-1">
-              <div className="flex items-center font-bold border-b">{ lead.company }</div>
+              <div className="flex items-center font-bold border-b">
+                <p>{ lead.company }</p>
+                <HoverContact lead={lead} />
+              </div>
 
               <div className="flex items-center gap-2 mb-2">
                 <p>{ lead.serviceEmoji }</p>
