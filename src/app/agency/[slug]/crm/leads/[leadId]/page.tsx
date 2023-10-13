@@ -58,7 +58,9 @@ export default async function LeadPage({ params }: Props) {
               
               <StatusSelector status={lead.status} id={lead.id} />
 
-              <p className="text-orange-600">{lead.type}</p>
+              <div className="font-bold">
+                { lead.value && lead.value !== 0 ? (lead.value.toLocaleString(undefined, {localeMatcher: 'best fit', style: 'decimal', useGrouping: true}).replace(/,/g, '.') + " USD") : ""}
+              </div>
 
             </div>
 
@@ -71,9 +73,7 @@ export default async function LeadPage({ params }: Props) {
                   </span>
               </div>
 
-              <div className="font-bold">
-                { lead.value && lead.value !== 0 ? (lead.value.toLocaleString(undefined, {localeMatcher: 'best fit', style: 'decimal', useGrouping: true}).replace(/,/g, '.') + " USD") : ""}
-              </div>
+              <p className="text-orange-600">{lead.type}</p>
 
               <div className="flex items-center gap-2">
                 <LeadDialog create={create} update={update} clientId={lead.clientId} title="Editar Lead" trigger={editTrigger} id={lead.id} />          
