@@ -105,7 +105,7 @@ export async function filterClientLeadsByStatus(clientId: number, status: string
   
     const found = await prisma.lead.findMany({
       orderBy: {
-        company: 'asc',
+        createdAt: 'desc',
       },
       include: {
         service: true
