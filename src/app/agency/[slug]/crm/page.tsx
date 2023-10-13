@@ -3,10 +3,13 @@ import { getClientBySlug } from "@/app/(server-side)/services/getClients";
 import getCurrentUser from "@/app/(server-side)/services/getCurrentUser";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import { getClientActiveLeads } from "@/services/leadService";
-import { Magnet, Target } from "lucide-react";
+import { Magnet, PlusCircle, Target } from "lucide-react";
 import Link from "next/link";
 import StateBox from "./state-box";
 import StateFlow from "./state-flow";
+import { LeadDialog } from "./leads/(crud)/main-dialog";
+import { create, update } from "./leads/(crud)/actions";
+import { Button } from "@/components/ui/button";
 
 
 export default async function DashboardPage({ params }: { params: { slug: string } }) {
@@ -27,10 +30,14 @@ export default async function DashboardPage({ params }: { params: { slug: string
   
   if (!client) return <LoadingSpinner />
 
+  const addTrigger= (<Button variant="ghost"><PlusCircle size={22} className="mr-2"/></Button>)
+
     return (
       <div className="w-full">
-        <div className="flex flex-col w-full py-5 text-center text-muted-foreground">
+        <div className="flex justify-between w-full py-4 text-muted-foreground">
+          <div/>
           <h1 className="text-2xl font-medium sm:text-4xl title-font">{client.name}</h1>
+          <LeadDialog create={create} update={update} clientId={client.id} title="Agregar Servicio" trigger={addTrigger}/>
         </div>
 
         <StateFlow />      

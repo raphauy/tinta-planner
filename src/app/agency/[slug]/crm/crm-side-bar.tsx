@@ -30,23 +30,8 @@ export default function CRMSideBar() {
   const leadsSelected= path.endsWith("leads") && searchParams.toString() === ""
   const leads= clsx(commonClasses, leadsSelected && selectedClasses)
 
-  const createSelected= path.endsWith("create") && searchParams.toString() === ""
-  const create= clsx(commonClasses, createSelected && selectedClasses)
-
   const potencialSelected= searchParams.get("status")?.includes("Potencial")
   const potencial= clsx(commonClasses, potencialSelected && selectedClasses)
-
-  const typeDistribuidorSelected= searchParams.get("types")?.includes("Distribuidor")
-  const typeDistribuidor= clsx(commonClasses, typeDistribuidorSelected && selectedClasses)
-
-  const typeImportadorSelected= searchParams.get("types")?.includes("Importador")
-  const typeImportador= clsx(commonClasses, typeImportadorSelected && selectedClasses)
-
-  const typeWSETSelected= searchParams.get("types")?.includes("WSET")
-  const typeWSET= clsx(commonClasses, typeWSETSelected && selectedClasses)
-
-  const typeBodegaSelected= searchParams.get("types")?.includes("Bodega")
-  const typeBodega= clsx(commonClasses, typeBodegaSelected && selectedClasses)
 
   const visible= slug === "tinta" ? "visible" : "hidden"
   const wsetsSelected= path.endsWith("wsets")
@@ -74,11 +59,6 @@ export default function CRMSideBar() {
         <Link href={`/${basePath}/${slug}/crm/leads${refresh}`} className={leads}>
           <Magnet />
           <p className={pClasses}>Leads</p>
-        </Link>
-
-        <Link href={`/${basePath}/${slug}/crm/leads/create`} className={create}>
-          <PlusCircle />
-          <p className={pClasses}>Nuevo Lead</p>
         </Link>
 
         <div className="space-y-0">

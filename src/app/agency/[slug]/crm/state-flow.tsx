@@ -1,7 +1,10 @@
 
 export default function StateFlow() {
   return (
-    <section className="flex w-full px-1">
+    <section className="flex w-full px-1 mb-1">
+
+
+        <div className="w-8 bg-blue-500" />
 
         <div className="w-full">
             <div className="relative flex items-center justify-center h-12 p-4 text-white bg-blue-500">
@@ -16,7 +19,7 @@ export default function StateFlow() {
         </div>          
 
         <div className="w-full">
-        <div className="relative flex items-center justify-center h-12 p-4 mb-4 text-white bg-blue-500">
+        <div className="relative flex items-center justify-center h-12 p-4 text-white bg-blue-500">
             <svg 
             className="absolute top-0 bottom-0 left-0 h-full bg-blue-500 fill-current text-tinta-natural" 
             xmlns="http://www.w3.org/2000/svg" 
@@ -34,7 +37,7 @@ export default function StateFlow() {
         </div>          
 
         <div className="w-full">
-        <div className="relative flex items-center justify-center h-12 p-4 mb-4 text-white bg-blue-500">
+        <div className="relative flex items-center justify-center h-12 p-4 text-white bg-blue-500">
             <svg 
             className="absolute top-0 bottom-0 left-0 h-full bg-blue-500 fill-current text-tinta-natural" 
             xmlns="http://www.w3.org/2000/svg" 
@@ -53,7 +56,7 @@ export default function StateFlow() {
 
         <div className="w-full">
             <div className="flex w-full">
-                <div className="relative flex items-center justify-center w-full h-12 p-4 mb-4 text-white bg-blue-500">
+                <div className="relative flex items-center justify-center w-full h-12 p-4 text-white bg-blue-500">
                     <svg 
                         className="absolute top-0 bottom-0 left-0 h-full bg-blue-500 fill-current text-tinta-natural" 
                         xmlns="http://www.w3.org/2000/svg" 
