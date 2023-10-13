@@ -22,7 +22,7 @@ export function HoverNote({ note }: Props) {
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
-        <ClipboardEdit />
+        <ClipboardEdit size={20} />
       </HoverCardTrigger>
       <HoverCardContent className="w-80">
         <div className="flex justify-between space-x-4">

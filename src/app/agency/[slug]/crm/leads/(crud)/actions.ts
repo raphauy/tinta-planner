@@ -82,17 +82,17 @@ export async function updateStatusAction(id: string, status: string): Promise<Le
 }
 
 
-export async function eliminate(id: string): Promise<Lead | null> {    
+export async function eliminateLeadAction(id: string): Promise<boolean> {    
     const deleted= await deleteLead(id)
 
-    if (!deleted?.clientId) return deleted
+    if (!deleted?.clientId) return false
 
     const client= await getClientById(deleted.clientId)
-    if (!client) return deleted
+    if (!client) return false
 
     revalidatePath(`/agency/${client.slug}/crm/leads`)
 
-    return deleted
+    return true
 }
 
 

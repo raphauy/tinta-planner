@@ -1,16 +1,16 @@
 "use client"
 
+import { LoadingSpinnerChico } from "@/components/LoadingSpinner";
+import { AdvancedImage } from "@cloudinary/react";
+import { CloudinaryImage } from "@cloudinary/url-gen";
+import axios from "axios";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import Avatar from "react-avatar";
 import PopOver from "../../components/modal/PopOver";
-import PopOverUserHandler from "./PopOverUserHandler";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { AdvancedImage } from "@cloudinary/react";
 import Client from "../types/Client";
-import { CloudinaryImage } from "@cloudinary/url-gen";
-import LoadingSpinner, { LoadingSpinnerChico } from "@/components/LoadingSpinner";
+import PopOverUserHandler from "./PopOverUserHandler";
 
 export default function LoginComponent() {
     const [client, setClient] = useState<Client>();

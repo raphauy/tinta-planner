@@ -1,7 +1,7 @@
 
 import { getClientBySlug } from "@/app/(server-side)/services/getClients"
 import { Button } from "@/components/ui/button"
-import getClientLeads from "@/services/leadService"
+import getClientLeads, { getClientActiveLeads } from "@/services/leadService"
 import { PlusCircle } from "lucide-react"
 import { create, update } from "./(crud)/actions"
 import { LeadDialog } from "./(crud)/main-dialog"

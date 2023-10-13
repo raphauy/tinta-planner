@@ -8,7 +8,7 @@ interface Props {
   id: string
   status: string
 }
-export function MenubarDemo({ id, status }: Props) {
+export function StatusSelector({ id, status }: Props) {
   const node= getNode(status)
 
   function handleClick(status: string) {

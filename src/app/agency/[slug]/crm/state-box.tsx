@@ -4,6 +4,7 @@ import { filterClientLeadsByStatus, getTotalValue } from '@/services/leadService
 import { Card, Flex, Metric, ProgressBar, Text } from '@tremor/react'
 import Link from 'next/link'
 import { DataLead } from './leads/(crud)/actions'
+import LeadSummary from './lead-summary'
 
 interface Props{
     status: string
@@ -52,19 +53,16 @@ export default async function StateBox({ status, clientId, totalLeads }: Props) 
 
 function listLeads(leads: DataLead[], slug: string) {
   return (
-    <div className='mx-auto mt-2 border rounded-md bg-slate-100'>
+    <div className='flex flex-col gap-1 mt-2'>
       {
         leads.map((lead, index) => {
-          const serviceEmoji= lead.serviceEmoji
-          const color= index % 2 === 0 ? "" : "bg-white"
           return (
-          <div key={index} className={cn("flex justify-between items-center gap-3 p-1", color)}>
-            <Link href={`/agency/${slug}/crm/leads/${lead.id}`}>
-              {lead.company}
-            </Link>
-            <p>{serviceEmoji}</p>
-          </div>
-        )})
+            <>
+              {/** @ts-expect-error Server Component */}
+              <LeadSummary key={index} lead={lead} href={`/agency/${slug}/crm/leads/${lead.id}`} />
+            </>
+          )
+        })
       }
     </div>
   )

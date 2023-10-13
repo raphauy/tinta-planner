@@ -1,13 +1,12 @@
 "use client"
 
-import { cn, getBasePath, getSlug } from "@/lib/utils"
+import { getBasePath, getSlug } from "@/lib/utils"
 import clsx from "clsx"
-import { GraduationCap, Home, LayoutDashboard, Magnet, Target } from "lucide-react"
+import { GraduationCap, LayoutDashboard, ListFilter, Magnet, PlusCircle, Target } from "lucide-react"
 import Link from "next/link"
 import { usePathname, useSearchParams } from "next/navigation"
-import { AiFillHome, AiOutlineHome } from "react-icons/ai"
 import { types } from "./leads/(crud)/main-form"
-import { ListFilter } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export default function CRMSideBar() {
   const searchParams= useSearchParams()  
@@ -22,7 +21,7 @@ export default function CRMSideBar() {
   const commonClasses= "flex gap-2 items-center py-1 mx-2 rounded hover:bg-gray-200"
   const selectedClasses= "font-bold bg-gray-200"
 
-  const dashboardSelected= path.endsWith("social")
+  const dashboardSelected= path.endsWith("crm")
   const dashboard= clsx(commonClasses, dashboardSelected  && selectedClasses)
 
   const servicesSelected= path.endsWith("services")
@@ -30,6 +29,9 @@ export default function CRMSideBar() {
 
   const leadsSelected= path.endsWith("leads") && searchParams.toString() === ""
   const leads= clsx(commonClasses, leadsSelected && selectedClasses)
+
+  const createSelected= path.endsWith("create") && searchParams.toString() === ""
+  const create= clsx(commonClasses, createSelected && selectedClasses)
 
   const potencialSelected= searchParams.get("status")?.includes("Potencial")
   const potencial= clsx(commonClasses, potencialSelected && selectedClasses)
@@ -70,9 +72,14 @@ export default function CRMSideBar() {
         </Link>
 
         <Link href={`/${basePath}/${slug}/crm/leads${refresh}`} className={leads}>
-            <Magnet />
-            <p className={pClasses}>Leads</p>
-          </Link>
+          <Magnet />
+          <p className={pClasses}>Leads</p>
+        </Link>
+
+        <Link href={`/${basePath}/${slug}/crm/leads/create`} className={create}>
+          <PlusCircle />
+          <p className={pClasses}>Nuevo Lead</p>
+        </Link>
 
         <div className="space-y-0">
           <Link href={`/${basePath}/${slug}/crm/leads?status=Potencial`} className={potencial}>

@@ -4,12 +4,12 @@ import { Button } from "@/components/ui/button"
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, Edit, Globe, Instagram, Linkedin, Trash2, Twitter } from "lucide-react"
 import Link from "next/link"
-import { DataLead, create, eliminate, update } from "./(crud)/actions"
-import { DeleteDialog } from "./(crud)/delete-dialog"
+import { DataLead, create, eliminateLeadAction, update } from "./(crud)/actions"
 import { LeadDialog } from "./(crud)/main-dialog"
 import Contact from "./contact"
 import Notes from "./notes"
-import { MenubarDemo } from "./status-menu"
+import { StatusSelector } from "./status-selector"
+import { DeleteDialog } from "./[leadId]/_notes/delete-dialog"
 
 export const columns: ColumnDef<DataLead>[] = [
   {
@@ -31,7 +31,7 @@ export const columns: ColumnDef<DataLead>[] = [
             <Link href={`/agency/${data.clientSlug}/crm/leads/${data.id}`}>
               <p className="pl-6 text-base font-bold border-b whitespace-nowrap">{ data.company }</p>
             </Link>
-            <MenubarDemo status={data.status} id={data.id} />            
+            <StatusSelector status={data.status} id={data.id} />            
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -172,14 +172,11 @@ export const columns: ColumnDef<DataLead>[] = [
       const data= row.original     
 
       const editTrigger= (<Edit size={30} className="pr-2 hover:cursor-pointer text-sky-400"/>)
-      const eliminateTrigger= (<Trash2 className="text-red-400 hover:cursor-pointer"/>)
-      const title= "Eliminar Lead"
-      const description= `Desea eliminar el lead ${data.company}?`
  
       return (
         <div className="flex items-center justify-end gap-2">
-          <LeadDialog create={create} update={update} clientId={data.clientId} title="Editar Servicio" trigger={editTrigger} id={data.id} />          
-          <DeleteDialog eliminate={eliminate} title={title} description={description} trigger={eliminateTrigger} id={data.id} />
+          <LeadDialog create={create} update={update} clientId={data.clientId} title="Editar Lead" trigger={editTrigger} id={data.id} />
+          <DeleteDialog tipo="Lead" nombre={data.company} id={data.id} eliminate={eliminateLeadAction} back={false}/>
         </div>
 
       )

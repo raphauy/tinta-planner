@@ -3,17 +3,13 @@
 import axios from "axios";
 import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { GrLogout } from "react-icons/gr";
-import { IoIosWine } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
+import { GrLogout } from "react-icons/gr";
 
-import Client from "../types/Client";
-import { BsAsterisk, BsPersonWorkspace } from "react-icons/bs";
-import { useRouter } from "next/navigation";
+import { Settings, User } from "lucide-react";
 import Link from "next/link";
-import { AiFillSetting, AiOutlineSetting } from "react-icons/ai";
-import { Gauge, Settings, User } from "lucide-react";
-import { AreaChart } from "lucide-react";
+import { useRouter } from "next/navigation";
+import Client from "../types/Client";
 
 function usePopOver(){
   const [client, setClient] = useState<Client>()

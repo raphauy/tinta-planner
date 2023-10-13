@@ -2,10 +2,10 @@ import { formatter } from "@/app/(client-side)/utils";
 import { getClientBySlug } from "@/app/(server-side)/services/getClients";
 import getCurrentUser from "@/app/(server-side)/services/getCurrentUser";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import { getClientActiveLeads } from "@/services/leadService";
 import { Magnet, Target } from "lucide-react";
 import Link from "next/link";
 import StateBox from "./state-box";
-import getClientLeads from "@/services/leadService";
 import StateFlow from "./state-flow";
 
 
@@ -16,7 +16,7 @@ export default async function DashboardPage({ params }: { params: { slug: string
   const client = await getClientBySlug(slug)
   if (!client) return <div>Client not found</div>
 
-  const leads= await getClientLeads(client.id)
+  const leads= await getClientActiveLeads(client.id)
   const totalLeads= leads.length
 
   const user= await getCurrentUser()

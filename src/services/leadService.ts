@@ -63,6 +63,38 @@ export default async function getClientLeads(clientId: number): Promise<DataLead
   return res
 }
 
+// leads whose status is not "Ganado" or "Perdido" or "Potencial"
+export async function getClientActiveLeads(clientId: number): Promise<DataLead[]> {
+
+  const res: DataLead[]= []
+
+  const client= await getClientById(clientId)
+  if (!client)
+    throw new Error()  
+
+  const found = await prisma.lead.findMany({
+    orderBy: {
+      company: 'asc',
+    },
+    include: {
+      service: true
+    },
+    where: {
+      clientId,
+      status: {
+        notIn: ["Ganado", "Perdido", "Potencial"]
+      }
+    },
+  })
+
+  found.forEach(lead => {
+    const data= getData(lead, lead.service, client.slug)
+    res.push(data)
+  })
+
+  return res
+}
+
 export async function filterClientLeadsByStatus(clientId: number, status: string): Promise<DataLead[]> {
   
     const res: DataLead[]= []
@@ -293,7 +325,10 @@ export async function getNotes(leadId: string): Promise<DataNote[]> {
   const notes= await prisma.note.findMany({
     where: {
       leadId
-    }
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
   })
 
   const lead= await getLead(leadId)
