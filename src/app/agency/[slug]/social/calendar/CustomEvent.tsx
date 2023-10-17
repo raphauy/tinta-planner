@@ -27,11 +27,19 @@ const CustomEvent: React.FC<CustomEventProps> = ({ event }) => {
 
   const tail= event.content.length > 39 ? "..." : ""
 
+  const fechasImportantes: string[]= event.fechaImportante.split(",")
+
   return (
     <>
       {
-        event.fechaImportante &&
-        (<div className="h-5 px-1 mb-1 text-sm font-bold text-gray-600 bg-gray-100 border border-gray-400 rounded-md ">{event.fechaImportante}</div>)
+        fechasImportantes.length > 0 &&
+        fechasImportantes.map((fecha) => {
+          if (!fecha) return null
+          
+          return (
+            <div key={fecha} className="h-5 px-1 mb-1 text-sm font-bold text-gray-600 bg-gray-100 border border-gray-400 rounded-md ">{fecha}</div>
+            )
+        })        
       }
       {
         event.title && (

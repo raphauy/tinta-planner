@@ -66,7 +66,9 @@ export default function CalendarPage({ params }: { params: { slug: string } }) {
 
       const evento= eventos.find(evento => format(evento.start, "yyyy-MM-dd") === format(fecha.fecha, "yyyy-MM-dd"))
       if (evento) {
-        evento.fechaImportante= fechaImportanteTitle
+        if (evento.fechaImportante) 
+          evento.fechaImportante= evento.fechaImportante + ", " + fechaImportanteTitle
+        else evento.fechaImportante= fechaImportanteTitle
       } else {
         eventosDeFechasSinPost.push({
           title: "",
