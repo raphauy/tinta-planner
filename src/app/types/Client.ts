@@ -6,5 +6,6 @@ export default interface Client {
     handle_insta: string
     image_insta: string
     reportDefinitionId: string
+    brandVoice: string
 }
 

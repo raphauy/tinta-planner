@@ -53,6 +53,7 @@ model Client {
     reportDefinition  ReportDefinition? @relation(fields: [reportDefinitionId], references: [id], onDelete: Restrict)
     reportDefinitionId String?
     fechasImportantes FechaImportante[]
+    brandVoice        String?
 }
 
 model Pilar {

@@ -66,6 +66,8 @@ export default function ClientConfigPage({ params }: { params: { slug: string } 
           <div className="flex flex-col w-full text-center mb-14">
             <h1 className="mb-4 text-2xl font-medium text-gray-900 sm:text-4xl title-font">{client.name}</h1>
             <p className="mx-auto text-base leading-relaxed lg:w-2/3">{client.description}</p>
+            <h2 className="mt-3 mb-4 text-2xl font-medium text-gray-900 sm:text-2xl title-font">Voz de marca:</h2>
+            <p className="mx-auto text-base leading-relaxed lg:w-2/3">{client.brandVoice}</p>
           </div>
         </div>
       </section>

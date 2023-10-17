@@ -25,6 +25,7 @@ export async function POST(req: Request) {
   const posts = await getPostsBySlug(client.slug)
   if (!posts) throw new Error('Posts not found')
 
+  const brandVoice = client.brandVoice ? "Voz de marca de la bodega: " + client.brandVoice + "." : ''
   const data: DataPost[] = posts.map((post) => {
     return {
       title: post.title,
@@ -43,6 +44,7 @@ export async function POST(req: Request) {
     Tu principal objetivo es promover la creatividad y garantizar la producción de contenido de 
     alta calidad, atractivo y efectivo.
     Trabajas en la redacción de la bodega '${client.name}'.
+    ${brandVoice}
     Aquí van algunos ejemplos de posts anteriores: ${dataString}.
     `
 

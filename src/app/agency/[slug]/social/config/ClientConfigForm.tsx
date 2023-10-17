@@ -18,6 +18,7 @@ function useClientConfigForm(slug: string, onChange: () => void) {
     defaultValues: {
       name: "",
       description: "",
+      brandVoice: "",
     },
   });
 
@@ -27,6 +28,7 @@ function useClientConfigForm(slug: string, onChange: () => void) {
     setToEdit(client);
     setValue("name", client.name)
     setValue("description", client.description)
+    setValue("brandVoice", client.brandVoice)
 
     setEditMode(true);
   }
@@ -39,6 +41,7 @@ function useClientConfigForm(slug: string, onChange: () => void) {
       .then(() => {
         setValue("name", "");
         setValue("description", "");
+        setValue("brandVoice", "");
         setEditMode(false)
         onChange()
         toast.success("Cliente editado", { duration: 4000 });
@@ -81,6 +84,14 @@ export default function ClientConfigForm({ slug, onChange }: Props ) {
             rows={7}
             id="description"
             label="Descripción:"
+            register={register}
+            errors={errors}
+          ></Textarea>
+          <Textarea
+            required
+            rows={7}
+            id="brandVoice"
+            label="Voz de Marca:"
             register={register}
             errors={errors}
           ></Textarea>
