@@ -14,6 +14,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { BsUpload } from 'react-icons/bs';
 import PostCarouselForm from './PostCarouselForm';
+import TipTapEditor from './TipTapEditor';
 
 function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormData>();
@@ -200,6 +201,8 @@ export default function PostForm({ onPost, postToEdit, client }: PostFormProps) 
             {errors.title && (<p className="mt-1 text-red-600">{errors.title.message}</p>)}
           </div>
 
+          {/* <TipTapEditor /> */}
+          
           <div className="mb-4">
             <textarea id="copy" placeholder='Copy'
               {...register("copy", { required: "El copy es obligatorio" })}

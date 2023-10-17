@@ -54,7 +54,7 @@ export default function CalendarPage({ params }: { params: { slug: string } }) {
         end: dateCopy,
         image: post.image || "",
         color: post.pilar.color,
-        href: `/agency/${slug}/social/posts?id=${post.id}&edit`,
+        href: `/agency/${slug}/social/posts?id=${post.id}`,
         fechaImportante: "",
       }
     })
