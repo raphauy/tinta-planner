@@ -38,7 +38,10 @@ function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
   useEffect(() => {
     if (!completion) return
     
-    const textWithoutHashtags= completion.split("#")[0]
+    let textWithoutHashtags= completion.split("#")[0]
+    if (textWithoutHashtags.startsWith("\""))
+      textWithoutHashtags= textWithoutHashtags.slice(1)
+
     const textWithHashtags= "#"+completion.split("#").slice(1).join("#")
     setValue("copy", textWithoutHashtags)
     setValue("hashtags", textWithHashtags)
@@ -165,9 +168,11 @@ export default function PostForm({ onPost, postToEdit, client }: PostFormProps) 
 
   function handleComplete() {
     const titulo= getValues("title") ? getValues("title") : ""
-    const pilar= getValues("pilarId") ? getValues("pilarId") : ""
-    const hashtags= getValues("hashtags") ? getValues("hashtags") : ""
-    complete(titulo, { body: { clientId: client.id, pilar, hashtags} })    
+    const pilarId= getValues("pilarId")
+    console.log("pilarId: " + pilarId)    
+    const pilar= pilars.find((pilar) => pilar.id == pilarId)?.name
+    console.log("pilar: " + pilar)
+    complete(titulo, { body: { clientId: client.id, pilar} })    
   }
   const hCarousel= images.length === 0 ? "h-[350px]" : "h-[500px]"
 

@@ -16,7 +16,7 @@ type DataPost = {
 }
 
 export async function POST(req: Request) {
-  const { prompt, clientId, pilar, hashtags } = await req.json()
+  const { prompt, clientId, pilar } = await req.json()
 
   console.log(clientId)
   const client= await getClientById(clientId)
@@ -49,12 +49,11 @@ export async function POST(req: Request) {
   console.log(systemPrompt);
   
   let optionalValues= ""
-  if (pilar) optionalValues += `Pilar: ${pilar}.`
-  if (hashtags) optionalValues += `Hashtags: ${hashtags}.`
+  if (pilar) optionalValues += `Pilar: '${pilar}'.`
 
   const userPrompt= `
     Escribe un copy para mi post de Instagram. Estos son los datos para mi nuevo post:
-    Título: '${prompt}' ${optionalValues}
+    Título: '${prompt}'. ${optionalValues}
     El copy debe ser breve y conciso para ajustarse a los estándares del post de Instagram.
     No proveas varias opciones, solo dame tu mejor opción.
     `
@@ -62,7 +61,7 @@ export async function POST(req: Request) {
   console.log(userPrompt)
 
   const response = await openai.createChatCompletion({
-    model: "gpt-3.5-turbo",
+    model: "gpt-4",
     messages: [
       {
         role: "system",
