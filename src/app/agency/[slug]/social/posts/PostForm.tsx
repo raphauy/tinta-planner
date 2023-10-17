@@ -14,10 +14,13 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { BsUpload } from 'react-icons/bs';
 import PostCarouselForm from './PostCarouselForm';
-import TipTapEditor from './TipTapEditor';
+import { useCompletion } from 'ai/react';
+import { Button } from '@/components/ui/button';
+import { Wand2 } from 'lucide-react';
+import { title } from 'process';
 
 function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<FormData>();
+  const { register, handleSubmit, setValue, getValues, formState: { errors } } = useForm<FormData>();
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState<string[]>([]);
   const [toEdit, setToEdit] = useState<Post>()
@@ -27,6 +30,20 @@ function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
     throw Error("useParams() is not working")
 
   const slug= params.slug
+
+  const { complete, completion } = useCompletion({
+    api: "/api/completion",
+  })
+
+  useEffect(() => {
+    if (!completion) return
+    
+    const textWithoutHashtags= completion.split("#")[0]
+    const textWithHashtags= "#"+completion.split("#").slice(1).join("#")
+    setValue("copy", textWithoutHashtags)
+    setValue("hashtags", textWithHashtags)
+  }, [completion, setValue])
+  
 
 
   function handleUpload(result: any) {
@@ -120,7 +137,7 @@ function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
 
   
 
-  return { images, onSubmit, handleUpload, register, handleSubmit, errors, loading, pilars, toEdit, onDeleteImage }
+  return { images, onSubmit, handleUpload, register, handleSubmit, errors, loading, pilars, toEdit, onDeleteImage, complete, getValues }
 }
 
 type FormData = {
@@ -140,12 +157,18 @@ interface PostFormProps {
 }
 
 export default function PostForm({ onPost, postToEdit, client }: PostFormProps) {
-  const { images, onSubmit, handleUpload, register, handleSubmit, errors, loading, pilars, toEdit, onDeleteImage  }= usePostForm(onPost, postToEdit)
+  const { images, onSubmit, handleUpload, register, handleSubmit, errors, loading, pilars, toEdit, onDeleteImage, complete, getValues  }= usePostForm(onPost, postToEdit)
   
 
   if (loading) 
     return <LoadingSpinner />
 
+  function handleComplete() {
+    const titulo= getValues("title") ? getValues("title") : ""
+    const pilar= getValues("pilarId") ? getValues("pilarId") : ""
+    const hashtags= getValues("hashtags") ? getValues("hashtags") : ""
+    complete(titulo, { body: { clientId: client.id, pilar, hashtags} })    
+  }
   const hCarousel= images.length === 0 ? "h-[350px]" : "h-[500px]"
 
   const avatarImage = new CloudinaryImage(client.image_insta.split("/").slice(-2).join("/"), {cloudName: 'dtm41dmrz'})
@@ -194,14 +217,13 @@ export default function PostForm({ onPost, postToEdit, client }: PostFormProps) 
             {errors.pilarId && (<p className="mt-1 text-red-600">{errors.pilarId.message}</p>)}
           </div>
 
-          <div className="mb-4">
+          <div className="flex items-center mb-4">
             <input id="title" type="text" placeholder='Título'
               {...register("title", { required: "El título es obligatorio" })}
               className="w-full p-2 border border-gray-300 rounded"/>
             {errors.title && (<p className="mt-1 text-red-600">{errors.title.message}</p>)}
+            <Button variant="ghost" type='button' className="ml-2" onClick={handleComplete}><Wand2 /></Button>
           </div>
-
-          {/* <TipTapEditor /> */}
           
           <div className="mb-4">
             <textarea id="copy" placeholder='Copy'
