@@ -169,9 +169,7 @@ export default function PostForm({ onPost, postToEdit, client }: PostFormProps) 
   function handleComplete() {
     const titulo= getValues("title") ? getValues("title") : ""
     const pilarId= getValues("pilarId")
-    console.log("pilarId: " + pilarId)    
     const pilar= pilars.find((pilar) => pilar.id == pilarId)?.name
-    console.log("pilar: " + pilar)
     complete(titulo, { body: { clientId: client.id, pilar} })    
   }
   const hCarousel= images.length === 0 ? "h-[350px]" : "h-[500px]"
