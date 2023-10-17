@@ -11,7 +11,7 @@ const openai = new OpenAIApi(config);
 type DataPost = {
     title: string
     copy: string | null
-    topic: string | null
+    pilar: string | null
     hashtags: string | null
 }
 
@@ -30,7 +30,7 @@ export async function POST(req: Request) {
     return {
       title: post.title,
       copy: post.copy,
-      topic: post.pilar.name,
+      pilar: post.pilar.name,
       hashtags: post.hashtags,
     }
   })
