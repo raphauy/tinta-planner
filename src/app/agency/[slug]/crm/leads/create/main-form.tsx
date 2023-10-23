@@ -22,7 +22,7 @@ import Link from "next/link"
 import { IconBadge } from "@/components/icon-badge"
 import { LayoutDashboard } from "lucide-react"
 
-export const types = ["Bodega", "Distribuidor", "Importador", "WSET"]
+export const types = ["Bodega", "Asociación", "Distribuidor", "Importador", "WSET"]
 
 const schema = z.object({
   company: z.string().nonempty({ message: "Campo obligatorio" }),
