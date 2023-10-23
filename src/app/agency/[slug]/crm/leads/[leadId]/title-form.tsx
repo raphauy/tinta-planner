@@ -14,8 +14,6 @@ import { Pencil } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
-export const types = ["Bodega", "Distribuidor", "Importador", "WSET"]
-
 const schema = z.object({
   title: z.string().nonempty({ message: "Campo obligatorio" }),
 })

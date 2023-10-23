@@ -1,7 +1,7 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { set, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
@@ -9,17 +9,13 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 
 import { LoadingSpinnerChico } from "@/components/LoadingSpinner"
 import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { toast } from "@/components/ui/use-toast"
-import { getSlug } from "@/lib/utils"
 import { Lead } from "@prisma/client"
-import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
-import { DataLead, getDataLead } from "./actions"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { DataService } from "../../services/(crud)/actions"
-
-export const types = ["Bodega", "Distribuidor", "Importador", "WSET"]
+import { DataLead, getDataLead } from "./actions"
+import { types } from "../create/main-form"
 
 const schema = z.object({
   company: z.string().nonempty({ message: "Campo obligatorio" }),

@@ -1,26 +1,21 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { set, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import * as z from "zod"
 
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 
-import { LoadingSpinnerChico } from "@/components/LoadingSpinner"
 import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { toast } from "@/components/ui/use-toast"
-import { getSlug } from "@/lib/utils"
 import { Lead } from "@prisma/client"
-import { usePathname, useRouter } from "next/navigation"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { DataLead, getDataLead } from "../(crud)/actions"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { DataService } from "../../services/(crud)/actions"
-import Link from "next/link"
-import { IconBadge } from "@/components/icon-badge"
-import { LayoutDashboard } from "lucide-react"
 
 export const types = ["Bodega", "Asociación", "Distribuidor", "Importador", "WSET"]
 

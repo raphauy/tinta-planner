@@ -8,8 +8,8 @@ import { DataTableViewOptions } from "@/components/data-table/data-table-view-op
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useEffect, useState } from "react"
-import { types } from "./(crud)/main-form"
 import { useSearchParams } from "next/navigation"
+import { types } from "./create/main-form"
 
 const statuses= ["Potencial", "Calificado", "Propuesta", "Negociación", "En Curso", "Cerrado", "Perdido"]
 

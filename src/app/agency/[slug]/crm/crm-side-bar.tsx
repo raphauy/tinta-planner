@@ -5,8 +5,8 @@ import clsx from "clsx"
 import { GraduationCap, LayoutDashboard, ListFilter, Magnet, PlusCircle, Target } from "lucide-react"
 import Link from "next/link"
 import { usePathname, useSearchParams } from "next/navigation"
-import { types } from "./leads/(crud)/main-form"
 import { Button } from "@/components/ui/button"
+import { types } from "./leads/create/main-form"
 
 export default function CRMSideBar() {
   const searchParams= useSearchParams()  

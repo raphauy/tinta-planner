@@ -17,8 +17,6 @@ import { Textarea } from "@/components/ui/textarea"
 import { Preview } from "@/components/preview"
 import { Editor } from "@/components/editor"
 
-export const types = ["Bodega", "Distribuidor", "Importador", "WSET"]
-
 const schema = z.object({
   description: z.string(),
 })
