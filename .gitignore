@@ -1,6 +1,7 @@
 # Agregado por RC:
 .env
 /src/bak_middleware.ts
+bun.lockb
 #prisma/migrations
 
 nextjs_deploy_example.yml
