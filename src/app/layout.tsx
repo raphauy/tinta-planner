@@ -14,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html>
+    <html lang="es">
       <body>
         <AuthContext>
           <ToasterContext />
