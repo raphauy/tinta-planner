@@ -16,7 +16,7 @@ export async function GET(request: Request) {
         },
         include: {
             sessions: true,
-            client: true
+            clients: true
         }
       });
     

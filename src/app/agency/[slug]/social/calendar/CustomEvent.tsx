@@ -3,8 +3,6 @@ import Link from "next/link";
 import { AdvancedImage } from '@cloudinary/react';
 import { CloudinaryImage } from '@cloudinary/url-gen';
 import { thumbnail } from '@cloudinary/url-gen/actions/resize';
-import { cn } from "@/lib/utils";
-import { backgroundClip } from "html2canvas/dist/types/css/property-descriptors/background-clip";
 
 export interface Event {
   fechaImportante: string;
@@ -48,6 +46,7 @@ const CustomEvent: React.FC<CustomEventProps> = ({ event }) => {
             <p className="flex items-center text-sm font-bold text-gray-700">{event.title}</p>
             <div className="flex">
               <div>
+                {/** @ts-ignore */}
                 <AdvancedImage cldImg={cldImage} />          
               </div>
               

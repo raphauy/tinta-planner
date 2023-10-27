@@ -7,8 +7,10 @@ export async function GET(request: Request, { params }: { params: {slug: string}
     
     const users = await prisma.user.findMany({
         where: {
-            client: {
-                slug
+            clients: {
+                some: {
+                    slug
+                }
             }
         },
         orderBy: {
