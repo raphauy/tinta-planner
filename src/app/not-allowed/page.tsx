@@ -6,7 +6,7 @@ interface Props {
     message: string
   }
 };
-function NotAlowedPage({ searchParams }: Props = {}) {
+function NotAlowedPage({ searchParams }: Props) {
   const message = searchParams?.message ?? ""
   return (
     <>
