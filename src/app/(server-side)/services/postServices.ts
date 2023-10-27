@@ -19,6 +19,19 @@ export async function getPostsBySlug(slug: string) {
     return found
 }
 
+export async function getAllPosts() {
+    const found = await prisma.post.findMany({
+        orderBy: {
+          id: 'desc'
+        },
+        include: {
+            pilar: true,
+            client: true
+        }
+      });
+
+    return found
+}
 
 export async function getPostsWithDate(slug: string) {
     const found = await prisma.post.findMany({
