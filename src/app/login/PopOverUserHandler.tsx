@@ -51,23 +51,18 @@ export default function PopOverUserHandler() {
             <FaUserCircle size={24} /> {user.email} 
           </li>
           <li className="flex items-center gap-2 pb-2 pl-1 ml-9">
-            {user.role === "agency" ? user.role+"(admin)" : ""}
+            {user.role.startsWith("agency") ? user.role : ""}
           </li>
           <li className="flex items-center gap-2 pb-2 pl-1 border-b">            
             
           </li>
-          {user.role === "agency" &&
+          {user.role.endsWith("admin") &&
             <>            
               <li className="border-b">
                 <Link href={`/config`} className="flex items-center gap-2 py-2 hover:bg-gray-100">
                   <Settings /> Configuración Global
                 </Link>
               </li>
-              <li className="border-b">
-              <Link href={`/config/users?refresh=${new Date().getMilliseconds()}`}  className="flex items-center gap-2 py-2 hover:bg-gray-100">
-                <User size={25}/> Cambiar Usuarios
-              </Link>
-            </li>
           </>
         }
           <li className="flex items-center w-full mt-10 rounded-md">

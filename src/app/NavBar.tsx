@@ -13,6 +13,7 @@ export default function NavBar() {
         <Menu />
       </div>
 
+      {/** @ts-ignore */}
       <LoginComponent />
     </header>
   )

@@ -9,7 +9,7 @@ import { format } from "date-fns";
 
 export default async function CalendarPage() {
   const currentUser= await getCurrentUser()
-  const client= currentUser?.client
+  const client= currentUser?.clients[0]
   if (!client)
     return <div>Client not found</div>
 

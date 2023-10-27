@@ -1,12 +1,12 @@
 
 import { getClientBySlug } from "@/app/(server-side)/services/getClients"
 import { Button } from "@/components/ui/button"
-import getUsers from "@/services/userService"
 import { PlusCircle } from "lucide-react"
 import { UserDialog } from "./(crud)/user-dialog"
 import { columns } from "./columns"
 import { DataTable } from "./data-table"
 import { create, update } from "./(crud)/actions"
+import getClientUsers from "@/services/userService"
  
 interface Props{
   params: {
@@ -20,7 +20,7 @@ export default async function UsersPage({ params }: Props) {
   const client= await getClientBySlug(slug)
   if (!client) return <div>Client not found</div>
   
-  const users= await getUsers(client.id)
+  const users= await getClientUsers(client.id)
 
 
   const addTrigger= (<Button><PlusCircle size={22} className="mr-2"/>Agregar</Button>)

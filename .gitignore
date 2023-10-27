@@ -2,7 +2,6 @@
 .env
 /src/bak_middleware.ts
 bun.lockb
-#prisma/migrations
 
 nextjs_deploy_example.yml
 check_github.py

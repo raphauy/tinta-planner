@@ -1,6 +1,6 @@
 "use server"
 
-import { createUser, deleteUser, editUser, getUser } from "@/services/userService";
+import { deleteUser, updateUser, getUser, createClientUser } from "@/services/userService";
 import { User } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { getClientById } from "@/app/(server-side)/services/getClients";
@@ -17,26 +17,9 @@ export type DataUser = {
 }
   
 
-export async function getDataUser(userId: string): Promise<DataUser | null>{
-    const user= await getUser(userId)
-    if (!user) return null
-    const client= user.client
-    if (!client) return null
 
-    const data: DataUser= {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        emailVerified: user.emailVerified,
-        clientId: user.clientId,
-        clientSlug: client.slug,
-    }
-    return data
-}
-
-export async function create(slug: string, data: UserFormValues): Promise<User | null> {       
-    const created= await createUser(slug, data)
+export async function create(slug: string, data: UserFormValues): Promise<User | null> {
+    const created= await createClientUser(slug, data)
 
     console.log(created);
 
@@ -46,7 +29,7 @@ export async function create(slug: string, data: UserFormValues): Promise<User |
 }
   
 export async function update(slug: string, userId: string, data: UserFormValues): Promise<User | null> {  
-    const edited= await editUser(userId, data)    
+    const edited= await updateUser(userId, data)    
 
     revalidatePath(`/agency/${slug}/social/users`)
     

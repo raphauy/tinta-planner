@@ -14,7 +14,7 @@ import { getSlug } from "@/lib/utils"
 import { User } from "@prisma/client"
 import { usePathname, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import { getDataUser } from "./actions"
+import { getUserData } from "@/app/config/users/(crud)/actions"
 
 
 const schema = z.object({
@@ -62,10 +62,14 @@ export function UserForm({ id, create, update, closeDialog }: Props) {
   }
 
   useEffect(() => {
+    console.log("id", id);
+    
     if (id) {
-      getDataUser(id).then((data) => {
+      getUserData(id).then((data) => {
+        console.log("data", data);
+        
         if (!data) return
-        form.setValue("name", data.name || "")
+        form.setValue("name", data.nombre || "")
         form.setValue("email", data.email || "")
       })
     }

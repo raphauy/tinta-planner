@@ -14,7 +14,7 @@ const getCurrentUser = async () => {
         email: session.user.email as string
       },
       include: {
-        client: true,
+        clients: true,
         agency: true,
       }
     });

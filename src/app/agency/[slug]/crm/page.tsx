@@ -10,6 +10,7 @@ import StateFlow from "./state-flow";
 import { LeadDialog } from "./leads/(crud)/main-dialog";
 import { create, update } from "./leads/(crud)/actions";
 import { Button } from "@/components/ui/button";
+import { redirect } from "next/navigation";
 
 
 export default async function DashboardPage({ params }: { params: { slug: string } }) {
@@ -23,6 +24,9 @@ export default async function DashboardPage({ params }: { params: { slug: string
   const totalLeads= leads.length
 
   const user= await getCurrentUser()
+
+  if (!user?.role.endsWith("admin"))
+    return redirect("/not-allowed?message=No tienes permisos para acceder a este recurso")
 
   const basePath= "agency"
 

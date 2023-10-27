@@ -23,10 +23,42 @@ export default async function getClients (agencyId: number) {
   }
 }
 
+export async function getClientsOfUser (userId: string) {
+
+  try {
+    const clients = await prisma.client.findMany({
+      orderBy: {
+        id: 'asc',
+      },
+      where: {
+        users: {
+          some: {
+            id: userId
+          }
+        }
+      },
+      include: {
+        users: true,
+        pilars: true,
+      }
+    })
+
+    return clients
+  } catch (error: any) {
+    console.error('error', error)    
+    return [];
+  }
+}
+
 export async function getSelectorData() {
   let result: { slug: string; name: string }[] = []
-
-  const clients= await getClients(1)
+  
+  const currentUser = await getCurrentUser()
+  if (!currentUser) {
+    console.log('No current user found')    
+    return result
+  }
+  const clients= await getClientsOfUser(currentUser.id)
 
   const selectorData= clients.map(client => ({ slug: client.slug, name: client.name }))
   
@@ -37,19 +69,31 @@ export async function getSelectorData() {
 
 
 export async function getClientOfCurrenUser() {
-  const currentUser = await getCurrentUser();
+  const currentUser = await getCurrentUser()
+  if (!currentUser) {
+    console.log('No current user found')    
+    return null
+  }
 
-  if (!currentUser?.clientId) {
-    return null;
-  }   
+  const clients= currentUser.clients
+  if (!clients || clients.length === 0) {
+    console.log('No clients found for current user')    
+    return null
+  }
+
+  const client= clients[0]
 
   try {
     const clients = await prisma.client.findUnique({
       where: {
-        id: currentUser?.clientId,
+        id: client.id,
       },
       include: {
-        users: true,
+        users: {
+          where: {
+            role: 'client',
+          },
+        },
         pilars: true,
         posts: true,
       }

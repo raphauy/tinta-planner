@@ -2,6 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import getCurrentUser from "../(server-side)/services/getCurrentUser";
 import NavBar from "../NavBar";
 import ConfigSideBar from "./config-side-bar";
+import { redirect } from "next/navigation";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
 
@@ -10,10 +11,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     if (!currentUser)
         return <div>No session</div>
 
-    const agency= currentUser.agency
+    const role= currentUser?.role
 
-    if (!agency)
-        return <div>El usuario no tiene permisos agencia</div>
+    if (role !== "admin" && role !== "agency-admin")
+        return redirect("/not-allowed?message=Se necesitan permisos de administrador de agencia")
 
     return (
         <>

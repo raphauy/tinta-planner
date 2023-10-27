@@ -14,6 +14,9 @@ export default async function loginPage() {
   if (role === "client")
     redirect("/cliente")
 
+  if (role === "admin")
+    redirect("/")
+
   return (
     <div className="flex items-center justify-center min-h-screen pb-20">
       <AuthForm />

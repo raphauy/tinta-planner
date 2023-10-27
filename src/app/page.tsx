@@ -11,8 +11,17 @@ export default async function HomePage() {
   const user = await getCurrentUser()
   const role= user?.role
 
-  if (role === "agency")
-    redirect("/agency/tinta/social")
+  if (role === "agency" || role === "agency-admin" || role === "admin"){
+    const clients= user?.clients
+    if (!clients)
+      redirect("/not-allowed?message=No tienes clientes asignados")
+
+    if (clients?.length > 0){
+      const client= clients[0]
+      redirect(`/agency/${client.slug}/social`)
+    } else redirect("/not-allowed?message=No tienes clientes asignados")
+  }
+    
 
   if (role === "client")
     redirect("/cliente")

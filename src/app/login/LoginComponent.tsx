@@ -1,68 +1,62 @@
-"use client"
-
-import { LoadingSpinnerChico } from "@/components/LoadingSpinner";
-import { AdvancedImage } from "@cloudinary/react";
-import { CloudinaryImage } from "@cloudinary/url-gen";
-import axios from "axios";
-import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import Avatar from "react-avatar";
-import PopOver from "../../components/modal/PopOver";
-import Client from "../types/Client";
+import getCurrentUser from "../(server-side)/services/getCurrentUser";
+import { getClientOfCurrenUser } from "../(server-side)/services/getClients";
 import PopOverUserHandler from "./PopOverUserHandler";
+import PopOver from "@/components/modal/PopOver";
 
-export default function LoginComponent() {
-    const [client, setClient] = useState<Client>();
+export default async function LoginComponent() {
 
-    const { data:session }= useSession()
-    const user= session?.user
+  const currentUser = await getCurrentUser()
+  if (!currentUser)
+    return <div>No session</div>
 
-    useEffect(() => {
-      async function fetchClient() {
-        const { data } = await axios.get(`/api/client`);
-        return data.data;
-      }
-      if (user && user.role === "agency") {
-        return
-      }
-  
-      fetchClient()
-      .then((res) => setClient(res))
-      .catch(error => console.log(error))
+  let trigger= <EmailAvatar email={currentUser?.email} />
+  const role = currentUser?.role
+  if (role === "client"){
+    const client= await getClientOfCurrenUser()
+    if (!client)
+      trigger= <div>No client</div>
 
-    }, [user]);
+    if (client && client.image_insta)
+      trigger= <ImageAvatar src={client.image_insta} />
+    else 
+      trigger= <div>No image</div>
+  }
+    
 
-    if (!user) return <LoadingSpinnerChico />
+  return (
+    <section className="text-base text-gray-700 sm:flex sm:justify-between">
+      <div className="flex items-center justify-between">
+          <div className="px-3">
+              <p>{currentUser.email}</p>                            
+          </div>
+          <PopOver trigger={trigger} body={<PopOverUserHandler />}  />
 
-    const avatarImage = client && new CloudinaryImage(client.image_insta.split("/").slice(-2).join("/"), {cloudName: 'dtm41dmrz'})
+      </div>
+    </section>    
+  )
+}
 
-    const avatar= (
-        <div>
-            {user?.image ?             
-            <Image className="rounded-full w-14" src={user?.image} width={116} height={35} alt="logo" /> : 
-            <>
-            { user.role === "agency" ?
-            <Avatar name={user?.email || ""} round={true} size="50" color="#AF8928" className="font-bold cursor-pointer hover:opacity-80"/> :
-            <div className="relative inline-block w-8 h-8 overflow-hidden border rounded-full md:h-14 md:w-14">
-                {avatarImage && <AdvancedImage cldImg={avatarImage} />}
-            </div>
-            }
-            <span className="absolute block w-2 h-2 bg-green-500 rounded-full right-8 top-4 ring-2 ring-white md:h-3 md:w-3"></span>
-        </>        
-        }
-        </div>
-    )
+interface EmailProps{
+  email: string
+}
+function EmailAvatar({ email }: EmailProps) { 
+  return (
+    <div>
+      <p className="flex items-center justify-center w-12 h-12 text-2xl font-bold text-white rounded-full cursor-pointer bg-tinta-marron hover:opacity-80">{email.substring(0,1).toUpperCase()}</p>
+      <span className="absolute block w-2 h-2 bg-green-500 rounded-full right-8 top-4 ring-2 ring-white md:h-3 md:w-3"></span>
+    </div>
+  )    
+}
 
-    return (
-        <section className="text-base text-gray-700 sm:flex sm:justify-between">
-            <div className="flex items-center justify-between">
-                <div className="px-3">
-                    <p>{user?.email}</p>                            
-                </div>
-                <PopOver trigger={avatar} body={<PopOverUserHandler />}  />
-
-            </div>
-        </section>
-)
+interface ImageProps{
+  src: string
+}
+function ImageAvatar({ src }: ImageProps) {
+  return (
+    <div>
+      <Image className="w-16 border rounded-full" src={src} width={116} height={35} alt="User image" />
+      <span className="absolute block w-2 h-2 bg-green-500 rounded-full right-8 top-4 ring-2 ring-white md:h-3 md:w-3"></span>
+    </div>
+  )
 }
