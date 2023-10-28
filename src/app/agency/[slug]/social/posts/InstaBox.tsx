@@ -67,7 +67,7 @@ interface InstaBoxProps {
   postId: string
   onDelete: () => void
   onEdit?: (id: string) => void
-  onPost: (id: string) => void
+  onPost?: (id: string) => void
   client: Client
 }
 export default function InstaBox({ postId, onDelete, onEdit, onPost, client }: InstaBoxProps) {
@@ -133,7 +133,7 @@ export default function InstaBox({ postId, onDelete, onEdit, onPost, client }: I
           <p>{post.date && new Date(post.date).toISOString().split('T')[0]}</p>          
         </div>
         <div>
-          <PostStatusSelector id={postId} status={post.status} onPost={onPost} />
+          {onPost && <PostStatusSelector id={postId} status={post.status} onPost={onPost} />}
         </div>
       </div>
       <div className='p-4 m-4 bg-white border rounded min-w-[400px] max-w-[500px] grid-cols-2 xl:grid-cols-3 grid gap-4'>
