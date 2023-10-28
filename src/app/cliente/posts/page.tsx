@@ -38,7 +38,7 @@ function usePosts() {
       }
     
       fetchPosts();
-    }, [client]); 
+    }, [client, total]); 
 
    
     return { loading, posts, total, setTotal, client }
@@ -65,7 +65,7 @@ export default function PostsPage() {
 
         <div className="flex-grow">            
 
-          {idPost && client && <InstaBox postId={idPost} client={client} onDelete={() => setTotal(total-1)} />}           
+          {idPost && client && <InstaBox postId={idPost} client={client} onDelete={() => setTotal(total-1)} onPost={() => setTotal(total-1)}/>}
             
         </div>
         </div>

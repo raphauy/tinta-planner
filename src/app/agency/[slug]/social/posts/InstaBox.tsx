@@ -19,6 +19,7 @@ import PopOver from '@/components/modal/PopOver';
 import PostHandler from './PopOverPostHandler';
 import PostCarouselForm from './PostCarouselForm';
 import slugify from 'slugify'
+import { PostStatusSelector } from './post-status-selector';
 
 function useInstaBox(postId: string, client: Client) {
   const [value, copy] = useCopyToClipboard()
@@ -66,9 +67,10 @@ interface InstaBoxProps {
   postId: string
   onDelete: () => void
   onEdit?: (id: string) => void
+  onPost: (id: string) => void
   client: Client
 }
-export default function InstaBox({ postId, onDelete, onEdit, client }: InstaBoxProps) {
+export default function InstaBox({ postId, onDelete, onEdit, onPost, client }: InstaBoxProps) {
   const { post, images, loading, copyToClipboard }= useInstaBox(postId, client)
 
   if (loading || !post)
@@ -119,11 +121,20 @@ export default function InstaBox({ postId, onDelete, onEdit, client }: InstaBoxP
 
 
       </div>
-      <div className='p-4 m-4 bg-white border rounded min-w-[380px] max-w-[500px]'>
-        <p><span className='mr-1 font-bold'>Título: </span>{post.title}</p>      
-        <p><span className='mr-1 font-bold'>Pilar: </span>{post.pilar.name}</p>
-        <p><span className='mr-1 font-bold'>Formato: </span>{post.format}</p>
-        <p><span className='mr-1 font-bold'>Fecha: </span>{post.date && new Date(post.date).toISOString().split('T')[0]}</p>
+      <div className='p-4 flex justify-between m-4 bg-white border rounded min-w-[380px] max-w-[500px]'>
+        <div className='grid grid-cols-[80px,1fr]'>
+          <p className='font-bold'>Título:</p>      
+          <p>{post.title}</p>      
+          <p className='font-bold'>Pilar:</p>      
+          <p>{post.pilar.name}</p>      
+          <p className='font-bold'>Formato:</p>
+          <p>{post.format}</p>
+          <p className='font-bold'>Fecha:</p>
+          <p>{post.date && new Date(post.date).toISOString().split('T')[0]}</p>          
+        </div>
+        <div>
+          <PostStatusSelector id={postId} status={post.status} onPost={onPost} />
+        </div>
       </div>
       <div className='p-4 m-4 bg-white border rounded min-w-[400px] max-w-[500px] grid-cols-2 xl:grid-cols-3 grid gap-4'>
         {images.map((url) => {

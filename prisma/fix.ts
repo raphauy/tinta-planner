@@ -10,6 +10,9 @@ async function main() {
   
   await fixAgencyIdOnUsers()
 
+  await fixPostsStatus()
+  console.log("Posts status fixed")
+
   console.log("Done!")
 }
 
@@ -23,8 +26,28 @@ async function fixAgencyIdOnUsers() {
     data: {
       agencyId
     }
+  })  
+}
+
+async function fixPostsStatus() {
+  await prisma.post.updateMany({
+    where: {
+      date: {
+        not: null
+      }
+    },
+    data: {
+      status: "Aprobado"
+    }
   })
-  
+  await prisma.post.updateMany({
+    where: {
+      date: null
+    },
+    data: {
+      status: "Draft"
+    }
+  })
 }
 
 async function setAdminToRapha() {

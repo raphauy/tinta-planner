@@ -8,4 +8,5 @@ export type Post= {
     link: string
     date: string
     pilar: { id: number, name: string, color: string }
+    status: string
 }

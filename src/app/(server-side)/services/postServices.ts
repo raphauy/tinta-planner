@@ -1,4 +1,5 @@
 
+import { Post } from "@prisma/client";
 import { prisma } from "../db";
 
 export async function getPostsBySlug(slug: string) {
@@ -53,6 +54,22 @@ export async function getPostsWithDate(slug: string) {
 
     return found
 }
+
+export async function updatePostStatus(id: string, status: string): Promise<Post | null> {  
+    console.log('updatePostStatus', id, status)
+    
+    const updated= await prisma.post.update({
+        where: {
+            id
+        },
+        data: {
+            status
+        }
+    })
+
+    return updated
+}
+
 
 function sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));

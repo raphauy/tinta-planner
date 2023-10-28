@@ -104,7 +104,7 @@ export default function PostsPage({ params }: { params: { slug: string } }) {
 
         <div className="flex-grow">            
 
-            {!editMode && idPost && client && <InstaBox postId={idPost} client={client} onDelete={() => setTotal(total-1)} onEdit={onEdit}/>}
+            {!editMode && idPost && client && <InstaBox postId={idPost} client={client} onDelete={() => setTotal(total-1)} onEdit={onEdit} onPost={onPost}/>}
             
             {editMode && postToEdit && client && <PostForm onPost={onPost} postToEdit={postToEdit} client={client} />}
 

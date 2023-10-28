@@ -17,7 +17,6 @@ import PostCarouselForm from './PostCarouselForm';
 import { useCompletion } from 'ai/react';
 import { Button } from '@/components/ui/button';
 import { Wand2 } from 'lucide-react';
-import { title } from 'process';
 
 function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
   const { register, handleSubmit, setValue, getValues, formState: { errors } } = useForm<FormData>();
@@ -81,6 +80,7 @@ function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
       setValue("copy", postToEdit.copy)
       setValue("hashtags", postToEdit.hashtags)
       setValue("format", postToEdit.format)
+      setValue("status", postToEdit.status)
 
       postToEdit.date && setValue("date", new Date(postToEdit.date).toISOString().split('T')[0])
 
@@ -135,6 +135,7 @@ function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
     setValue("hashtags", "")
     setValue("format", "")
     setValue("date", "")
+    setValue("status", "")
     setImages([])
   };
 
@@ -151,6 +152,7 @@ type FormData = {
   hashtags: string
   format: string
   date: string
+  status: string
 };
 
 interface PostFormProps {
@@ -250,14 +252,24 @@ export default function PostForm({ onPost, postToEdit, client }: PostFormProps) 
           </div>
 
           <div className="flex items-center gap-2 mb-4">
-            <label>Formato: </label>
+            <label className='w-20'>Formato: </label>
             <select id='format' {...register("format")} className="w-full p-2 border border-gray-300 rounded">
               <option key={1} value="Post">Post</option>
               <option key={2} value="Carrusel">Carrusel</option>
               <option key={3} value="Reel">Reel</option>
               <option key={4} value="otro">Otro</option>
             </select>
-            {errors.pilarId && (<p className="mt-1 text-red-600">{errors.pilarId.message}</p>)}
+            {errors.format && (<p className="mt-1 text-red-600">{errors.format.message}</p>)}
+          </div>
+
+          <div className="flex items-center gap-2 mb-4">
+            <label className='w-20'>Estado: </label>
+            <select id='status' {...register("status")} className="w-full p-2 border border-gray-300 rounded">
+              <option key={1} value="Draft">Draft</option>
+              <option key={2} value="Revisado">Revisado</option>
+              <option key={3} value="Aprobado">Aprobado</option>
+            </select>
+            {errors.status && (<p className="mt-1 text-red-600">{errors.status.message}</p>)}
           </div>
 
           <div className="flex justify-end pb-1">

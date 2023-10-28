@@ -42,3 +42,16 @@ export function getStatusColor(status: string, opacity?: string) {
   }
 }
 
+export function getPostStatusColor(status: string, opacity?: string) {
+  switch (status) {
+    case "Draft":
+      return `rgba(156, 163, 175, ${opacity || 1})`; // gray
+    case "Revisado":
+      return `rgba(255, 140, 0, ${opacity || 1})`; // orange
+    case "Aprobado":
+      return `rgba(0, 128, 0, ${opacity || 1})`; // green
+    default:
+      return `rgba(156, 163, 175, ${opacity || 1})`; // gray
+    }
+}
+  
