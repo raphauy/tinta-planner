@@ -56,6 +56,7 @@ export default function CalendarPage({ params }: { params: { slug: string } }) {
         color: post.pilar.color,
         href: `/agency/${slug}/social/posts?id=${post.id}`,
         fechaImportante: "",
+        status: post.status
       }
     })
 
@@ -79,6 +80,7 @@ export default function CalendarPage({ params }: { params: { slug: string } }) {
           color: "",
           href: "#",
           fechaImportante: fechaImportanteTitle,
+          status: ""
         })
       }
     })
