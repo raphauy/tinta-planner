@@ -34,6 +34,7 @@ export default async function CalendarPage() {
         color: post.pilar.color,
         href: `/cliente/posts?id=${post.id}&edit` ,
         fechaImportante: "",
+        status: post.status
       };
     });
 
@@ -55,6 +56,7 @@ export default async function CalendarPage() {
           color: "",
           href: "#",
           fechaImportante: fechaImportanteTitle,
+          status: ""
         })
       }
     })
