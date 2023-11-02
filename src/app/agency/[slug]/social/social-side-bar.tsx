@@ -55,7 +55,7 @@ export default function SocialSideBar() {
   const pClasses= "hidden sm:block lg:w-36 whitespace-nowrap"
   return (
     <>
-      <section className="flex flex-col gap-3">
+      <section className="flex flex-col h-full gap-3">
 
         <Link href={`/${basePath}/${slug}/social`} className={dashboard}>
           {dashboardSelected ? <AiFillHome size={25} /> : <AiOutlineHome size={25}/>}          
@@ -109,6 +109,10 @@ export default function SocialSideBar() {
         
         {divider()}
 
+        <div className="flex items-end justify-center flex-1">
+          <p className="px-4 py-2 mb-2 text-sm text-center border rounded-md shadow-lg place-self-end bg-yellow-50 w-fit">V 2.0</p>
+        </div>
+        
       </section>
     </>
   );
