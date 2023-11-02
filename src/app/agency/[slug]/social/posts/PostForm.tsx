@@ -16,7 +16,7 @@ import { BsUpload } from 'react-icons/bs';
 import PostCarouselForm from './PostCarouselForm';
 import { useCompletion } from 'ai/react';
 import { Button } from '@/components/ui/button';
-import { Wand2 } from 'lucide-react';
+import { Loader, Wand2 } from 'lucide-react';
 
 function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
   const { register, handleSubmit, setValue, getValues, formState: { errors } } = useForm<FormData>();
@@ -30,20 +30,15 @@ function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
 
   const slug= params.slug
 
-  const { complete, completion } = useCompletion({
+  const { complete, completion, isLoading } = useCompletion({
     api: "/api/completion",
   })
 
   useEffect(() => {
     if (!completion) return
-    
-    let textWithoutHashtags= completion.split("#")[0]
-    if (textWithoutHashtags.startsWith("\""))
-      textWithoutHashtags= textWithoutHashtags.slice(1)
-
-    const textWithHashtags= "#"+completion.split("#").slice(1).join("#")
-    setValue("copy", textWithoutHashtags)
-    setValue("hashtags", textWithHashtags)
+    // remover coloms and endo of lines
+    const sanitized= completion.replace("\"", "").replace(/(\r\n|\n|\r)/gm, "")
+    setValue("copy", sanitized)
   }, [completion, setValue])
   
 
@@ -141,7 +136,7 @@ function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
 
   
 
-  return { images, onSubmit, handleUpload, register, handleSubmit, errors, loading, pilars, toEdit, onDeleteImage, complete, getValues }
+  return { images, onSubmit, handleUpload, register, handleSubmit, errors, loading, pilars, toEdit, onDeleteImage, complete, getValues, isLoading }
 }
 
 type FormData = {
@@ -162,7 +157,7 @@ interface PostFormProps {
 }
 
 export default function PostForm({ onPost, postToEdit, client }: PostFormProps) {
-  const { images, onSubmit, handleUpload, register, handleSubmit, errors, loading, pilars, toEdit, onDeleteImage, complete, getValues  }= usePostForm(onPost, postToEdit)
+  const { images, onSubmit, handleUpload, register, handleSubmit, errors, loading, pilars, toEdit, onDeleteImage, complete, getValues, isLoading  }= usePostForm(onPost, postToEdit)
   
 
   if (loading) 
@@ -171,8 +166,7 @@ export default function PostForm({ onPost, postToEdit, client }: PostFormProps) 
   function handleComplete() {
     const titulo= getValues("title") ? getValues("title") : ""
     const pilarId= getValues("pilarId")
-    const pilar= pilars.find((pilar) => pilar.id == pilarId)?.name
-    complete(titulo, { body: { clientId: client.id, pilar} })    
+    complete(titulo, { body: { clientId: client.id, pilarId} })    
   }
   const hCarousel= images.length === 0 ? "h-[350px]" : "h-[500px]"
 
@@ -183,6 +177,7 @@ export default function PostForm({ onPost, postToEdit, client }: PostFormProps) 
         {/* Header */}
         <div className='flex items-center'>
           <div className="relative inline-block w-8 h-8 overflow-hidden border rounded-full md:h-11 md:w-11">
+            {/** @ts-expect-error Server Component */}
             <AdvancedImage cldImg={avatarImage} />
           </div>
           <p className='pl-2 text-sm font-semibold'>{client.handle_insta}</p>
@@ -223,17 +218,19 @@ export default function PostForm({ onPost, postToEdit, client }: PostFormProps) 
           </div>
 
           <div className="flex items-center mb-4">
-            <input id="title" type="text" placeholder='Título'
+            <input id="title" type="text" placeholder='Título' disabled={isLoading}
               {...register("title", { required: "El título es obligatorio" })}
               className="w-full p-2 border border-gray-300 rounded"/>
             {errors.title && (<p className="mt-1 text-red-600">{errors.title.message}</p>)}
-            <Button variant="ghost" type='button' className="ml-2" onClick={handleComplete}><Wand2 /></Button>
+            <Button variant="ghost" type='button' className="ml-2" onClick={handleComplete}>
+              {isLoading ? <Loader className="animate-spin" size={20} /> : <Wand2 />}
+            </Button>
           </div>
           
           <div className="mb-4">
-            <textarea id="copy" placeholder='Copy'
+            <textarea id="copy" placeholder='Copy' disabled={isLoading}
               {...register("copy", { required: "El copy es obligatorio" })}
-              className="w-full h-32 p-2 border border-gray-300 rounded"
+              className="w-full h-64 p-2 border border-gray-300 rounded"
             ></textarea>
             {errors.copy && (<p className="mt-1 text-red-600">{errors.copy.message}</p>)}
           </div>

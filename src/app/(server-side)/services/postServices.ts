@@ -20,6 +20,29 @@ export async function getPostsBySlug(slug: string) {
     return found
 }
 
+export async function getPostsBySlugAndPilarId(slug: string, pilarId: number) {
+    // max results 10
+    const found = await prisma.post.findMany({
+        where: {
+            client: {
+                slug
+            },
+            pilar: {
+                id: pilarId
+            }
+        },
+        orderBy: {
+          date: 'desc'
+        },
+        include: {
+            pilar: true
+        },
+        take: 15
+      });
+
+    return found
+}
+
 export async function getAllPosts() {
     const found = await prisma.post.findMany({
         orderBy: {
