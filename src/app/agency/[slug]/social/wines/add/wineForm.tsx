@@ -263,6 +263,7 @@ export function WineForm({ wine, slug, processData }: Props) {
             onUpload={handleUpload}
             uploadPreset="tinta-wines"
           >
+            {/** @ts-ignore */}
             <AdvancedImage cldImg={placeHolderImage} />
           </CldUploadButton>
         </div>

@@ -18,6 +18,7 @@ export const Editor = ({
 
   return (
     <div className="bg-white">
+      {/** @ts-ignore */}
       <ReactQuill
         theme="snow"
         value={value}

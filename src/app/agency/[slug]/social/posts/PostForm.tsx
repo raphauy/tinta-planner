@@ -177,8 +177,8 @@ export default function PostForm({ onPost, postToEdit, client }: PostFormProps) 
         {/* Header */}
         <div className='flex items-center'>
           <div className="relative inline-block w-8 h-8 overflow-hidden border rounded-full md:h-11 md:w-11">
-            {/** @ts-expect-error Server Component */}
-            <AdvancedImage cldImg={avatarImage} />
+          {/** @ts-ignore */}
+          <AdvancedImage cldImg={avatarImage} />
           </div>
           <p className='pl-2 text-sm font-semibold'>{client.handle_insta}</p>
         </div>

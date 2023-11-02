@@ -5,8 +5,8 @@ const prisma = new PrismaClient()
 async function main() {
   console.log("Fixing...")
 
-  await setAdminToRapha()
-  console.log("Admin set to Rapha")
+  //await setAdminToRapha()
+  //console.log("Admin set to Rapha")
   
   await fixAgencyIdOnUsers()
 

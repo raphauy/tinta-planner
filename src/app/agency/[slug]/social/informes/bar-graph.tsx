@@ -2,9 +2,8 @@
 
 import { DataToGraph } from "@/services/informeService"
 import { useEffect, useState } from "react"
-import { Bar, BarChart, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
+import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 import { getDataToGraphAction } from "./gestionar/(crud)/actions"
-import { tr } from "date-fns/locale"
 
 
 
@@ -30,6 +29,7 @@ export function BarGraph({ type, dataIndicatorId, clientId }: Props) {
   
   return (
     <ResponsiveContainer width="100%" height={180}>
+      {/** @ts-ignore */}
       <BarChart data={data}>
         <XAxis
           dataKey="name"
@@ -44,7 +44,9 @@ export function BarGraph({ type, dataIndicatorId, clientId }: Props) {
           tickLine={false}
           axisLine={false}          
         />        
+        {/** @ts-ignore */}
         <Tooltip />        
+        {/** @ts-ignore */}
         <Bar dataKey="valor" fill={color} radius={[4, 4, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>

@@ -62,6 +62,7 @@ export default function PostBox({ post, onSelected }: PostBoxProps) {
             {images.length > 1 && <div className="absolute top-0 left-0 flex gap-1 text-white bg-black rounded-md bg-opacity-30"><AiOutlineCamera  size={23}/>{images.length}</div>}
             
             <Link href={`${link}?id=${post.id}`}>
+              {/** @ts-ignore */}
               <AdvancedImage cldImg={cldImage} />
             </Link>
           </div>

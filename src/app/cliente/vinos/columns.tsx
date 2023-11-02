@@ -31,6 +31,7 @@ export const columns: ColumnDef<DataWine>[] = [
               link.click();
             }}
           >
+            {/** @ts-ignore */}
             <AdvancedImage cldImg={image} />
           </button>
 

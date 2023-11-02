@@ -11,6 +11,7 @@ export default function Logo() {
   return (
     <Link href={"/"}>
         <div>
+        {/** @ts-ignore */}
         <AdvancedImage cldImg={logo} />
         {/* <Image src="/logo_tinta_web.png" width="0" height="0" alt="logo" sizes="100vw" priority
             className="h-[32px] w-auto" placeholder="blur" blurDataURL={'/logo_tinta_web.png'}/> */}          

@@ -86,6 +86,7 @@ export default function InstaBox({ postId, onDelete, onEdit, onPost, client }: I
           {/* Header */}
           <div className='flex items-center'>
             <div className="relative inline-block w-8 h-8 overflow-hidden border rounded-full md:h-11 md:w-11">
+              {/** @ts-ignore */}
               <AdvancedImage cldImg={avatarImage} />
             </div>
             <p className='pl-2 text-sm font-semibold'>{client.handle_insta}</p>
@@ -97,7 +98,8 @@ export default function InstaBox({ postId, onDelete, onEdit, onPost, client }: I
           {/* Image */}
           <div className='w-full py-2 h-[562px]'>
               {/* <Image className='rounded-md' width={681} height={528} src={post.image} alt="post image" /> */}
-            {images.length < 1 && <AdvancedImage cldImg={cldImage} />}
+              {/** @ts-ignore */}
+              {images.length < 1 && <AdvancedImage cldImg={cldImage} />}
             {images.length > 0 && <PostCarouselForm images={images} />}
           </div>
           {/* Buttons */}
@@ -151,6 +153,7 @@ export default function InstaBox({ postId, onDelete, onEdit, onPost, client }: I
                 link.click();
               }}
             >
+              {/** @ts-ignore */}
               <AdvancedImage cldImg={image} />
               <AiOutlineDownload size={30} className='text-gray-600'/>
             </button>

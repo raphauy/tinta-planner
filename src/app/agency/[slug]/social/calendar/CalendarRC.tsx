@@ -31,13 +31,14 @@ const CalendarRC: React.FC<MyCalendarProps> = ({ events }) => {
     <div className="flex-grow bg-white min-h-[500px]">
       {/** @ts-ignore */}
       <Calendar 
+        components={{
+          // @ts-ignore
+          event: CustomEvent,
+        }}
         localizer={localizer}
         events={events}
         startAccessor="start"
         endAccessor="end"        
-        components={{
-          event: CustomEvent,
-        }}
         eventPropGetter={customEventPropGetter}
       />
     </div>
