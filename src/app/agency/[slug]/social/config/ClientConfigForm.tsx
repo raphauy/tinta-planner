@@ -5,22 +5,34 @@ import Button from "@/components/form/Button";
 import Input from "@/components/form/Input";
 import Textarea from "@/components/form/Textarea";
 import axios from "axios";
+import { CldUploadButton } from "next-cloudinary";
+import Image from "next/image";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { BsUpload } from "react-icons/bs";
 import { FiEdit } from "react-icons/fi";
 
 function useClientConfigForm(slug: string, onChange: () => void) {
   const [loading, setLoading] = useState(true);
   const [toEdit, setToEdit] = useState<Client>();
   const [editMode, setEditMode] = useState(false);
-  const {register, handleSubmit, formState: { errors }, setValue } = useForm<FieldValues>({
+  const [hrefImage, setHrefImage] = useState("/images/Image-placeholder.svg")
+  const {register, handleSubmit, formState: { errors }, setValue, getValues } = useForm<FieldValues>({
     defaultValues: {
       name: "",
       description: "",
       brandVoice: "",
+      image_insta: "",
     },
   });
+
+  function handleUpload(result: any) {
+    const img: string = result.info.secure_url;
+    console.log(img)
+    setHrefImage(img)
+    setValue("image_insta", img);
+  }
 
   async function onEdit() {
     const { data } = await axios.get(`/api/client/${slug}`);
@@ -29,6 +41,8 @@ function useClientConfigForm(slug: string, onChange: () => void) {
     setValue("name", client.name)
     setValue("description", client.description)
     setValue("brandVoice", client.brandVoice)
+    setValue("image_insta", client.image_insta)
+    setHrefImage(client.image_insta)
 
     setEditMode(true);
   }
@@ -42,6 +56,7 @@ function useClientConfigForm(slug: string, onChange: () => void) {
         setValue("name", "");
         setValue("description", "");
         setValue("brandVoice", "");
+        setValue("image_insta", "");
         setEditMode(false)
         onChange()
         toast.success("Cliente editado", { duration: 4000 });
@@ -54,7 +69,7 @@ function useClientConfigForm(slug: string, onChange: () => void) {
       });
   };
 
-  return {toEdit, editMode, onEdit, setEditMode, onSubmit, register, handleSubmit, errors  }
+  return {toEdit, editMode, onEdit, setEditMode, onSubmit, register, handleSubmit, errors, handleUpload, hrefImage  }
 }
 
 interface Props{
@@ -64,7 +79,7 @@ interface Props{
 
 export default function ClientConfigForm({ slug, onChange }: Props ) {
 
-  const {toEdit, editMode, onEdit, setEditMode, onSubmit, register, handleSubmit, errors  } = useClientConfigForm(slug, onChange);
+  const {toEdit, editMode, onEdit, setEditMode, onSubmit, register, handleSubmit, errors, handleUpload, hrefImage} = useClientConfigForm(slug, onChange);
 
   if (!editMode) return buttons(onEdit);
 
@@ -86,7 +101,7 @@ export default function ClientConfigForm({ slug, onChange }: Props ) {
             label="Descripción:"
             register={register}
             errors={errors}
-          ></Textarea>
+          />
           <Textarea
             required
             rows={7}
@@ -94,7 +109,21 @@ export default function ClientConfigForm({ slug, onChange }: Props ) {
             label="Voz de Marca:"
             register={register}
             errors={errors}
-          ></Textarea>
+          />
+          <div className="flex items-center gap-4 text-sm font-medium leading-6 text-gray-900">
+            <p>Imagen del cliente:</p>
+            <CldUploadButton
+              options={{maxFiles: 1, tags: [`${slug}`, "client-image"]}}
+              onUpload={handleUpload}
+              uploadPreset="tinta-posts"
+            >              
+              <BsUpload size={30} className='w-32 h-10 p-2 bg-gray-200 border border-gray-500 rounded-md hover:bg-gray-300' />
+            </CldUploadButton>
+            <div className="relative inline-block w-12 h-12 overflow-hidden border rounded-full">
+              <Image src={hrefImage} width={100} height={100} alt="Client image" />
+            </div>
+          </div>
+
           <div className="flex justify-end gap-2 mt-5 ">
             <Button secondary onClick={() => setEditMode(false)}>
               <p className="w-32">Cancelar</p>
