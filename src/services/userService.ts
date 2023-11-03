@@ -104,6 +104,20 @@ export async function createClientUser(slug: string, data: UserFormValues) {
       ...data,
       agencyId,
       clientId: client.id
+    },
+  })
+
+  // connect new user to client
+  await prisma.client.update({
+    where: {
+      id: client.id
+    },
+    data: {
+      users: {
+        connect: {
+          id: created.id
+        }
+      }
     }
   })
 
