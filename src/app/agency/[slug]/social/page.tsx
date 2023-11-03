@@ -4,6 +4,7 @@ import getCurrentUser from "@/app/(server-side)/services/getCurrentUser";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import getClientWines from "@/services/wineService";
 import { Wine } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { AiOutlineInstagram } from "react-icons/ai";
 import { BsHddStack } from "react-icons/bs";
@@ -31,8 +32,17 @@ export default async function DashboardPage({ params }: { params: { slug: string
 
     return (
       <div className="w-full">
-        <div className="flex flex-col w-full p-5 text-center py-14">
-          <h1 className="mb-4 text-2xl font-medium text-gray-900 sm:text-4xl title-font">{client.name}</h1>
+        <div className="flex flex-col items-center w-full p-5 text-center gap-7">
+          <div className="flex items-center gap-3 pr-10 mb-2">
+              { client.image_insta &&
+                <div className="relative inline-block w-12 h-12 overflow-hidden border rounded-full">
+                  <Image src={client.image_insta} width={100} height={100} alt="Client image" />
+                </div>
+              }
+              <h1 className="text-2xl font-medium text-gray-900 sm:text-4xl title-font">
+                {client.name}
+              </h1>
+            </div>
           <h2 className="mb-4 text-xl text-muted-foreground">{client.description}</h2>
         </div>
         

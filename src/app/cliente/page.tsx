@@ -7,6 +7,7 @@ import { formatter } from "../(client-side)/utils";
 import { getClientOfCurrenUser } from "../(server-side)/services/getClients";
 import getCurrentUser from "../(server-side)/services/getCurrentUser";
 import getClientWines from "@/services/wineService";
+import Image from "next/image";
 
 export default async function ClientPage() {
   const client = await getClientOfCurrenUser();
@@ -23,8 +24,17 @@ export default async function ClientPage() {
 
   return (
     <div className="w-full">
-      <div className="flex flex-col w-full px-5 text-center py-14">
-        <h1 className="mb-4 text-2xl font-medium text-gray-900 sm:text-4xl title-font">{client.name}</h1>
+      <div className="flex flex-col items-center w-full px-5 py-10 text-center">
+        <div className="flex items-center gap-3 mb-6">
+          { client.image_insta &&
+            <div className="relative inline-block w-12 h-12 overflow-hidden border rounded-full">
+              <Image src={client.image_insta} width={100} height={100} alt="Client image" />
+            </div>
+          }
+          <h1 className="text-2xl font-medium text-gray-900 sm:text-4xl title-font">
+            {client.name}
+          </h1>
+        </div>
         <h2 className="mb-4 text-xl text-muted-foreground">{client.description}</h2>
       </div>
       
