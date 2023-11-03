@@ -17,6 +17,8 @@ export default async function DashboardPage({ params }: { params: { slug: string
   const client = await getClientBySlug(slug)
   if (!client) return <div>Client not found</div>
 
+  const usersWithRoleClient= client.users.filter(user => user.role === "client")
+
   const user= await getCurrentUser()
 
   const wines= await getClientWines(client.id)
@@ -52,7 +54,7 @@ export default async function DashboardPage({ params }: { params: { slug: string
           <Link href={`/${basePath}/${slug}/social/users`}>
             <div className="flex flex-col items-center px-4 py-6 border-2 border-gray-200 rounded-lg">
               <FaRegUserCircle size={65} className="text-tinta-vino"/>
-              <h2 className="text-3xl font-medium text-gray-900 title-font">{client.users.length}</h2>
+              <h2 className="text-3xl font-medium text-gray-900 title-font">{usersWithRoleClient.length}</h2>
               <p className="leading-relaxed">Usuarios</p>
             </div>
           </Link>

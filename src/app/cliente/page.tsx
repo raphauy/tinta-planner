@@ -17,6 +17,8 @@ export default async function ClientPage() {
 
   const wines= await getClientWines(client.id)
 
+  const usersWithRoleClient= client.users.filter(user => user.role === "client")
+
   console.log("[" + formatter.format(new Date()) + "] " + user?.name + " ("+ client.name + ")");
 
   return (
@@ -44,7 +46,7 @@ export default async function ClientPage() {
         <Link href={`/cliente/usuarios`}>
           <div className="flex flex-col items-center px-4 py-6 border-2 border-gray-200 rounded-lg">
             <FaRegUserCircle size={65} className="text-tinta-vino"/>
-            <h2 className="text-3xl font-medium text-gray-900 title-font">{client.users.length}</h2>
+            <h2 className="text-3xl font-medium text-gray-900 title-font">{usersWithRoleClient.length}</h2>
             <p className="leading-relaxed">Usuarios</p>
           </div>
         </Link>
