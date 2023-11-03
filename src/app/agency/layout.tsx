@@ -5,7 +5,10 @@ import Selector from "./selector";
 import MainSideBar from "./side-bar";
 import { redirect } from "next/navigation";
 
-export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+type Props = {
+    children: React.ReactNode
+}
+export default async function AdminLayout({ children }: Props) {    
 
     const currentUser= await getCurrentUser()  
 

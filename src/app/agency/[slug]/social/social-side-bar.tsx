@@ -1,23 +1,34 @@
 "use client"
 
 import LoadingSpinner from "@/components/LoadingSpinner";
-import { getBasePath, getSlug } from "@/lib/utils";
+import { cn, getBasePath, getSlug } from "@/lib/utils";
 import clsx from "clsx";
 import { AreaChart, CalendarHeart } from "lucide-react";
 import { ListChecks } from "lucide-react";
 import { Wine } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { AiFillCalendar, AiFillHome, AiFillInstagram, AiFillTool, AiOutlineCalendar, AiOutlineHome, AiOutlineInstagram, AiOutlineTool } from "react-icons/ai";
 import { BsHddStack, BsHddStackFill } from "react-icons/bs";
 import { FaRegUserCircle, FaUserCircle } from "react-icons/fa";
+import { isWineDisabled } from "../../actions";
+import { Ban } from "lucide-react";
 
 export default function SocialSideBar() {
+  const [wineDisabled, setWineDisabled] = useState(false)
   const path= usePathname()
-  if (!path) return <LoadingSpinner />
-  
+
+  useEffect(() => {
+    const slug= getSlug(path)
+    isWineDisabled(slug)
+    .then(setWineDisabled)
+    .catch(console.error)
+  }, [path])
+
   const slug= getSlug(path)
   const basePath= getBasePath(path)
+
 
   const commonClasses= "flex gap-2 items-center py-1 mx-2 rounded hover:bg-gray-200"
   const selectedClasses= "font-bold bg-gray-200"
@@ -52,7 +63,7 @@ export default function SocialSideBar() {
   const gestionarSelected= path.endsWith("gestionar")
   const gestionar= clsx(commonClasses, gestionarSelected && selectedClasses)
 
-  const pClasses= "hidden sm:block lg:w-36 whitespace-nowrap"
+  const pClasses= "hidden sm:flex lg:w-36 whitespace-nowrap"
   return (
     <>
       <section className="flex flex-col h-full gap-3">
@@ -80,10 +91,18 @@ export default function SocialSideBar() {
           {pilarsSelected ? <BsHddStackFill size={25}/> : <BsHddStack size={25}/>}
           <p className={pClasses}>Pilares</p>
         </Link>
-        <Link href={`/${basePath}/${slug}/social/wines`} className={wines}>
-          <Wine />
-          <p className={pClasses}>Vinos</p>
-        </Link>
+        {wineDisabled ?
+          <Link href={`/${basePath}/${slug}/social/wines`} className={wines}>
+            <Wine />
+            <div className={cn(pClasses, "justify-between")}>
+              <p>Vinos</p> <Ban className="text-red-400" />
+            </div>
+          </Link> :
+          <Link href={`/${basePath}/${slug}/social/wines`} className={wines}>
+            <Wine />
+            <p className={pClasses}>Vinos</p>
+          </Link>
+        }
         <Link href={`/${basePath}/${slug}/social/users`} className={users}>
           {usersSelected ? <FaUserCircle size={25}/> : <FaRegUserCircle size={25}/>}
           <p className={pClasses}>Usuarios</p>

@@ -21,8 +21,9 @@ export default async function ClientPage() {
 
   return (
     <div className="w-full">
-      <div className="flex flex-col w-full text-center py-14">
+      <div className="flex flex-col w-full px-5 text-center py-14">
         <h1 className="mb-4 text-2xl font-medium text-gray-900 sm:text-4xl title-font">{client.name}</h1>
+        <h2 className="mb-4 text-xl text-muted-foreground">{client.description}</h2>
       </div>
       
       <section className="grid w-full grid-cols-1 gap-8 px-5 mx-auto text-gray-600 md:grid-cols-2 lg:grid-cols-3 body-font">

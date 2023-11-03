@@ -11,8 +11,11 @@ import { HiOutlineDocumentReport, HiDocumentReport } from 'react-icons/hi'
 import { AreaChart, Wine } from 'lucide-react'
 import ClientBox from './client-box'
 
+type Props = {
+  wineDisabled: boolean
+}
 
-export default function Menu() {
+export default function Menu({ wineDisabled }: Props) {
   const [open, setOpen] = useState(false)
   const path= usePathname()
   if (!path)
@@ -40,7 +43,7 @@ export default function Menu() {
           <ClientBox label='Calendario' href='/cliente/calendario' active={calendarActive} icon={calendarIcon}/>
           <ClientBox label='Posts' href='/cliente/posts' active={postsActive} icon={postsIcon}/>
           <ClientBox label='Pilares de contenido' href='/cliente/pilares' active={pilaresActive} icon={pilaresIcon}/>
-          <ClientBox label='Vinos' href='/cliente/vinos' active={vinosActive} icon={vinosIcon}/>
+          {!wineDisabled && <ClientBox label='Vinos' href='/cliente/vinos' active={vinosActive} icon={vinosIcon}/>}
           <ClientBox label='Usuarios' href='/cliente/usuarios' active={usuariosActive} icon={usuariosIcon}/>
           <ClientBox label='Informes' href='/cliente/informes' active={informesActive} icon={informesIcon}/>
       </div>
