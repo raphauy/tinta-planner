@@ -1,6 +1,7 @@
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { AuthContext } from "./(client-side)/context/AuthContext";
 import ToasterContext from "./(client-side)/context/ToasterContext";
+import { GeistSans } from "geist/font";
 import "./globals.css";
 
 export const metadata = {
@@ -14,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es">
+    <html lang="es" className={`${GeistSans.className}`}>
       <body>
         <AuthContext>
           <ToasterContext />

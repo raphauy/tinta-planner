@@ -17,9 +17,10 @@ import PostCarouselForm from './PostCarouselForm';
 import { useCompletion } from 'ai/react';
 import { Button } from '@/components/ui/button';
 import { Loader, Wand2 } from 'lucide-react';
+import { getLastPostOfPilarAction } from './actions';
 
 function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
-  const { register, handleSubmit, setValue, getValues, formState: { errors } } = useForm<FormData>();
+  const { register, handleSubmit, setValue, getValues, formState: { errors }, watch } = useForm<FormData>();
   const [loading, setLoading] = useState(true);
   const [images, setImages] = useState<string[]>([]);
   const [toEdit, setToEdit] = useState<Post>()
@@ -30,9 +31,30 @@ function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
 
   const slug= params.slug
 
+  const watchPilar= watch("pilarId")
+
   const { complete, completion, isLoading } = useCompletion({
     api: "/api/completion",
   })
+
+  useEffect(() => {
+    console.log("watchPilar: " + watchPilar)
+
+    if (!watchPilar) return
+
+    getLastPostOfPilarAction(watchPilar)
+    .then((post) => {
+      if (!post) return
+      if (!post.hashtags) return
+
+      setValue("hashtags", post.hashtags)
+    })
+    .catch((e) => {
+      console.log(e)
+    })
+    
+  }, [watchPilar, setValue])
+  
 
   useEffect(() => {
     if (!completion) return

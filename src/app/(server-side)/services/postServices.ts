@@ -97,3 +97,26 @@ export async function updatePostStatus(id: string, status: string): Promise<Post
 function sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+
+export async function getLastPostOfPilar(idParam: number): Promise<Post | null> {
+    const id= parseInt(idParam.toString())
+    
+    const found = await prisma.post.findFirst({
+        where: {
+            pilar: {
+                id
+            },
+            status: {
+                not: 'draft'
+            }
+        },
+        orderBy: {
+            date: 'desc'
+        },
+        include: {
+            pilar: true
+        }
+    });
+
+    return found
+}
