@@ -17,7 +17,7 @@ import { useEffect, useState } from "react"
 import { DataLead, getDataLead } from "../(crud)/actions"
 import { DataService } from "../../services/(crud)/actions"
 
-export const types = ["Bodega", "Asociación", "Distribuidor", "Importador", "WSET"]
+export const types = ["Bodega", "Asociación", "Distribuidor", "Importador", "WSET", "Lector"]
 
 const schema = z.object({
   company: z.string().nonempty({ message: "Campo obligatorio" }),
