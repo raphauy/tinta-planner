@@ -20,17 +20,29 @@ import PostHandler from './PopOverPostHandler';
 import PostCarouselForm from './PostCarouselForm';
 import slugify from 'slugify'
 import { PostStatusSelector } from './post-status-selector';
+import { useSession } from 'next-auth/react';
 
 function useInstaBox(postId: string, client: Client) {
   const [value, copy] = useCopyToClipboard()
   const [loading, setLoading] = useState(true);
   const [post, setPost] = useState<Post>()
   const [images, setImages] = useState<string[]>([]);
+  const [isAgency, setIsAgency] = useState(false)
+  const { data }= useSession()
   const params= useParams()
   if (!params)
     throw Error("useParams() is not working")
 
   const slug= params.slug
+
+  useEffect(() => {
+    const userRole= data?.user?.role
+    if (userRole?.includes("admin") || userRole?.includes("agency"))
+      setIsAgency(true)
+    else
+      setIsAgency(false)
+
+  }, [data]);
 
   useEffect(() => {
     async function fetch() {
@@ -41,7 +53,7 @@ function useInstaBox(postId: string, client: Client) {
       setImages(newImages)
       }
     fetch()      
-
+  
     setLoading(false)      
 
   }, [slug, postId]);
@@ -60,7 +72,7 @@ function useInstaBox(postId: string, client: Client) {
   }
   
 
-  return { post, images, loading, copyToClipboard }
+  return { post, images, loading, copyToClipboard, isAgency }
 }
 
 interface InstaBoxProps {
@@ -71,7 +83,7 @@ interface InstaBoxProps {
   client: Client
 }
 export default function InstaBox({ postId, onDelete, onEdit, onPost, client }: InstaBoxProps) {
-  const { post, images, loading, copyToClipboard }= useInstaBox(postId, client)
+  const { post, images, loading, copyToClipboard, isAgency }= useInstaBox(postId, client)
 
   if (loading || !post)
     return <LoadingSpinner />
@@ -124,7 +136,7 @@ export default function InstaBox({ postId, onDelete, onEdit, onPost, client }: I
 
       </div>
       <div className='p-4 flex justify-between m-4 bg-white border rounded min-w-[380px] max-w-[500px]'>
-        <div className='grid grid-cols-[80px,1fr]'>
+        <div className='grid grid-cols-[111px,1fr]'>
           <p className='font-bold'>Título:</p>      
           <p>{post.title}</p>      
           <p className='font-bold'>Pilar:</p>      
@@ -133,6 +145,14 @@ export default function InstaBox({ postId, onDelete, onEdit, onPost, client }: I
           <p>{post.format}</p>
           <p className='font-bold'>Fecha:</p>
           <p>{post.date && new Date(post.date).toISOString().split('T')[0]}</p>          
+          {
+            isAgency && (
+              <>
+                <p className='font-bold'>Comentarios:</p>
+                <p>{post.comments}</p>              
+              </>
+            )
+          }
         </div>
         <div>
           {onPost && <PostStatusSelector id={postId} status={post.status} onPost={onPost} />}

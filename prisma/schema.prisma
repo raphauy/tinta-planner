@@ -80,6 +80,7 @@ model Post {
     pilar             Pilar     @relation(fields: [pilarId], references: [id], onDelete: Restrict)  
     pilarId           Int
     status            String    @default("Draft")
+    comments          String?   @db.Text
 }
 
 

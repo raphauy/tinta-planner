@@ -98,6 +98,7 @@ function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
       setValue("hashtags", postToEdit.hashtags)
       setValue("format", postToEdit.format)
       setValue("status", postToEdit.status)
+      setValue("comments", postToEdit.comments)
 
       postToEdit.date && setValue("date", new Date(postToEdit.date).toISOString().split('T')[0])
 
@@ -170,6 +171,7 @@ type FormData = {
   format: string
   date: string
   status: string
+  comments: string
 };
 
 interface PostFormProps {
@@ -289,6 +291,13 @@ export default function PostForm({ onPost, postToEdit, client }: PostFormProps) 
               <option key={3} value="Aprobado">Aprobado</option>
             </select>
             {errors.status && (<p className="mt-1 text-red-600">{errors.status.message}</p>)}
+          </div>
+
+          <div className="mb-4">
+            <textarea id="comments" placeholder='comentarios' {...register("comments")}
+              className="w-full h-32 p-2 border border-gray-300 rounded"
+            ></textarea>
+            {errors.comments && (<p className="mt-1 text-red-600">{errors.comments.message}</p>)}
           </div>
 
           <div className="flex justify-end pb-1">

@@ -9,4 +9,5 @@ export type Post= {
     date: string
     pilar: { id: number, name: string, color: string }
     status: string
+    comments: string
 }

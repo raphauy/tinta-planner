@@ -26,13 +26,14 @@ export async function PUT(request: Request, { params }: { params: {slug: string,
     const slug= params.slug
     const postId= params.postId
 
-    const { title, image, format, hashtags, copy, link, date, pilarId, status }= json
+    const { title, image, format, hashtags, copy, link, date, pilarId, status, comments }= json
+    const pilarIdInt= parseInt(pilarId)
 
     const dateWithTime = new Date(date);
     dateWithTime.setHours(0, 0, 0, 0);
     dateWithTime.setDate(dateWithTime.getDate()+1)
 
-    console.table({ slug, title, image, format, hashtags, copy, link, dateWithTime, pilarId, status })
+    console.table({ slug, title, image, format, hashtags, copy, link, dateWithTime, pilarIdInt, status })
 
     const updated= await prisma.post.update({
         where: {
@@ -46,8 +47,9 @@ export async function PUT(request: Request, { params }: { params: {slug: string,
             copy,
             link,
             date: date ? dateWithTime : null,
-            pilarId,
-            status
+            pilarId: pilarIdInt,
+            status,
+            comments
         }
     })
 
