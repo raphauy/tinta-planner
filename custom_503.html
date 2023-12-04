@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicio No Disponible</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6; /* bg-gray-100 */
+            color: #4b5563; /* text-gray-700 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff; /* bg-white */
+            padding: 24px; /* p-6 */
+            border-radius: 8px; /* rounded-md */
+            text-align: center;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.05); /* shadow-lg */
+        }
+        h1 {
+            font-size: 24px; /* text-2xl */
+            font-weight: 600; /* font-semibold */
+            margin-bottom: 16px;
+        }
+        p {
+            font-size: 18px; /* text-lg */
+            max-width: 400px; /* max-w-md */
+            margin: auto;
+        }
+        button {
+            background-color: #6366f1; /* bg-primary */
+            color: white; /* text-primary-foreground */
+            padding: 10px 16px; /* h-10 px-4 py-2 */
+            font-size: 16px; /* text-sm */
+            font-weight: 500; /* font-medium */
+            border-radius: 6px; /* rounded-md */
+            margin-top: 16px;
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+        button:hover {
+            background-color: #5757f1; /* bg-primary/90 */
+        }
+        svg {
+            fill: none;
+            stroke: #ef4444; /* text-red-500 */
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+    </style>
+    <script>
+        function refreshPage() {
+            window.location.reload();
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24">
+                <path d="M18 6 6 18"></path>
+                <path d="m6 6 12 12"></path>
+            </svg>
+            <h1>Servicio no disponible</h1>
+            <p>Estamos actualizando Tinta Planner, solo tomará unos instantes</p>
+            <button onclick="refreshPage()">Refresh</button>
+        </div>
+    </div>
+</body>
+</html>
