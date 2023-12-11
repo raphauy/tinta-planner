@@ -14,6 +14,7 @@ import { BsHddStack, BsHddStackFill } from "react-icons/bs";
 import { FaRegUserCircle, FaUserCircle } from "react-icons/fa";
 import { isWineDisabled } from "../../actions";
 import { Ban } from "lucide-react";
+import { Filter } from "lucide-react";
 
 export default function SocialSideBar() {
   const [wineDisabled, setWineDisabled] = useState(false)
@@ -44,6 +45,9 @@ export default function SocialSideBar() {
 
   const postsSelected= path.endsWith("posts")
   const posts= clsx(commonClasses, postsSelected && selectedClasses)
+
+  const postfilterSelected= path.endsWith("postfilter")
+  const postfilter= clsx(commonClasses, postfilterSelected && selectedClasses)
 
   const pilarsSelected= path.endsWith("pilars")
   const pilars= clsx(commonClasses, pilarsSelected && selectedClasses)
@@ -87,6 +91,11 @@ export default function SocialSideBar() {
           {postsSelected ? <AiFillInstagram size={25}/> : <AiOutlineInstagram size={25}/>}          
           <p className={pClasses}>Posts</p>
         </Link>
+        <Link href={`/${basePath}/${slug}/social/postfilter`} className={postfilter}>
+          <Filter />
+          <p className={pClasses}>Filtro de Posts</p>
+        </Link>
+        
         <Link href={`/${basePath}/${slug}/social/pilars`} className={pilars}>
           {pilarsSelected ? <BsHddStackFill size={25}/> : <BsHddStack size={25}/>}
           <p className={pClasses}>Pilares</p>

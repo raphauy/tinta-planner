@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation"
 interface Props {
   id: string
   status: string
-  onPost: (id: string) => void
+  onPost?: (id: string) => void
 }
 export function PostStatusSelector({ id, status, onPost }: Props) {
   const [node, setNode] = useState<React.ReactNode>()  
@@ -26,7 +26,7 @@ export function PostStatusSelector({ id, status, onPost }: Props) {
       if (res){
         toast.success("Estado actualizado", { duration: 4000 })
         setNode(getNode(status))
-        onPost(id)
+        onPost && onPost(id)
       } else toast.error("Error al actualizar el estado", { duration: 4000 })
     })    
   }
@@ -52,7 +52,7 @@ export function PostStatusSelector({ id, status, onPost }: Props) {
   )
 }
 
-function getNode(status: string) {
+export function getNode(status: string) {
   const lightColor= getPostStatusColor(status, "0.3")
   const darkColor= getPostStatusColor(status)
 

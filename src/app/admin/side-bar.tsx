@@ -1,7 +1,7 @@
 "use client"
 
 import clsx from "clsx"
-import { LayoutDashboard, User } from "lucide-react"
+import { Instagram, LayoutDashboard, User } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
@@ -19,6 +19,9 @@ export default function AdminSideBar() {
   const usersSelected= path.endsWith("users")
   const users= clsx(commonClasses, usersSelected && selectedClasses)
 
+  const postsSelected= path.endsWith("posts")
+  const posts= clsx(commonClasses, postsSelected && selectedClasses)
+
   const pClasses= "hidden sm:block lg:w-36"
 
   return (
@@ -35,6 +38,13 @@ export default function AdminSideBar() {
         <Link href="/admin/users" className={users}>
           <User />
           <p className={pClasses}>Users</p>
+        </Link>
+
+        {divider()}
+
+        <Link href="/admin/posts" className={posts}>
+          <Instagram />
+          <p className={pClasses}>Posts</p>
         </Link>
 
         {divider()}
