@@ -289,6 +289,7 @@ export default function PostForm({ onPost, postToEdit, client }: PostFormProps) 
               <option key={1} value="Draft">Draft</option>
               <option key={2} value="Revisado">Revisado</option>
               <option key={3} value="Aprobado">Aprobado</option>
+              <option key={3} value="Programado">Programado</option>
             </select>
             {errors.status && (<p className="mt-1 text-red-600">{errors.status.message}</p>)}
           </div>

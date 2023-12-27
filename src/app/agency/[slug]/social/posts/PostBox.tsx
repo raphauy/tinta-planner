@@ -47,7 +47,7 @@ export default function PostBox({ post, onSelected }: PostBoxProps) {
   const cldImage = new CloudinaryImage(portada.split("/").slice(-2).join("/"), {cloudName: 'dtm41dmrz'}).resize(fill().width(160).height(160));
   const images= post.image.split(",")
 
-  const statusColor= post.status === "Aprobado" ? "text-green-500" : post.status === "Revisado" ? "text-orange-500" : "text-gray-500"
+  const statusColor= post.status === "Aprobado" ? "text-green-500" : post.status === "Revisado" ? "text-orange-500" : post.status === "Programado" ? "text-sky-500" : "text-gray-500"
   const pastDate= post.date && post.date < new Date().toISOString().slice(0, 10)
   const show= !pastDate && post.status !== "Aprobado"
 

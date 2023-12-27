@@ -18,7 +18,7 @@ interface DataTableToolbarProps<TData> {
 
 export function DataTableToolbar<TData>({ table, pilares }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
-  const statuses= ["Draft", "Revisado", "Aprobado"]
+  const statuses= ["Draft", "Revisado", "Aprobado", "Programado"]
 
   return (
     <div className="flex items-center gap-1 dark:text-white">
