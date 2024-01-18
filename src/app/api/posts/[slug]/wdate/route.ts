@@ -11,6 +11,9 @@ export async function GET(request: NextRequest, { params }: { params: {slug: str
             },
             date: {
                 not: null
+            },
+            status: {
+                notIn: ['Draft']
             }
         },
         orderBy: {

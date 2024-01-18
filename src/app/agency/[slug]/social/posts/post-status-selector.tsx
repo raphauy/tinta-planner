@@ -17,7 +17,7 @@ export function PostStatusSelector({ id, status, onPost }: Props) {
 
   useEffect(() => {
     setNode(getNode(status))
-  }, [status])
+  }, [status, id])
   
 
   function handleClick(status: string) {

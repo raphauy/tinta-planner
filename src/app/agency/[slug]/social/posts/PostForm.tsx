@@ -42,6 +42,8 @@ function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
 
     if (!watchPilar) return
 
+    if (toEdit) return
+
     getLastPostOfPilarAction(watchPilar)
     .then((post) => {
       if (!post) return
@@ -53,7 +55,7 @@ function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
       console.log(e)
     })
     
-  }, [watchPilar, setValue])
+  }, [watchPilar, setValue, toEdit])
   
 
   useEffect(() => {
