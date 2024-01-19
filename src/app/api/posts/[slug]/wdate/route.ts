@@ -13,7 +13,7 @@ export async function GET(request: NextRequest, { params }: { params: {slug: str
                 not: null
             },
             status: {
-                notIn: ['Draft']
+                not: 'Draft'
             }
         },
         orderBy: {

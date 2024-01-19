@@ -27,7 +27,7 @@ export async function POST(request: Request, { params }: { params: {slug: string
     const slug = params.slug;
     const json = await request.json();
 
-    const { title, image, format, hashtags, copy, link, date, pilarId }= json;
+    const { title, image, format, hashtags, copy, link, date, pilarId, comments }= json;
 
     // Define dateWithTime solo si date tiene un valor
     let dateWithTime: Date | undefined;
@@ -56,6 +56,7 @@ export async function POST(request: Request, { params }: { params: {slug: string
         copy: string,
         link: string | undefined,
         date?: Date,
+        comments?: string,
         client: {
             connect: {
                 id: number
@@ -73,6 +74,7 @@ export async function POST(request: Request, { params }: { params: {slug: string
         hashtags,
         copy,
         link,
+        comments,
         client: {
             connect: {
                 id: client.id

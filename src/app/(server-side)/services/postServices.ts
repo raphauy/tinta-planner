@@ -7,6 +7,9 @@ export async function getPostsBySlug(slug: string) {
         where: {
             client: {
                 slug
+            },
+            status: {
+                not: 'Draft'
             }
         },
         orderBy: {
