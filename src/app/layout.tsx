@@ -1,7 +1,7 @@
-import { TailwindIndicator } from "@/components/tailwind-indicator";
+import { TailwindIndicator } from "@/components/shadcn/tailwind-indicator";
+import { GeistSans } from "geist/font";
 import { AuthContext } from "./(client-side)/context/AuthContext";
 import ToasterContext from "./(client-side)/context/ToasterContext";
-import { GeistSans } from "geist/font";
 import "./globals.css";
 
 export const metadata = {
@@ -16,13 +16,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className={`${GeistSans.className}`}>
-      <body>
+      <body className="w-full">
         <AuthContext>
-          <ToasterContext />
-          <div className="flex flex-col w-full min-h-screen bg-tinta-natural">
-            {children}
-          </div>
-          <TailwindIndicator />
+
+            <ToasterContext />
+            <div className="flex flex-col min-w-full min-h-screen w-fit bg-tinta-natural">
+              {children}
+            </div>          
+            <TailwindIndicator />
+            
         </AuthContext>
       </body>
     </html>

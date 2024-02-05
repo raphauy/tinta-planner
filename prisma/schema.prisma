@@ -54,6 +54,10 @@ model Client {
     reportDefinitionId String?
     fechasImportantes FechaImportante[]
     brandVoice        String?
+    newsletters       Newsletter[]
+    contacts          Contact[]
+    envios            Envio[]
+    emails            Email[]
 }
 
 model Pilar {
@@ -252,4 +256,53 @@ model FechaImportante {
   date          DateTime
   client        Client?    @relation(fields: [clientId], references: [id], onDelete: Restrict)
   clientId      Int?
+}
+
+model Newsletter {
+  id            String    @id @default(cuid())
+  name          String                      // gennext: show.column
+  contentHtml   String?   @db.Text
+  contentJson   String?   @db.Text
+  createdAt     DateTime  @default(now())   // gennext: show.column skip.zod
+  client        Client    @relation(fields: [clientId], references: [id], onDelete: NoAction)
+  clientId      Int
+  envios        Envio[]
+}
+
+model Envio {
+  id                  String    @id @default(cuid())
+  status              String    @default("draft") // gennext: show.column
+  newsletterSubject   String?                     // gennext: show.column
+  createdAt           DateTime  @default(now())   // gennext: show.column skip.zod
+  startedAt           DateTime?                   // gennext: show.column
+  sentByName          String?                     // gennext: show.column
+  newsletter          Newsletter @relation(fields: [newsletterId], references: [id], onDelete: NoAction)
+  newsletterId        String
+  emailFrom           String?                     // gennext: show.column
+  emailSubject        String?                     // gennext: show.column
+  emails              Email[]
+  client        Client    @relation(fields: [clientId], references: [id], onDelete: NoAction)
+  clientId      Int
+}
+
+model Email {
+  id            String    @id @default(cuid())
+  status        String    @default("draft")       // gennext: show.column
+  createdAt     DateTime  @default(now())         // gennext: skip.zod
+  sentAt        DateTime?                         // gennext: show.column skip.zod
+  envio         Envio     @relation(fields: [envioId], references: [id], onDelete: NoAction)
+  envioId       String
+  emailTo       String                            // gennext: show.column
+  emailSubject  String                            // gennext: show.column
+  client        Client    @relation(fields: [clientId], references: [id], onDelete: NoAction)
+  clientId      Int
+}
+
+model Contact {
+  id            String    @id @default(cuid())
+  name          String?       // gennext: show.column
+  email         String        // gennext: show.column
+  createdAt     DateTime  @default(now()) // gennext: skip.zod
+  client        Client    @relation(fields: [clientId], references: [id], onDelete: Restrict)  
+  clientId      Int 
 }

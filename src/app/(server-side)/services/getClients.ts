@@ -127,6 +127,25 @@ export async function getClientBySlug(slug: string) {
   }
 };
 
+export async function getClientIdBySlug(slug: string): Promise<number | null> {
+
+  try {
+    const found = await prisma.client.findUnique({
+      where: {
+        slug: slug
+      },
+      select: {
+        id: true
+      }
+    });
+
+    return found?.id || null;
+  } catch (error: any) {
+    return null;
+  }
+
+}
+
 export async function getClientById(id: number) {
 
   const found = await prisma.client.findUnique({

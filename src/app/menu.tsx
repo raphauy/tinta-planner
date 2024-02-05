@@ -22,6 +22,8 @@ export default function Menu() {
     const socialSelected= path.includes("social")
     const crmHref= `/agency/${slug}/crm`
     const crmSelected= path.includes("crm")
+    const newsletterHref= `/agency/${slug}/newsletter`
+    const newsletterSelected= path.includes("newsletter")
     const adminSelected= path.includes("admin")
 
     return (
@@ -33,14 +35,14 @@ export default function Menu() {
                     <>
                         <ClientMenu />
                         <AgencyMenu socialHref={socialHref} socialSelected={socialSelected}/>
-                        <AgencyAdminMenu crmHref={crmHref} crmSelected={crmSelected} />
+                        <AgencyAdminMenu crmHref={crmHref} crmSelected={crmSelected} newsletterHref={newsletterHref} newsletterSelected={newsletterSelected} />
                     </>
                 }
                 {role === "admin" && 
                     <>
                     <ClientMenu />
                     <AgencyMenu socialHref={socialHref} socialSelected={socialSelected}/>
-                    <AgencyAdminMenu crmHref={crmHref} crmSelected={crmSelected} />
+                    <AgencyAdminMenu crmHref={crmHref} crmSelected={crmSelected} newsletterHref={newsletterHref} newsletterSelected={newsletterSelected} />
                     <AdminMenu adminSelected={adminSelected} />
                 </>
             }
@@ -71,14 +73,19 @@ function AgencyMenu({ socialHref, socialSelected }: AgencyProps) {
 }
 
 interface AgencyAdminProps {
-    crmHref: string,
+    crmHref: string
     crmSelected: boolean
+    newsletterHref: string
+    newsletterSelected: boolean
 }
-function AgencyAdminMenu({ crmHref, crmSelected }: AgencyAdminProps) {
+function AgencyAdminMenu({ crmHref, crmSelected, newsletterHref, newsletterSelected }: AgencyAdminProps) {
     return (
         <>
             <li className={cn("flex items-center border-b-tinta-vino hover:border-b-tinta-vino hover:border-b-2 h-10", crmSelected && "border-b-2")}>
                 <Link href={crmHref}><Button className="h-8 text-lg" variant="ghost">CRM</Button></Link>
+            </li>
+            <li className={cn("flex items-center border-b-tinta-vino hover:border-b-tinta-vino hover:border-b-2 h-10", newsletterSelected && "border-b-2")}>
+                <Link href={newsletterHref}><Button className="h-8 text-lg" variant="ghost">Newsletter</Button></Link>
             </li>
         </>
     )    
