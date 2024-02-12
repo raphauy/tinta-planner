@@ -10,7 +10,7 @@ type Props = {
         newsletterId: string
     }
 }
-export default async function Novel({ params }: Props) {
+export default async function Page({ params }: Props) {
     const { slug, newsletterId } = params
     const newsletter= await getNewsletterDAO(newsletterId)
     if (!newsletter) {
@@ -18,7 +18,7 @@ export default async function Novel({ params }: Props) {
     }
     let content= newsletter.contentJson
     if (!content) {
-        content= JSON.stringify(defaultEditorContent)
+        content= JSON.stringify(defaultContent)
     }
 
     if (newsletter.clientSlug !== slug) {
@@ -42,7 +42,7 @@ export default async function Novel({ params }: Props) {
     )
 }
 
-export const defaultEditorContent = {
+const defaultContent = {
     type: "doc",
     content: [
       {
