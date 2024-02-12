@@ -4,8 +4,10 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import CustomEvent, { Event } from './CustomEvent';
+import 'moment/locale/es';
 
 
+moment.locale('es');
 const localizer = momentLocalizer(moment);
 
 
@@ -36,10 +38,11 @@ const CalendarRC: React.FC<MyCalendarProps> = ({ events }) => {
           event: CustomEvent,
         }}
         localizer={localizer}
+        culture='es'
         events={events}
         startAccessor="start"
         endAccessor="end"        
-        eventPropGetter={customEventPropGetter}
+        eventPropGetter={customEventPropGetter}        
       />
     </div>
   );

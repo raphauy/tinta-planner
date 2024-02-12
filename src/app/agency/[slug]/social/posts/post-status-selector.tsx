@@ -49,6 +49,9 @@ export function PostStatusSelector({ id, status, onPost }: Props) {
           <MenubarItem onClick={() => handleClick("Programado")}>
             {getNode("Programado")}
           </MenubarItem>
+          <MenubarItem onClick={() => handleClick("Publicado")}>
+            {getNode("Publicado")}
+          </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
     </Menubar>

@@ -53,6 +53,8 @@ export function getPostStatusColor(status: string, opacity?: string) {
       return `rgba(0, 128, 0, ${opacity || 1})`; // green
     case "Programado":
       return `rgba(51, 153, 255, ${opacity || 1})`; // sky
+    case "Publicado":
+      return `rgba(255, 215, 0, ${opacity || 1})`;
     default:
       return `rgba(156, 163, 175, ${opacity || 1})`; // gray
     }

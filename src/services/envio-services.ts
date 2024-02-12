@@ -154,7 +154,7 @@ export async function sendTestEmail(envioId: string, emailTo: string) {
 
   const resend = new Resend(process.env.RESEND_API_KEY);
 
-  const mailId= "test-email"
+  const mailId= "only-image"
 
   const { data, error } = await resend.emails.send({
     from: envio.emailFrom,

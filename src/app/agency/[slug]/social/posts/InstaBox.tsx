@@ -138,24 +138,26 @@ export default function InstaBox({ postId, onDelete, onEdit, onPost, client }: I
       <div className='p-4 flex justify-between m-4 bg-white border rounded min-w-[380px] max-w-[500px]'>
         <div className='grid grid-cols-[111px,1fr]'>
           <p className='font-bold'>Título:</p>      
-          <p>{post.title}</p>      
+          <div className='flex justify-between'>
+            <p>{post.title}</p>      
+            <div>
+              {onPost && <PostStatusSelector id={postId} status={post.status} onPost={onPost} />}
+            </div>
+          </div>
           <p className='font-bold'>Pilar:</p>      
           <p>{post.pilar.name}</p>      
           <p className='font-bold'>Formato:</p>
           <p>{post.format}</p>
-          <p className='font-bold'>Fecha:</p>
+          <p className='font-bold '>Fecha:</p>
           <p>{post.date && new Date(post.date).toISOString().split('T')[0]}</p>          
           {
             isAgency && (
-              <>
+              <div className='w-full col-span-2'>
                 <p className='font-bold'>Comentarios:</p>
-                <p>{post.comments}</p>              
-              </>
+                <p className='break-words whitespace-pre-line'>{post.comments}</p>              
+              </div>
             )
           }
-        </div>
-        <div>
-          {onPost && <PostStatusSelector id={postId} status={post.status} onPost={onPost} />}
         </div>
       </div>
       <div className='p-4 m-4 bg-white border rounded min-w-[400px] max-w-[500px] grid-cols-2 xl:grid-cols-3 grid gap-4'>

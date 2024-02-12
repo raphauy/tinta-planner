@@ -31,7 +31,7 @@ const CustomEvent: React.FC<CustomEventProps> = ({ event }) => {
 
   const fechasImportantes: string[]= event.fechaImportante.split(",")
 
-  const statusColor= event.status === "Aprobado" ? "text-green-500" : event.status === "Revisado" ? "text-orange-500" : event.status === "Programado" ? "text-sky-500" : "text-gray-500"
+  const statusColor= event.status === "Aprobado" ? "text-green-500" : event.status === "Revisado" ? "text-orange-500" : event.status === "Programado" ? "text-sky-500" : event.status === "Publicado" ? "text-yellow-500" : "text-gray-500"
   // pastDate is true if the event is in the past, use date-fns to compare dates
   const pastDate= isBefore(event.start, new Date())
 
