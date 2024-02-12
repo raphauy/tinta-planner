@@ -38,7 +38,7 @@ export default async function ArticlePreview({ params }: Props) {
 
             <p className="mb-4 text-3xl font-bold">{newsletter.name}</p>
 
-            <Image className="rounded-t-md" src={`${baseUrl}/api/client/${newsletter.clientSlug}/banner/only-image`} width={1200} height={400} alt="Newsletter" />
+            <Image className="rounded-t-md" src={`${baseUrl}/api/client/${newsletter.clientSlug}/banner/only-image`} width={1200} height={400} alt="Banner" />
 
             <ContentViewer content={content} />
 

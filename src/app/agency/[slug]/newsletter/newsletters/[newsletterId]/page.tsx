@@ -34,7 +34,7 @@ export default async function Page({ params }: Props) {
                 <EditNewsletterDialog id={newsletter.id} />
             </div>
 
-            <Image className="rounded-t-md" src={`${baseUrl}/api/client/${newsletter.clientSlug}/banner/only-image`} width={1200} height={400} alt="Newsletter" />
+            <Image className="rounded-t-md" src={`${baseUrl}/api/client/${newsletter.clientSlug}/banner/only-image`} width={1200} height={400} alt="Banner" />
 
             <NovelOnClient newsletterId={newsletterId} initialContent={content} slug={newsletter.clientSlug} />
 

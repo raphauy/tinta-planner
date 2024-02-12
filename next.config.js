@@ -15,7 +15,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "tinta.wine",
+        hostname: "planner.tinta.wine",
         port: "",
       },
     ],
