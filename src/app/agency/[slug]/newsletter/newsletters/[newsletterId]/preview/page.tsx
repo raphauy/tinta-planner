@@ -3,7 +3,6 @@ import { Download } from "lucide-react";
 import Link from "next/link";
 import ContentViewer from "./content-viewer";
 import { getNewsletterDAO } from "@/services/newsletter-services";
-import { defaultEditorContent } from "../page";
 import { EditNewsletterDialog } from "../../newsletter-dialogs";
 import Image from "next/image";
 import { redirect } from "next/navigation";
@@ -25,7 +24,7 @@ export default async function ArticlePreview({ params }: Props) {
 
     let content= newsletter.contentJson
     if (!content) {
-        content= JSON.stringify(defaultEditorContent)
+        content= JSON.stringify("")
     }
 
     if (newsletter.clientSlug !== slug) {
