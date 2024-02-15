@@ -35,7 +35,7 @@ export default function Newsletter({ content, slug, mailId, banner, footerText, 
                 <Text className="mx-6 whitespace-pre-line">
                   {footerText}
                 </Text>
-                <Link className="mx-6" href={linkHref}>
+                <Link className="pb-4 mx-6" href={linkHref}>
                   {linkText}
                 </Link>
               </Row>
