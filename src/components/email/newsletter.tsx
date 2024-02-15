@@ -21,7 +21,7 @@ export default function Newsletter({ content, slug, mailId, banner, footerText, 
       <Head />
       <Tailwind>
         <Body className="w-full font-sans text-gray-600 bg-gray-100">
-          <div className="w-full bg-white shadow-sm">
+          <Container className="w-full bg-white shadow-sm">
             <Img
               src={banner}
               width="100%"
@@ -40,7 +40,7 @@ export default function Newsletter({ content, slug, mailId, banner, footerText, 
                 </Link>
               </Row>
             </Section>
-          </div>
+          </Container>
         </Body>
       </Tailwind>
     </Html>
