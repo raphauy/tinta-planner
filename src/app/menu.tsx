@@ -30,19 +30,19 @@ export default function Menu() {
         <nav className="text-muted-foreground">
             <ul className="flex items-center">
                 {role === "client" && <ClientMenu />}
-                {role === "agency" && <><ClientMenu /><AgencyMenu socialHref={socialHref} socialSelected={socialSelected}/></>}
+                {role === "agency" && <><ClientMenu /><AgencyMenu socialHref={socialHref} socialSelected={socialSelected} newsletterHref={newsletterHref} newsletterSelected={newsletterSelected} /></>}
                 {role === "agency-admin" && 
                     <>
                         <ClientMenu />
-                        <AgencyMenu socialHref={socialHref} socialSelected={socialSelected}/>
-                        <AgencyAdminMenu crmHref={crmHref} crmSelected={crmSelected} newsletterHref={newsletterHref} newsletterSelected={newsletterSelected} />
+                        <AgencyMenu socialHref={socialHref} socialSelected={socialSelected} newsletterHref={newsletterHref} newsletterSelected={newsletterSelected} />
+                        <AgencyAdminMenu crmHref={crmHref} crmSelected={crmSelected} />
                     </>
                 }
                 {role === "admin" && 
                     <>
                     <ClientMenu />
-                    <AgencyMenu socialHref={socialHref} socialSelected={socialSelected}/>
-                    <AgencyAdminMenu crmHref={crmHref} crmSelected={crmSelected} newsletterHref={newsletterHref} newsletterSelected={newsletterSelected} />
+                    <AgencyMenu socialHref={socialHref} socialSelected={socialSelected} newsletterHref={newsletterHref} newsletterSelected={newsletterSelected} />
+                    <AgencyAdminMenu crmHref={crmHref} crmSelected={crmSelected} />
                     <AdminMenu adminSelected={adminSelected} />
                 </>
             }
@@ -61,12 +61,17 @@ function ClientMenu() {
 interface AgencyProps {
     socialHref: string,
     socialSelected: boolean
+    newsletterHref: string
+    newsletterSelected: boolean
 }
-function AgencyMenu({ socialHref, socialSelected }: AgencyProps) {
+function AgencyMenu({ socialHref, socialSelected, newsletterHref, newsletterSelected }: AgencyProps) {
     return (
         <>
             <li className={cn("flex items-center border-b-tinta-vino hover:border-b-tinta-vino hover:border-b-2 h-10", socialSelected && "border-b-2")}>
                 <Link href={socialHref}><Button className="h-8 text-lg" variant="ghost">Social</Button></Link>
+            </li>
+            <li className={cn("flex items-center border-b-tinta-vino hover:border-b-tinta-vino hover:border-b-2 h-10", newsletterSelected && "border-b-2")}>
+                <Link href={newsletterHref}><Button className="h-8 text-lg" variant="ghost">Newsletter</Button></Link>
             </li>
         </>
     )    
@@ -75,17 +80,12 @@ function AgencyMenu({ socialHref, socialSelected }: AgencyProps) {
 interface AgencyAdminProps {
     crmHref: string
     crmSelected: boolean
-    newsletterHref: string
-    newsletterSelected: boolean
 }
-function AgencyAdminMenu({ crmHref, crmSelected, newsletterHref, newsletterSelected }: AgencyAdminProps) {
+function AgencyAdminMenu({ crmHref, crmSelected }: AgencyAdminProps) {
     return (
         <>
             <li className={cn("flex items-center border-b-tinta-vino hover:border-b-tinta-vino hover:border-b-2 h-10", crmSelected && "border-b-2")}>
                 <Link href={crmHref}><Button className="h-8 text-lg" variant="ghost">CRM</Button></Link>
-            </li>
-            <li className={cn("flex items-center border-b-tinta-vino hover:border-b-tinta-vino hover:border-b-2 h-10", newsletterSelected && "border-b-2")}>
-                <Link href={newsletterHref}><Button className="h-8 text-lg" variant="ghost">Newsletter</Button></Link>
             </li>
         </>
     )    
