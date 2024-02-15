@@ -220,7 +220,6 @@ export default function PostForm({ onPost, postToEdit, client }: PostFormProps) 
             uploadPreset="tinta-posts"
           >              
             <BsUpload size={30} className='w-32 h-10 p-2 bg-gray-200 border border-gray-500 rounded-md hover:bg-gray-300' />
-            {/** imagePreviewUrl && (<Image className='rounded-md cursor-pointer' width={681} height={528} src={imagePreviewUrl} alt="post image" />) */}          
           </CldUploadButton>
         </div>
 

@@ -127,6 +127,18 @@ export async function getClientBySlug(slug: string) {
   }
 };
 
+export async function getClientLightBySlug(slug: string) {
+  
+  const found = await prisma.client.findUnique({
+    where: {
+      slug: slug
+    },
+  })
+
+  return found
+}
+
+
 export async function getClientIdBySlug(slug: string): Promise<number | null> {
 
   try {
@@ -157,3 +169,14 @@ export async function getClientById(id: number) {
   return found
 }
 
+export async function setBanner(id: number, banner: string) {
+  const updated= await prisma.client.update({
+    where: {
+      id
+    },
+    data: {
+      banners: banner
+    }
+  })
+  return updated
+}

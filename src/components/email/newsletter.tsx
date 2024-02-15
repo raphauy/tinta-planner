@@ -7,11 +7,12 @@ interface Props {
   content: string
   slug: string
   mailId: string
+  banner: string
 }
 
 const baseUrl = process.env.NEXTAUTH_URL
 
-export default function Newsletter({ content, slug, mailId }: Props) {
+export default function Newsletter({ content, slug, mailId, banner }: Props) {
   return (
     <Html>
       <Head />
@@ -19,7 +20,7 @@ export default function Newsletter({ content, slug, mailId }: Props) {
         <Body className="w-full py-6 font-sans text-gray-600 bg-gray-100">
           <Container className="w-full my-6 bg-white shadow-sm">
             <Img
-              src={`${baseUrl}/api/client/${slug}/banner/${mailId}`}
+              src={banner}
               width="100%"
               height="auto"
               alt="Newsletter"

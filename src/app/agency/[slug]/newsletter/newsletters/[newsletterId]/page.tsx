@@ -3,6 +3,11 @@ import NovelOnClient from "./editor-on-client";
 import { EditNewsletterDialog } from "../newsletter-dialogs";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+import { getClientBySlug } from "@/app/(server-side)/services/getClients";
+import { CldUploadButton } from "next-cloudinary";
+import { BsUpload } from "react-icons/bs";
+import { NewsletterForm } from "../newsletter-forms";
+import { BannerForm } from "../banner-form";
 
 type Props = {
     params: {
@@ -25,16 +30,19 @@ export default async function Page({ params }: Props) {
         redirect(`/agency/${slug}/newsletter/newsletters`)
     }
 
-    const baseUrl = process.env.NEXTAUTH_URL
+    const client= await getClientBySlug(slug)
 
     return (
         <div className="flex flex-col w-full p-1 md:p-4 xl:p-8">
             <div className="flex items-center justify-center gap-4 mb-4">
                 <p className="text-3xl font-bold">{newsletter.name}</p>
                 <EditNewsletterDialog id={newsletter.id} />
+                <BannerForm slug={slug} />
             </div>
 
-            <Image className="rounded-t-md" src={`${baseUrl}/api/client/${newsletter.clientSlug}/banner/only-image`} width={1200} height={400} alt="Banner" />
+            
+
+            <Image className="rounded-t-md" src={`${client?.banners}`} width={1200} height={400} alt="Banner" />
 
             <NovelOnClient newsletterId={newsletterId} initialContent={content} slug={newsletter.clientSlug} />
 

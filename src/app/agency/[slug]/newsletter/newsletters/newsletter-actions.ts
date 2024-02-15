@@ -1,5 +1,6 @@
 "use server"
   
+import getClients, { getClientById, getClientBySlug, getClientLightBySlug, setBanner } from "@/app/(server-side)/services/getClients"
 import { NewsletterDAO, NewsletterFormValues, createNewsletter, deleteNewsletter, getNewsletterDAO, updateContent, updateNewsletter } from "@/services/newsletter-services"
 import { revalidatePath } from "next/cache"
     
@@ -38,3 +39,17 @@ export async function updateContentAction(id: string, contentHtml: string, conte
     return updated as NewsletterDAO
   }
   
+
+  export async function getClientLightBySlugAction(slug: string) {
+    return getClientLightBySlug(slug)
+  }
+
+  export async function setBannerAction(slug: string, banner: string) {
+    const client= await getClientBySlug(slug)
+    if (!client) {
+        return null
+    }
+    const updated= await setBanner(client.id, banner)
+    revalidatePath(`/agency/${slug}/newsletter/newsletters`)
+    return updated
+  }

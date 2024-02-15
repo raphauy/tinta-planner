@@ -7,6 +7,7 @@ import Newsletter from "@/components/email/newsletter"
 import { getContactsDAOByClientId } from "./contact-services"
 import { EmailFormValues, createEmail, getPendingEmailsDAOByEnvioIdAndTake, setEmailStatus, updateEmail } from "./email-services"
 import getCurrentUser from "@/app/(server-side)/services/getCurrentUser"
+import { getClientById, getClientLightBySlug } from "@/app/(server-side)/services/getClients"
 
 export type EnvioDAO = {
 	id: string
@@ -140,7 +141,7 @@ export async function deleteEnvio(id: string) {
 }
     
 
-export async function sendTestEmail(envioId: string, emailTo: string) {
+export async function sendTestEmail(envioId: string, emailTo: string, banner: string) {
   console.log("Sending test email to: ", emailTo);
 
   const envio = await getEnvioDAO(envioId)
@@ -160,7 +161,7 @@ export async function sendTestEmail(envioId: string, emailTo: string) {
     from: envio.emailFrom,
     to: [emailTo],
     subject: newsletter.name,
-    react: Newsletter({ content: newsletter.contentHtml, slug, mailId }),
+    react: Newsletter({ content: newsletter.contentHtml, slug, mailId , banner}),
   });
  
 
@@ -174,7 +175,7 @@ export async function sendTestEmail(envioId: string, emailTo: string) {
   return true
 }
 
-export async function sendEnvioToAllContacts(envioId: string, user: string) {
+export async function sendEnvioToAllContacts(envioId: string, user: string, banner: string) {
   const envio = await getEnvioDAO(envioId)
   const newsletter= envio.newsletter
   if (!envio || !envio.emailFrom || !envio.newsletter || !envio.newsletter.name) { 
@@ -236,7 +237,7 @@ export async function sendEnvioToAllContacts(envioId: string, user: string) {
         from,
         to: email.emailTo,
         subject: newsletter.name,
-        react: Newsletter({ content, slug, mailId }),
+        react: Newsletter({ content, slug, mailId, banner}),
       }
     })
 

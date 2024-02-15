@@ -58,6 +58,9 @@ model Client {
     contacts          Contact[]
     envios            Envio[]
     emails            Email[]
+    banners           String   @default("https://res.cloudinary.com/dtm41dmrz/image/upload/v1707992892/tinta-posts/caucrfygvq9yun468q7z.jpg")
+    linkHref          String   @default("https://tinta.wine")
+    linkText          String   @default("Conocé más")
 }
 
 model Pilar {

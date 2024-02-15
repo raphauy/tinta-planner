@@ -5,6 +5,7 @@ import { getNewslettersDAOByClientId } from "@/services/newsletter-services"
 import { revalidatePath } from "next/cache"
 import { DataSelect } from "./envio-forms"
 import getCurrentUser from "@/app/(server-side)/services/getCurrentUser"
+import { getClientById } from "@/app/(server-side)/services/getClients"
 
     
 
@@ -49,12 +50,28 @@ export async function getNewslettersDataSelectByClientId(clientId: number): Prom
 
 
 export async function sendTestEmailAction(envioId: string, emailTo: string): Promise<boolean> {    
-    const res= await sendTestEmail(envioId, emailTo)
+    const envio= await getEnvioDAO(envioId)
+    const client= await getClientById(envio.clientId)
+    if (!client || !client.banners) {
+      console.log("Error getting client or banner")    
+      throw new Error("Error getting client or banner")
+    }
+    const banner= client.banners
+  
+    const res= await sendTestEmail(envioId, emailTo, banner)
     revalidatePath("/newsletter/envios")
     return res
 }
 
 export async function sendEnvioToAllContactsAction(envioId: string) {
+    const envio= await getEnvioDAO(envioId)
+    const client= await getClientById(envio.clientId)
+    if (!client || !client.banners) {
+      console.log("Error getting client or banner")    
+      throw new Error("Error getting client or banner")
+    }
+    const banner= client.banners
+
     const currentUser= await getCurrentUser()
     if (!currentUser) {
         throw new Error("No current user")
@@ -62,7 +79,7 @@ export async function sendEnvioToAllContactsAction(envioId: string) {
     console.log("Sending envio to all contacts with user: ", currentUser.name);
     
 
-    const res= await sendEnvioToAllContacts(envioId, currentUser.name || "Unknown")
+    const res= await sendEnvioToAllContacts(envioId, currentUser.name || "Unknown", banner)
     revalidatePath("/newsletter/envios")
     return res
 }

@@ -4,17 +4,20 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { toast } from "@/components/ui/use-toast"
 import { useEffect, useState } from "react"
-import { deleteNewsletterAction, createOrUpdateNewsletterAction, getNewsletterDAOAction } from "./newsletter-actions"
+import { deleteNewsletterAction, createOrUpdateNewsletterAction, getNewsletterDAOAction, getClientLightBySlugAction } from "./newsletter-actions"
 import { newsletterSchema, NewsletterFormValues } from '@/services/newsletter-services'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Loader } from "lucide-react"
+import { CldUploadButton } from "next-cloudinary"
+import { BsUpload } from "react-icons/bs"
+import Image from "next/image"
 
 type Props= {
   id?: string
   clientId?: number
-  closeDialog: () => void
+  closeDialog?: () => void
 }
 
 export function NewsletterForm({ id, clientId, closeDialog }: Props) {
@@ -24,13 +27,14 @@ export function NewsletterForm({ id, clientId, closeDialog }: Props) {
     mode: "onChange",
   })
   const [loading, setLoading] = useState(false)
+  const [banner, setBanner] = useState("")
 
   const onSubmit = async (data: NewsletterFormValues) => {
     setLoading(true)
     try {
       await createOrUpdateNewsletterAction(id ? id : null, data)
       toast({ title: id ? "Newsletter updated" : "Newsletter created" })
-      closeDialog()
+      closeDialog && closeDialog()
     } catch (error: any) {
       toast({ title: "Error", description: error.message, variant: "destructive" })
     } finally {
@@ -55,8 +59,11 @@ export function NewsletterForm({ id, clientId, closeDialog }: Props) {
     }
   }, [form, id, clientId])
 
+ 
+
   return (
     <div className="p-4 bg-white rounded-md">
+      clientId: {clientId}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           
@@ -73,11 +80,9 @@ export function NewsletterForm({ id, clientId, closeDialog }: Props) {
               </FormItem>
             )}
           />
-          
-      
 
         <div className="flex justify-end">
-            <Button onClick={() => closeDialog()} type="button" variant={"secondary"} className="w-32">Cancel</Button>
+            <Button onClick={() => closeDialog && closeDialog()} type="button" variant={"secondary"} className="w-32">Cancel</Button>
             <Button variant="outline" type="submit" className="w-32 ml-2">
               {loading ? <Loader className="w-4 h-4 animate-spin" /> : <p>Save</p>}
             </Button>
