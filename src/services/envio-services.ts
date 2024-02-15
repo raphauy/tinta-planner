@@ -148,6 +148,9 @@ export async function sendTestEmail(envioId: string, emailTo: string, banner: st
   const newsletter= envio.newsletter
   if (!envio || !envio.emailFrom || !envio.newsletter || !envio.newsletter.name || !newsletter.contentHtml) { 
     console.log("Error sending test email, data validation failed.")    
+    console.log("envio: ", envio)
+    console.log("newsletter: ", newsletter)    
+    
     throw new Error("Error sending test email")
   }
 
