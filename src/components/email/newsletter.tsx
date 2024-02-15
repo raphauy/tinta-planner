@@ -19,7 +19,7 @@ export default function Newsletter({ content, slug, mailId, banner, footerText, 
       <Head />
       <Tailwind>
         <Body className="w-full font-sans text-gray-600 bg-gray-100">
-          <Container className="w-full bg-white shadow-sm">
+          <div className="w-full bg-white shadow-sm">
             <Img
               src={banner}
               width="100%"
@@ -29,16 +29,16 @@ export default function Newsletter({ content, slug, mailId, banner, footerText, 
             <Section className="my-6 text-[16px] leading-[23px] w-full">
               <div className="mx-6" dangerouslySetInnerHTML={{ __html: content }} />
               <Hr />
-              <Row>
+              <Row className="pb-4">
                 <Text className="mx-6 whitespace-pre-line">
                   {footerText}
                 </Text>
-                <Link className="pb-4 mx-6" href={linkHref}>
+                <Link className="mx-6" href={linkHref}>
                   {linkText}
                 </Link>
               </Row>
             </Section>
-          </Container>
+          </div>
         </Body>
       </Tailwind>
     </Html>

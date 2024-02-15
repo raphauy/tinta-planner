@@ -6,6 +6,7 @@ import { getNewsletterDAO } from "@/services/newsletter-services";
 import { EditNewsletterDialog } from "../../newsletter-dialogs";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+import { getClientBySlug } from "@/app/(server-side)/services/getClients";
 
 type Props = {
     params: {
@@ -31,16 +32,26 @@ export default async function ArticlePreview({ params }: Props) {
         redirect(`/agency/${slug}/newsletter/newsletters`)
     }
 
-    const baseUrl = process.env.NEXTAUTH_URL
+    const client= await getClientBySlug(slug)
+    if (!client) {
+        return <div>Client not found</div>
+    }
 
     return (
         <div className="flex flex-col items-center p-1 md:p-4 xl:p-8">
 
             <p className="mb-4 text-3xl font-bold">{newsletter.name}</p>
 
-            <Image className="rounded-t-md" src={`${baseUrl}/api/client/${newsletter.clientSlug}/banner/only-image`} width={1200} height={400} alt="Banner" />
+            <Image className="rounded-t-md" src={`${client?.banner}`} width={1200} height={400} alt="Banner" />
 
             <ContentViewer content={content} />
+
+            <div className="w-full p-4 bg-white rounded-md">
+                <div className="mx-3">
+                    <p className="mb-5 whitespace-pre-line">{client.footerText}</p>
+                    <a href={client.linkHref} target="_blank" className="text-blue-500">{client.linkText}</a>
+                </div>
+            </div>
 
         </div>
   )

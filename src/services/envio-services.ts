@@ -164,8 +164,7 @@ export async function sendTestEmail(envioId: string, emailTo: string, banner: st
     from: envio.emailFrom,
     to: [emailTo],
     subject: newsletter.name,
-    //react: Newsletter({ content: newsletter.contentHtml, slug, mailId , banner, footerText, linkHref, linkText}),
-    react: EmailTemplate({ firstName: "Test" }),
+    react: Newsletter({ content: newsletter.contentHtml, slug, mailId , banner, footerText, linkHref, linkText}),
   });
  
 
@@ -185,7 +184,9 @@ export async function sendEnvioToAllContacts(envioId: string, user: string, bann
   const envio = await getEnvioDAO(envioId)
   const newsletter= envio.newsletter
   if (!envio || !envio.emailFrom || !envio.newsletter || !envio.newsletter.name) { 
-    console.log("Error sending test email")    
+    console.log("Error sending All emails, data validation failed.")    
+    console.log("envio: ", envio)
+    console.log("newsletter: ", newsletter)    
     throw new Error("Error sending test email")
   }
 

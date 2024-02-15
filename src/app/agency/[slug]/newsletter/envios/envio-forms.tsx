@@ -206,7 +206,7 @@ export function TestEnvioForm({ envioId, closeDialog }: TestProps) {
       toast({ title: "Test Email sent" })
       closeDialog()
     } catch (error: any) {
-      toast({ title: "Error", description: error.message, variant: "destructive" })
+      toast({ title: "Error", description: "Verifica que el Newsletter hasya sido guardado.", variant: "destructive" })
     } finally {
       setLoading(false)
     }
