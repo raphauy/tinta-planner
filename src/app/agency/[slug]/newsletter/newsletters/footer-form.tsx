@@ -59,7 +59,7 @@ export function FooterForm({ slug, footerText, linkHref, linkText }: Props) {
   if (!editMode) {
     return (
       <div className="p-4 bg-white rounded-md">
-        <div className="flex justify-between">
+        <div className="flex justify-between mx-3">
           <div>
             <p className="mb-5 whitespace-pre-line">{footerText}</p>
             <a href={linkHref} target="_blank" className="text-blue-500">{linkText}</a>
