@@ -161,7 +161,8 @@ export async function sendTestEmail(envioId: string, emailTo: string, banner: st
     from: envio.emailFrom,
     to: [emailTo],
     subject: newsletter.name,
-    react: Newsletter({ content: newsletter.contentHtml, slug, mailId , banner, footerText, linkHref, linkText}),
+    //react: Newsletter({ content: newsletter.contentHtml, slug, mailId , banner, footerText, linkHref, linkText}),
+    react: EmailTemplate({ firstName: "Test" }),
   });
  
 

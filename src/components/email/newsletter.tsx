@@ -13,8 +13,6 @@ interface Props {
   linkText: string
 }
 
-const baseUrl = process.env.NEXTAUTH_URL
-
 export default function Newsletter({ content, slug, mailId, banner, footerText, linkHref, linkText }: Props) {
   return (
     <Html className="w-full">
