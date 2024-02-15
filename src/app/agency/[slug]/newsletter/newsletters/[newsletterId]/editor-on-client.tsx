@@ -45,7 +45,7 @@ export default function NovelOnClient({ newsletterId, slug, initialContent }: Pr
 
     return (
         <div className="relative flex h-full xl:min-w-[1000px] flex-col items-center gap-4 justify-between">
-            <div className="fixed z-20 flex flex-col gap-1 bottom-20 right-10">
+            <div className="fixed z-20 flex flex-col gap-1 bottom-50 right-10">
                 <Button onClick={save} className="p-2">
                 {loading ? (
                     <Loader className="w-4 h-4 animate-spin" />

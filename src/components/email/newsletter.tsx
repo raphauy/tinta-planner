@@ -8,11 +8,14 @@ interface Props {
   slug: string
   mailId: string
   banner: string
+  footerText: string
+  linkHref: string
+  linkText: string
 }
 
 const baseUrl = process.env.NEXTAUTH_URL
 
-export default function Newsletter({ content, slug, mailId, banner }: Props) {
+export default function Newsletter({ content, slug, mailId, banner, footerText, linkHref, linkText }: Props) {
   return (
     <Html>
       <Head />
@@ -29,10 +32,12 @@ export default function Newsletter({ content, slug, mailId, banner }: Props) {
               <div className="mx-6" dangerouslySetInnerHTML={{ __html: content }} />
               <Hr />
               <Row>
-                <Text className="mx-6">
-                  Gracias por seguir este Newsletter,<br />👋 Te veo en el próximo!<br />— Gabi (@gabizimmeruy)
+                <Text className="mx-6 whitespace-pre-line">
+                  {footerText}
                 </Text>
-                <Link className="mx-6" href="https://gabizimmer.com">👉 gabizimmer.com</Link>
+                <Link className="mx-6" href={linkHref}>
+                  {linkText}
+                </Link>
               </Row>
             </Section>
           </Container>

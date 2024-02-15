@@ -141,7 +141,7 @@ export async function deleteEnvio(id: string) {
 }
     
 
-export async function sendTestEmail(envioId: string, emailTo: string, banner: string) {
+export async function sendTestEmail(envioId: string, emailTo: string, banner: string, footerText: string, linkHref: string, linkText: string) {
   console.log("Sending test email to: ", emailTo);
 
   const envio = await getEnvioDAO(envioId)
@@ -161,7 +161,7 @@ export async function sendTestEmail(envioId: string, emailTo: string, banner: st
     from: envio.emailFrom,
     to: [emailTo],
     subject: newsletter.name,
-    react: Newsletter({ content: newsletter.contentHtml, slug, mailId , banner}),
+    react: Newsletter({ content: newsletter.contentHtml, slug, mailId , banner, footerText, linkHref, linkText}),
   });
  
 
@@ -175,7 +175,7 @@ export async function sendTestEmail(envioId: string, emailTo: string, banner: st
   return true
 }
 
-export async function sendEnvioToAllContacts(envioId: string, user: string, banner: string) {
+export async function sendEnvioToAllContacts(envioId: string, user: string, banner: string, footerText: string, linkHref: string, linkText: string) {
   const envio = await getEnvioDAO(envioId)
   const newsletter= envio.newsletter
   if (!envio || !envio.emailFrom || !envio.newsletter || !envio.newsletter.name) { 
@@ -237,7 +237,7 @@ export async function sendEnvioToAllContacts(envioId: string, user: string, bann
         from,
         to: email.emailTo,
         subject: newsletter.name,
-        react: Newsletter({ content, slug, mailId, banner}),
+        react: Newsletter({ content, slug, mailId, banner, footerText, linkHref, linkText }),
       }
     })
 

@@ -58,7 +58,8 @@ model Client {
     contacts          Contact[]
     envios            Envio[]
     emails            Email[]
-    banners           String   @default("https://res.cloudinary.com/dtm41dmrz/image/upload/v1707992892/tinta-posts/caucrfygvq9yun468q7z.jpg")
+    banner            String   @default("https://res.cloudinary.com/dtm41dmrz/image/upload/v1707992892/tinta-posts/caucrfygvq9yun468q7z.jpg")
+    footerText        String   @default("Tinta Wine - Agencia de Marketing Digital para Bodegas")
     linkHref          String   @default("https://tinta.wine")
     linkText          String   @default("Conocé más")
 }

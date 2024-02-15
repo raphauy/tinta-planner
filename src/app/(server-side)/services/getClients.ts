@@ -175,8 +175,22 @@ export async function setBanner(id: number, banner: string) {
       id
     },
     data: {
-      banners: banner
+      banner: banner
     }
+  })
+  return updated
+}
+
+export async function setFooter(id: number, footerText: string, linkHref: string, linkText: string) {
+  const updated= await prisma.client.update({
+    where: {
+      id
+    },
+    data: {
+      footerText,
+      linkHref,
+      linkText
+  }
   })
   return updated
 }

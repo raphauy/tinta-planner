@@ -8,6 +8,7 @@ import { CldUploadButton } from "next-cloudinary";
 import { BsUpload } from "react-icons/bs";
 import { NewsletterForm } from "../newsletter-forms";
 import { BannerForm } from "../banner-form";
+import { FooterForm } from "../footer-form";
 
 type Props = {
     params: {
@@ -31,6 +32,9 @@ export default async function Page({ params }: Props) {
     }
 
     const client= await getClientBySlug(slug)
+    if (!client) {
+        return <div>Client not found</div>
+    }
 
     return (
         <div className="flex flex-col w-full p-1 md:p-4 xl:p-8">
@@ -42,10 +46,15 @@ export default async function Page({ params }: Props) {
 
             
 
-            <Image className="rounded-t-md" src={`${client?.banners}`} width={1200} height={400} alt="Banner" />
+            <Image className="rounded-t-md" src={`${client?.banner}`} width={1200} height={400} alt="Banner" />
 
             <NovelOnClient newsletterId={newsletterId} initialContent={content} slug={newsletter.clientSlug} />
 
+            <div className="mt-10">
+                <p className="text-2xl font-bold">Footer:</p>
+                <FooterForm slug={slug} footerText={client.footerText} linkHref={client.linkHref} linkText={client.linkText} />
+            </div>
+            
         </div>
     )
 }

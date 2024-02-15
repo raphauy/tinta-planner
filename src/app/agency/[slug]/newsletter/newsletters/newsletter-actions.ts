@@ -1,6 +1,6 @@
 "use server"
   
-import getClients, { getClientById, getClientBySlug, getClientLightBySlug, setBanner } from "@/app/(server-side)/services/getClients"
+import getClients, { getClientById, getClientBySlug, getClientLightBySlug, setBanner, setFooter } from "@/app/(server-side)/services/getClients"
 import { NewsletterDAO, NewsletterFormValues, createNewsletter, deleteNewsletter, getNewsletterDAO, updateContent, updateNewsletter } from "@/services/newsletter-services"
 import { revalidatePath } from "next/cache"
     
@@ -32,24 +32,37 @@ export async function deleteNewsletterAction(id: string): Promise<NewsletterDAO 
     
 export async function updateContentAction(id: string, contentHtml: string, contentJson: string): Promise<NewsletterDAO | null> {
     
-    const updated= await updateContent(id, contentHtml, contentJson)
-  
-    revalidatePath("/newsletter/newsletters")
-  
-    return updated as NewsletterDAO
-  }
-  
+const updated= await updateContent(id, contentHtml, contentJson)
 
-  export async function getClientLightBySlugAction(slug: string) {
-    return getClientLightBySlug(slug)
-  }
+revalidatePath("/newsletter/newsletters")
 
-  export async function setBannerAction(slug: string, banner: string) {
+return updated as NewsletterDAO
+}
+
+
+export async function getClientLightBySlugAction(slug: string) {
+return getClientLightBySlug(slug)
+}
+
+export async function setBannerAction(slug: string, banner: string) {
+const client= await getClientBySlug(slug)
+if (!client) {
+    return null
+}
+const updated= await setBanner(client.id, banner)
+revalidatePath(`/agency/${slug}/newsletter/newsletters`)
+return updated
+}
+
+export async function setFooterAction(slug: string, footerText: string, linkHref: string, linkText: string) {
     const client= await getClientBySlug(slug)
     if (!client) {
         return null
     }
-    const updated= await setBanner(client.id, banner)
+
+    const updated= await setFooter(client.id, footerText, linkHref, linkText)
+
     revalidatePath(`/agency/${slug}/newsletter/newsletters`)
+
     return updated
-  }
+}

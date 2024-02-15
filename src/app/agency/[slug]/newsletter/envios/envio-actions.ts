@@ -52,13 +52,16 @@ export async function getNewslettersDataSelectByClientId(clientId: number): Prom
 export async function sendTestEmailAction(envioId: string, emailTo: string): Promise<boolean> {    
     const envio= await getEnvioDAO(envioId)
     const client= await getClientById(envio.clientId)
-    if (!client || !client.banners) {
+    if (!client || !client.banner) {
       console.log("Error getting client or banner")    
       throw new Error("Error getting client or banner")
     }
-    const banner= client.banners
+    const banner= client.banner
+    const footerText= client.footerText
+    const linkHref= client.linkHref
+    const linkText= client.linkText
   
-    const res= await sendTestEmail(envioId, emailTo, banner)
+    const res= await sendTestEmail(envioId, emailTo, banner, footerText, linkHref, linkText)
     revalidatePath("/newsletter/envios")
     return res
 }
@@ -66,11 +69,14 @@ export async function sendTestEmailAction(envioId: string, emailTo: string): Pro
 export async function sendEnvioToAllContactsAction(envioId: string) {
     const envio= await getEnvioDAO(envioId)
     const client= await getClientById(envio.clientId)
-    if (!client || !client.banners) {
+    if (!client || !client.banner) {
       console.log("Error getting client or banner")    
       throw new Error("Error getting client or banner")
     }
-    const banner= client.banners
+    const banner= client.banner
+    const footerText= client.footerText
+    const linkHref= client.linkHref
+    const linkText= client.linkText
 
     const currentUser= await getCurrentUser()
     if (!currentUser) {
@@ -79,7 +85,7 @@ export async function sendEnvioToAllContactsAction(envioId: string) {
     console.log("Sending envio to all contacts with user: ", currentUser.name);
     
 
-    const res= await sendEnvioToAllContacts(envioId, currentUser.name || "Unknown", banner)
+    const res= await sendEnvioToAllContacts(envioId, currentUser.name || "Unknown", banner, footerText, linkHref, linkText)
     revalidatePath("/newsletter/envios")
     return res
 }
