@@ -61,7 +61,7 @@ export async function sendTestEmailAction(envioId: string, emailTo: string): Pro
     const linkHref= client.linkHref
     const linkText= client.linkText
   
-    const res= await sendTestEmail(envioId, emailTo, banner, footerText, linkHref, linkText)
+    const res= await sendTestEmail(envioId, emailTo, footerText, linkHref, linkText)
     revalidatePath("/newsletter/envios")
     return res
 }
@@ -85,7 +85,7 @@ export async function sendEnvioToAllContactsAction(envioId: string) {
     console.log("Sending envio to all contacts with user: ", currentUser.name);
     
 
-    const res= await sendEnvioToAllContacts(envioId, currentUser.name || "Unknown", banner, footerText, linkHref, linkText)
+    const res= await sendEnvioToAllContacts(envioId, currentUser.name || "Unknown", footerText, linkHref, linkText)
     revalidatePath("/newsletter/envios")
     return res
 }
