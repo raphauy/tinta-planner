@@ -147,7 +147,7 @@ export async function sendTestEmail(envioId: string, emailTo: string, banner: st
   const envio = await getEnvioDAO(envioId)
   const newsletter= envio.newsletter
   if (!envio || !envio.emailFrom || !envio.newsletter || !envio.newsletter.name || !newsletter.contentHtml) { 
-    console.log("Error sending test email")    
+    console.log("Error sending test email, data validation failed.")    
     throw new Error("Error sending test email")
   }
 
@@ -167,7 +167,9 @@ export async function sendTestEmail(envioId: string, emailTo: string, banner: st
  
 
   if (error) {
-    console.log("Error sending test email", error)    
+    console.log("Error sending test email")    
+    console.log("error.name:", error.name)    
+    console.log("error.message:", error.message)
     return false
   } else {
     console.log("email result: ", data)
