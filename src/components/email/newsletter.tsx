@@ -17,11 +17,11 @@ const baseUrl = process.env.NEXTAUTH_URL
 
 export default function Newsletter({ content, slug, mailId, banner, footerText, linkHref, linkText }: Props) {
   return (
-    <Html>
+    <Html className="w-full">
       <Head />
       <Tailwind>
-        <Body className="w-full py-6 font-sans text-gray-600 bg-gray-100">
-          <Container className="w-full my-6 bg-white shadow-sm">
+        <Body className="w-full font-sans text-gray-600 bg-gray-100">
+          <div className="w-full bg-white shadow-sm">
             <Img
               src={banner}
               width="100%"
@@ -40,7 +40,7 @@ export default function Newsletter({ content, slug, mailId, banner, footerText, 
                 </Link>
               </Row>
             </Section>
-          </Container>
+          </div>
         </Body>
       </Tailwind>
     </Html>
