@@ -141,7 +141,7 @@ export async function deleteEnvio(id: string) {
 }
     
 
-export async function sendTestEmail(envioId: string, emailTo: string, banner: string, footerText: string, linkHref: string, linkText: string) {
+export async function sendTestEmail(envioId: string, emailTo: string, footerText: string, linkHref: string, linkText: string) {
   console.log("Sending test email to: ", emailTo);
 
   const envio = await getEnvioDAO(envioId)
@@ -159,12 +159,14 @@ export async function sendTestEmail(envioId: string, emailTo: string, banner: st
   const resend = new Resend(process.env.RESEND_API_KEY);
 
   const mailId= "only-image"
+  const BASE_URL = process.env.NEXTAUTH_URL || "http://localhost:3000"
+  const banner = `${BASE_URL}/api/client/${slug}/banner/${mailId}`
 
   const { data, error } = await resend.emails.send({
     from: envio.emailFrom,
     to: [emailTo],
     subject: newsletter.name,
-    react: Newsletter({ content: newsletter.contentHtml, slug, mailId , banner, footerText, linkHref, linkText}),
+    react: Newsletter({ content: newsletter.contentHtml, banner, footerText, linkHref, linkText}),
   });
  
 
@@ -180,7 +182,7 @@ export async function sendTestEmail(envioId: string, emailTo: string, banner: st
   return true
 }
 
-export async function sendEnvioToAllContacts(envioId: string, user: string, banner: string, footerText: string, linkHref: string, linkText: string) {
+export async function sendEnvioToAllContacts(envioId: string, user: string, footerText: string, linkHref: string, linkText: string) {
   const envio = await getEnvioDAO(envioId)
   const newsletter= envio.newsletter
   if (!envio || !envio.emailFrom || !envio.newsletter || !envio.newsletter.name) { 
@@ -230,6 +232,8 @@ export async function sendEnvioToAllContacts(envioId: string, user: string, bann
 
   // take 100 emails to send until all are sent
 
+  const BASE_URL = process.env.NEXTAUTH_URL || "http://localhost:3000"
+
   while (true) {
     const emailsToSend= await getPendingEmailsDAOByEnvioIdAndTake(envioId, 100)
     console.log(`sending ${emailsToSend.length} emails`)    
@@ -240,11 +244,13 @@ export async function sendEnvioToAllContacts(envioId: string, user: string, bann
 
     const arrayOfEmails = emailsToSend.map((email) => {
       const mailId= email.id
+      const banner = `${BASE_URL}/api/client/${slug}/banner/${mailId}`
+
       return {
         from,
         to: email.emailTo,
         subject: newsletter.name,
-        react: Newsletter({ content, slug, mailId, banner, footerText, linkHref, linkText }),
+        react: Newsletter({ content, banner, footerText, linkHref, linkText }),
       }
     })
 

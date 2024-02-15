@@ -5,15 +5,13 @@ import { Text } from '@react-email/text';
 
 interface Props {
   content: string
-  slug: string
-  mailId: string
   banner: string
   footerText: string
   linkHref: string
   linkText: string
 }
 
-export default function Newsletter({ content, slug, mailId, banner, footerText, linkHref, linkText }: Props) {
+export default function Newsletter({ content, banner, footerText, linkHref, linkText }: Props) {
   return (
     <Html className="w-full">
       <Head />

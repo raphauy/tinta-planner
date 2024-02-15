@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/app/(server-side)/db";
 import { setEmailStatus } from "@/services/email-services";
+import { getClientBySlug } from "@/app/(server-side)/services/getClients";
 
 type Props = {
     params: {
@@ -28,33 +29,16 @@ export async function GET(request: Request, { params }: Props) {
         },
     })
 
-    const text = found?.name || 'Newsletter';
+    const client= await getClientBySlug(slug)
+    if (!client) {
+        return NextResponse.json({ error: "client not found"}, { status: 401 })
+    }
 
-    const svg = `
-<svg width="1000" height="200" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" style="stop-color:rgb(255,255,255);stop-opacity:1" />
-        <stop offset="100%" style="stop-color:rgb(0,0,0);stop-opacity:1" />
-    </linearGradient>
-    </defs>
-    <style>
-        .text { font: bold 55px Arial; text-anchor: middle; dominant-baseline: middle; }
-    </style>
-    <rect width="100%" height="100%" fill="url(#gradient)" />
-    <text x="50%" y="50%" class="text" fill="black">${text}</text>
-</svg>
-`;
+    const banner= client.banner
+    // banner example: https://res.cloudinary.com/dt5zddm7f/image/upload/v1635820000/clients/1/banner.jpg
 
-    // res.setHeader('Content-Type', 'image/svg+xml');
-    // res.send(svg);
-
-    return new Response(svg, {
-        headers: {
-            'Content-Type': 'image/svg+xml',
-        },
-    });
-    
+    // return the banner like an image
+    return NextResponse.redirect(banner)
 
 }
 
