@@ -1,10 +1,9 @@
 module.exports = {
-    apps: [
-      {
-        name: "tinta-planner",
-        script: "pnpm",
-        args: "run start -- -p 8052",
-      },
-    ],
-  };
- 
+  apps: [
+    {
+      name: "tinta-planner",
+      script: "./start-app.sh",
+      interpreter: "bash",
+    },
+  ],
+};
