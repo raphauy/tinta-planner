@@ -4,7 +4,7 @@ import { prisma } from "@/app/(server-side)/db"
 import { Resend } from "resend"
 import { EmailTemplate } from "@/components/email/email-template"
 import Newsletter from "@/components/email/newsletter"
-import { getContactsDAOByClientId } from "./contact-services"
+import { getContactsDAOByClientId, getSubscribedContactsDAOByClientId } from "./contact-services"
 import { EmailFormValues, createEmail, getPendingEmailsDAOByEnvioIdAndTake, setEmailStatus, updateEmail } from "./email-services"
 import getCurrentUser from "@/app/(server-side)/services/getCurrentUser"
 import { getClientById, getClientLightBySlug } from "@/app/(server-side)/services/getClients"
@@ -50,7 +50,8 @@ export async function getEnviosDAOByClientId(clientId: number) {
 
   const contactsCount= await prisma.contact.count({
     where: {
-      clientId
+      clientId,
+      status: "subscribed"
     }
   })
 
@@ -161,12 +162,13 @@ export async function sendTestEmail(envioId: string, emailTo: string, footerText
   const mailId= "only-image"
   const BASE_URL = process.env.NEXTAUTH_URL || "http://localhost:3000"
   const banner = `${BASE_URL}/api/client/${slug}/banner/${mailId}`
+  const linkUnsubscribe = `${BASE_URL}/api/client/${slug}/unsuscribe/${mailId}`
 
   const { data, error } = await resend.emails.send({
     from: envio.emailFrom,
     to: [emailTo],
     subject: newsletter.name,
-    react: Newsletter({ content: newsletter.contentHtml, banner, footerText, linkHref, linkText}),
+    react: Newsletter({ content: newsletter.contentHtml, banner, footerText, linkHref, linkText, linkUnsubscribe }),
   });
  
 
@@ -207,7 +209,7 @@ export async function sendEnvioToAllContacts(envioId: string, user: string, foot
 
   const resend = new Resend(process.env.RESEND_API_KEY);
 
-  const contacts = await getContactsDAOByClientId(envio.clientId)
+  const contacts = await getSubscribedContactsDAOByClientId(envio.clientId)
 
   const emails = contacts.map((contact) => {
     return contact.email
@@ -245,12 +247,13 @@ export async function sendEnvioToAllContacts(envioId: string, user: string, foot
     const arrayOfEmails = emailsToSend.map((email) => {
       const mailId= email.id
       const banner = `${BASE_URL}/api/client/${slug}/banner/${mailId}`
+      const linkUnsubscribe = `${BASE_URL}/api/client/${slug}/unsuscribe/${mailId}`
 
       return {
         from,
         to: email.emailTo,
         subject: newsletter.name,
-        react: Newsletter({ content, banner, footerText, linkHref, linkText }),
+        react: Newsletter({ content, banner, footerText, linkHref, linkText, linkUnsubscribe }),
       }
     })
 

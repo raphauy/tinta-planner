@@ -35,9 +35,6 @@ export async function GET(request: Request, { params }: Props) {
     }
 
     const banner= client.banner
-    // banner example: https://res.cloudinary.com/dt5zddm7f/image/upload/v1635820000/clients/1/banner.jpg
-
-    // return the banner like an image
     return NextResponse.redirect(banner)
 
 }

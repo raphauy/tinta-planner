@@ -6,6 +6,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown } from "lucide-react"
 import { format } from "date-fns"
 import { DeleteContactDialog, ContactDialog } from "./contact-dialogs"
+import { cn } from "@/lib/utils"
 
 
 export const columns: ColumnDef<ContactDAO>[] = [
@@ -32,6 +33,28 @@ export const columns: ColumnDef<ContactDAO>[] = [
             <ArrowUpDown className="w-4 h-4 ml-1" />
           </Button>
     )},
+  },
+  {
+    accessorKey: "status",
+    header: ({ column }) => {
+        return (
+          <Button variant="ghost" className="pl-0 dark:text-white"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+            Status
+            <ArrowUpDown className="w-4 h-4 ml-1" />
+          </Button>
+    )},
+    cell: ({ row }) => {
+      const data= row.original
+      return (
+        <span className={cn(data.status === "subscribed" && "text-green-600", data.status === "unsubscribed" && "text-red-600")}>
+          {data.status}
+        </span>
+      )
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    },
   },
   {
     id: "actions",

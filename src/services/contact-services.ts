@@ -6,6 +6,7 @@ import * as z from "zod"
 export type ContactDAO = {
 	id: string
 	name: string | undefined
+  status: string | undefined
 	email: string
 	createdAt: Date
 	clientId: number
@@ -41,11 +42,33 @@ export async function getContactsDAOByClientId(clientId: number) {
   return found as ContactDAO[]
 }
 
+export async function getSubscribedContactsDAOByClientId(clientId: number) {
+  const found = await prisma.contact.findMany({
+    orderBy: {
+      id: 'asc'
+    },
+    where: {
+      clientId,
+      status: "subscribed"
+    }
+  })
+  return found as ContactDAO[]
+}
+
 export async function getContactDAO(id: string) {
   const found = await prisma.contact.findUnique({
     where: {
       id
     },
+  })
+  return found as ContactDAO
+}
+
+export async function getContactDAOByEmail(email: string) {
+  const found = await prisma.contact.findFirst({
+    where: {
+      email
+    }
   })
   return found as ContactDAO
 }
@@ -142,4 +165,16 @@ export async function importContacts(clientId: number, contacts: ContactImportDa
   }
 
   return res
+}
+
+export async function setStatus(contactId: string, status: string) {
+  const updated = await prisma.contact.update({
+    where: {
+      id: contactId
+    },
+    data: {
+      status
+    }
+  })
+  return updated
 }

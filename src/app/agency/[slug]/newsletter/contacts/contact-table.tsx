@@ -9,6 +9,7 @@ import { X } from "lucide-react"
 import { ColumnDef, ColumnFiltersState, SortingState, VisibilityState, flexRender, getCoreRowModel, getFacetedRowModel, getFacetedUniqueValues, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table"
 import { DataTablePagination } from "@/components/data-table/data-table-pagination"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { DataTableFacetedFilter } from "@/components/data-table/data-table-faceted-filter"
   
 interface DataTableToolbarProps<TData> {
   table: TanstackTable<TData>;
@@ -31,13 +32,13 @@ export function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>)
               onChange={(event) => table.getColumn("email")?.setFilterValue(event.target.value)}                
           />
           
-        {/* {table.getColumn("role") && roles && (
+        {table.getColumn("status") &&  (
           <DataTableFacetedFilter
-            column={table.getColumn("role")}
-            title="Rol"
-            options={roles}
+            column={table.getColumn("status")}
+            title="Status"
+            options={["subscribed", "unsubscribed"]}
           />
-        )} */}
+        )}
         {isFiltered && (
           <Button
             variant="ghost"

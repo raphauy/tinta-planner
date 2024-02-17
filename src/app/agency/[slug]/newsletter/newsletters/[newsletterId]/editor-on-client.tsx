@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
-import { Editor, JSONContent } from '@tiptap/core';
+import { Editor } from '@tiptap/core';
 import { Eye, Loader, Save } from "lucide-react";
 import { Editor as NovelEditor } from "novel";
 import { useState } from "react";
@@ -63,7 +63,7 @@ export default function NovelOnClient({ newsletterId, slug, initialContent }: Pr
             <NovelEditor
                 className="bg-white rounded-t-none rounded-b-md"
                 defaultValue={contentJson ? JSON.parse(contentJson) : {}}
-                onUpdate={onUpdate}      
+                onDebouncedUpdate={onUpdate}
                 disableLocalStorage
             />
 
