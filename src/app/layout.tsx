@@ -20,7 +20,7 @@ export default function RootLayout({
         <AuthContext>
 
             <ToasterContext />
-            <div className="flex flex-col min-w-full min-h-screen w-fit bg-tinta-natural">
+            <div className="flex flex-col min-w-full min-h-screen w-fit">
               {children}
             </div>          
             <TailwindIndicator />
