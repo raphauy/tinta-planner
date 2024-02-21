@@ -73,6 +73,7 @@ export async function getContactDAOByEmail(email: string) {
   return found as ContactDAO
 }
 
+
 export async function getContactDAOByEmailAndClientId(email: string, clientId: number) {
   const found = await prisma.contact.findFirst({
     where: {
@@ -84,7 +85,6 @@ export async function getContactDAOByEmailAndClientId(email: string, clientId: n
 }
     
 export async function createContact(data: ContactFormValues) {
-  // TODO: implement createContact
   const created = await prisma.contact.create({
     data
   })

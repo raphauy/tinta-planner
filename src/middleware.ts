@@ -25,3 +25,4 @@ export default withAuth({
 export const config = { 
   matcher: ["/agency/:path*", "/dashboard/:path*", "/client/:path*"]
 };
+
