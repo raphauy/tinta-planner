@@ -1,7 +1,7 @@
 "use client"
 
 import { cn, getSlug } from "@/lib/utils";
-import { MailCheck, Newspaper } from "lucide-react";
+import { Code2, MailCheck, Newspaper } from "lucide-react";
 import { Send } from "lucide-react";
 import { AlignVerticalSpaceAround, Contact, LayoutDashboard, Settings, TerminalSquare, User } from "lucide-react";
 import Link from "next/link";
@@ -88,6 +88,14 @@ function getData(slug: string) {
       icon: Contact,
       text: "Contactos"
     },
+    {
+      href: "divider", icon: User
+    },
+    {
+      href: `/agency/${slug}/newsletter/widget`,
+      icon: Code2,
+      text: "Widget"
+    },    
   ]
  
   return data
