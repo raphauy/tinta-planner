@@ -1,7 +1,6 @@
 "use server"
   
 import { revalidatePath } from "next/cache"
-import { getCurrentUser } from "@/lib/auth"
 import { MessageDAO, MessageFormValues, createMessage, updateMessage, getFullMessageDAO, deleteMessage } from "@/services/message-services"
 
 
