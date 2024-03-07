@@ -1,4 +1,5 @@
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { TailwindIndicator } from "@/components/shadcn/tailwind-indicator";
 import { GeistSans } from "geist/font";
 import { AuthContext } from "./(client-side)/context/AuthContext";
@@ -24,6 +25,7 @@ export default function RootLayout({
             <div className="flex flex-col min-w-full min-h-screen w-fit">
               {children}
               <Analytics />
+              <SpeedInsights />
             </div>          
             <TailwindIndicator />
             
