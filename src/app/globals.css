@@ -83,3 +83,32 @@
       font-feature-settings: "rlig" 1, "calt" 1;
     }
   }
+
+  /* Estilos para navegadores WebKit */
+::-webkit-scrollbar {
+  width: 12px; /* Ancho de la scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #f0f0f0; /* Color de la track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #b6b6b6; /* Color del thumb */
+  border-radius: 20px; /* Bordes redondeados del thumb */
+  border: 3px solid #f0f0f0; /* Borde y color del espacio entre el thumb y la track */
+}
+
+/* Estilos para Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #b6b6b6 #f0f0f0;
+}
+
+/* En tu archivo CSS */
+.whatsapp-background {
+  background-image: url('/whatsapp-background.png');
+  background-size: cover; /* o 'contain' dependiendo de cómo quieras que se vea */
+  background-repeat: no-repeat;
+  background-position: center;
+}

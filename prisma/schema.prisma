@@ -30,6 +30,7 @@ model Agency {
     updatedAt         DateTime  @updatedAt
     users             User[]
     clients           Client[]
+    conversations     Conversation[]
 }
 
 model Client {
@@ -310,4 +311,35 @@ model Contact {
   createdAt     DateTime  @default(now()) // gennext: skip.zod
   client        Client    @relation(fields: [clientId], references: [id], onDelete: Restrict)  
   clientId      Int 
+}
+
+model Conversation {
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  phone       String
+  isGroup     Boolean  @default(false)
+  name        String?
+  pictureUrl  String?
+  messages    Message[]
+  agency      Agency  @relation(fields: [agencyId], references: [id], onDelete: NoAction)
+  agencyId    Int     @default(1)
+}
+
+model Message {
+  id                String      @id @default(cuid())
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  wapId             String
+  name              String
+  pictureUrl        String?
+  role              String      @default("user")
+  content           String      @db.Text
+  read              Boolean     @default(false)
+  reactions         String?
+  quoted            String?
+  mediaUrl          String?
+  mimeType          String?
+  conversationId    String
+  conversation      Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 }

@@ -18,6 +18,16 @@ const nextConfig = {
         hostname: "planner.tinta.wine",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "pps.whatsapp.net",
+        port: "",
+      },
+      {
+        protocol: "https",
+        hostname: "utfs.io",
+        port: "",
+      },
     ],
   },    
 }

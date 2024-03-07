@@ -11,11 +11,14 @@ export default function Menu() {
     const session= useSession()
 
     const slug= getSlug(path)
-    const basePath= getBasePath(path)
 
     const user= session?.data?.user
     
-    if (!user || !slug || path.split("/")[1] !== "agency") return <div></div>
+    const feature= path.split("/")[1]
+    if (feature === "admin") return <div className="text-2xl font-bold text-muted-foreground"> / Admin <Link href="/"><Button variant="outline">Volver</Button></Link></div>
+    if (feature === "whatsapp") return <div className="text-2xl font-bold text-muted-foreground"> / Mensajes <Link href="/" className="ml-5"><Button variant="outline">Volver</Button></Link></div>
+    
+    if (!user || !slug || feature !== "agency") return <div></div>
 
     const role= user.role
     const socialHref= `/agency/${slug}/social`
@@ -24,24 +27,26 @@ export default function Menu() {
     const crmSelected= path.includes("crm")
     const newsletterHref= `/agency/${slug}/newsletter`
     const newsletterSelected= path.includes("newsletter")
+    const whatsappHref= `/whatsapp`
+    const whatsappSelected= path.includes("whatsapp")
     const adminSelected= path.includes("admin")
 
     return (
         <nav className="text-muted-foreground">
             <ul className="flex items-center">
                 {role === "client" && <ClientMenu />}
-                {role === "agency" && <><ClientMenu /><AgencyMenu socialHref={socialHref} socialSelected={socialSelected} newsletterHref={newsletterHref} newsletterSelected={newsletterSelected} /></>}
+                {role === "agency" && <><ClientMenu /><AgencyMenu socialHref={socialHref} socialSelected={socialSelected} newsletterHref={newsletterHref} newsletterSelected={newsletterSelected} whatsappHref={whatsappHref} whatsappSelected={whatsappSelected} /></>}
                 {role === "agency-admin" && 
                     <>
                         <ClientMenu />
-                        <AgencyMenu socialHref={socialHref} socialSelected={socialSelected} newsletterHref={newsletterHref} newsletterSelected={newsletterSelected} />
+                        <AgencyMenu socialHref={socialHref} socialSelected={socialSelected} newsletterHref={newsletterHref} newsletterSelected={newsletterSelected} whatsappHref={whatsappHref} whatsappSelected={whatsappSelected} />
                         <AgencyAdminMenu crmHref={crmHref} crmSelected={crmSelected} />
                     </>
                 }
                 {role === "admin" && 
                     <>
                     <ClientMenu />
-                    <AgencyMenu socialHref={socialHref} socialSelected={socialSelected} newsletterHref={newsletterHref} newsletterSelected={newsletterSelected} />
+                    <AgencyMenu socialHref={socialHref} socialSelected={socialSelected} newsletterHref={newsletterHref} newsletterSelected={newsletterSelected} whatsappHref={whatsappHref} whatsappSelected={whatsappSelected} />
                     <AgencyAdminMenu crmHref={crmHref} crmSelected={crmSelected} />
                     <AdminMenu adminSelected={adminSelected} />
                 </>
@@ -63,8 +68,10 @@ interface AgencyProps {
     socialSelected: boolean
     newsletterHref: string
     newsletterSelected: boolean
+    whatsappHref: string
+    whatsappSelected: boolean
 }
-function AgencyMenu({ socialHref, socialSelected, newsletterHref, newsletterSelected }: AgencyProps) {
+function AgencyMenu({ socialHref, socialSelected, newsletterHref, newsletterSelected, whatsappHref, whatsappSelected }: AgencyProps) {
     return (
         <>
             <li className={cn("flex items-center border-b-tinta-vino hover:border-b-tinta-vino hover:border-b-2 h-10", socialSelected && "border-b-2")}>
@@ -72,6 +79,9 @@ function AgencyMenu({ socialHref, socialSelected, newsletterHref, newsletterSele
             </li>
             <li className={cn("flex items-center border-b-tinta-vino hover:border-b-tinta-vino hover:border-b-2 h-10", newsletterSelected && "border-b-2")}>
                 <Link href={newsletterHref}><Button className="h-8 text-lg" variant="ghost">Newsletter</Button></Link>
+            </li>
+            <li className={cn("flex items-center border-b-tinta-vino hover:border-b-tinta-vino hover:border-b-2 h-10", whatsappSelected && "border-b-2")}>
+                <Link href={whatsappHref}><Button className="h-8 text-lg" variant="ghost">Mensajes</Button></Link>
             </li>
         </>
     )    

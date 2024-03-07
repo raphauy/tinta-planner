@@ -64,3 +64,11 @@ export function isEmailValid(email: string): boolean {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return regex.test(email);
 }
+
+export function reduceText(text: string, length: number) {
+  if (text.length > length) {
+    return text.slice(0, length) + "...";
+  }
+  return text;
+  
+}
