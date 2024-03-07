@@ -59,36 +59,6 @@ export function MessageForm({ id, closeDialog }: Props) {
           
           <FormField
             control={form.control}
-            name="createdAt"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>CreatedAt</FormLabel>
-                <FormControl>
-                  <Input placeholder="Message's createdAt" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          
-      
-          <FormField
-            control={form.control}
-            name="updatedAt"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>UpdatedAt</FormLabel>
-                <FormControl>
-                  <Input placeholder="Message's updatedAt" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          
-      
-          <FormField
-            control={form.control}
             name="role"
             render={({ field }) => (
               <FormItem>
@@ -135,7 +105,7 @@ export function MessageForm({ id, closeDialog }: Props) {
         <div className="flex justify-end">
             <Button onClick={() => closeDialog()} type="button" variant={"secondary"} className="w-32">Cancel</Button>
             <Button type="submit" className="w-32 ml-2">
-              {loading ? <Loader className="h-4 w-4 animate-spin" /> : <p>Save</p>}
+              {loading ? <Loader className="w-4 h-4 animate-spin" /> : <p>Save</p>}
             </Button>
           </div>
         </form>
@@ -166,8 +136,8 @@ export function DeleteMessageForm({ id, closeDialog }: Props) {
   return (
     <div>
       <Button onClick={() => closeDialog && closeDialog()} type="button" variant={"secondary"} className="w-32">Cancel</Button>
-      <Button onClick={handleDelete} variant="destructive" className="w-32 ml-2 gap-1">
-        { loading && <Loader className="h-4 w-4 animate-spin" /> }
+      <Button onClick={handleDelete} variant="destructive" className="w-32 gap-1 ml-2">
+        { loading && <Loader className="w-4 h-4 animate-spin" /> }
         Delete  
       </Button>
     </div>
