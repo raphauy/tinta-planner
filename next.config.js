@@ -20,6 +20,16 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "preview.tinta.wine",
+        port: "",
+      },
+      {
+        protocol: "https",
+        hostname: "whatsapp.tinta.wine",
+        port: "",
+      },
+      {
+        protocol: "https",
         hostname: "pps.whatsapp.net",
         port: "",
       },
