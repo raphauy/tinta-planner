@@ -2,7 +2,7 @@ import { withAuth } from "next-auth/middleware";
 
 import { NextRequest, NextResponse } from "next/server";
 
-export async function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest, res: NextResponse) {
 
   const requestHeaders = new Headers(req.headers);
   requestHeaders.set('x-url', req.url);

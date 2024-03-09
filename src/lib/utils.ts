@@ -1,4 +1,6 @@
 import { ClassValue, clsx } from "clsx"
+import { format, isThisWeek, isToday, isYesterday, parseISO } from "date-fns";
+import { es } from "date-fns/locale";
 import { twMerge } from "tailwind-merge"
  
 export function cn(...inputs: ClassValue[]) {
@@ -71,4 +73,18 @@ export function reduceText(text: string, length: number) {
   }
   return text;
   
+}
+
+export function formatWhatsAppStyle(date: Date | string): string {
+  let parsedDate = typeof date === 'string' ? parseISO(date) : date;
+
+  if (isToday(parsedDate)) {
+    return format(parsedDate, 'HH:mm');
+  } else if (isYesterday(parsedDate)) {
+    return 'Ayer';
+  } else if (isThisWeek(parsedDate)) {
+    return format(parsedDate, 'eeee', { locale: es });
+  } else {
+    return format(parsedDate, 'dd/MM/yyyy');
+  }
 }

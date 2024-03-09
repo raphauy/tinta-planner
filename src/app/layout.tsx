@@ -11,11 +11,9 @@ export const metadata = {
   description: "The content planner of tinta.wine",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const nodeEnv = process.env.NODE_ENV
+
   return (
     <html lang="es" className={`${GeistSans.className}`}>
       <body className="w-full">
@@ -24,8 +22,12 @@ export default function RootLayout({
             <ToasterContext />
             <div className="flex flex-col min-w-full min-h-screen w-fit">
               {children}
-              <Analytics />
-              <SpeedInsights />
+              {nodeEnv === "production" && 
+                <>
+                  <Analytics />
+                  <SpeedInsights />
+                </>
+              }
             </div>          
             <TailwindIndicator />
             

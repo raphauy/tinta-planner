@@ -38,29 +38,32 @@ export function ConversationDialog({ id }: Props) {
   )
 }
   
-type DeleteProps= {
-  id: string
-  description: string
+type DeleteProps = {
+  id: string;
+  description: string;
+  open: boolean; // Añadido para control externo
+  onOpenChange: (open: boolean) => void; // Añadido para manejar el cambio de estado externamente
 }
 
-export function DeleteConversationDialog({ id, description }: DeleteProps) {
-  const [open, setOpen] = useState(false)
+export function DeleteConversationDialog({ id, description, open, onOpenChange }: DeleteProps) {
+  // Eliminamos el manejo del estado 'open' interno, ya que ahora lo recibimos por props
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Trash2 className="hover:cursor-pointer"/>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Delete Conversation</DialogTitle>
+          <DialogTitle>Eliminar Conversación</DialogTitle>
           <DialogDescription className="py-8">{description}</DialogDescription>
         </DialogHeader>
-        <DeleteConversationForm closeDialog={() => setOpen(false)} id={id} />
+        {/* Asume que DeleteConversationForm es un componente existente que manejas adecuadamente */}
+        <DeleteConversationForm closeDialog={() => (onOpenChange(false))} id={id} />
       </DialogContent>
     </Dialog>
-  )
+  );
 }
+
 
 interface CollectionProps{
   id: string

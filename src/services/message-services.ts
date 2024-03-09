@@ -40,6 +40,42 @@ export async function getMessagesDAO() {
   return found as MessageDAO[]
 }
 
+export async function getConversationMessagesDAO(conversationId: string, take: number) {
+  const found = await prisma.message.findMany({
+    where: {
+      conversationId
+    },
+    orderBy: {
+      createdAt: 'desc'
+    },
+    take
+  })
+  return found.reverse() as MessageDAO[]
+}
+
+export async function getUnreadMessagesDAO(conversationId: string) {
+  const found = await prisma.message.findMany({
+    where: {
+      conversationId,
+      read: false
+    },
+    orderBy: {
+      updatedAt: 'asc'
+    }
+  })
+  return found as MessageDAO[]
+}
+
+export async function getUnreadMessagesCount() {
+  const found = await prisma.message.count({
+    where: {
+      read: false
+    }
+  })
+  return found
+}
+
+
 export async function getMessageDAO(id: string) {
   const found = await prisma.message.findUnique({
     where: {

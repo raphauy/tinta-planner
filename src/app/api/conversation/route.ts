@@ -31,13 +31,17 @@ export async function POST(request: Request, { params }: { params: { clientId: s
             return NextResponse.json({ error: "text or mediaUrl is required" }, { status: 400 })
         }
 
-        const name = message.name || "user"
-        const isGroup = message.isGroup || false        
-        const groupName = message.groupName || ""
+        const fromMe = message.fromMe || false
+        const name = message.name || phone.split("@")[0]
+        let isGroup = message.isGroup || false        
+        let groupName = message.groupName || ""
         const pictureUrl = message.pictureUrl || ""
         const reactionId= message.reactionId || ""
-        const mimetype= message.mimetype || ""
+        let mimetype= message.mimetype || ""
         const quoted= message.quoted || ""
+        const isBroadcast= message.isBroadcast || false
+        const isContact= message.contact || false
+        const isLocation= message.location || false
 
         console.log("wapId: ", wapId)
         console.log("phone: ", phone)
@@ -50,17 +54,36 @@ export async function POST(request: Request, { params }: { params: { clientId: s
         console.log("mediaUrl: ", mediaUrl)
         console.log("mimeType: ", mimetype)
         console.log("quoted: ", quoted)
+        console.log("isBroadcast: ", isBroadcast)
+        console.log("isContact: ", isContact)
+        console.log("location: ", isLocation)
+        console.log("fromMe: ", fromMe)
+
+        if (isBroadcast) {
+            isGroup= true
+            groupName= "Difusión"
+        }
+
+        if (isContact) {
+            mimetype= message.contact
+        }
+
+        if (isLocation) {
+            mimetype= JSON.stringify(message.location)
+        }
+
+        let id
 
         if (reactionId) {
-            const res= await addReaction(reactionId, name, text)
-            if (!res) return NextResponse.json({ error: "error setting reaction" }, { status: 502 })
+            id= await addReaction(reactionId, name, text)
+            if (!id) return NextResponse.json({ error: "error setting reaction" }, { status: 502 })
         } else {
-            const created= await messageArrived(wapId, phone, name, text, "user", pictureUrl, isGroup, groupName, mediaUrl, mimetype, quoted)
-            if (!created) return NextResponse.json({ error: "error creating message" }, { status: 502 })    
+            id= await messageArrived(wapId, phone, name, text, "user", pictureUrl, isGroup, groupName, mediaUrl, mimetype, quoted, fromMe)
+            if (!id) return NextResponse.json({ error: "error creating message" }, { status: 502 })    
         }
 
 
-        return NextResponse.json({ data: "ACK" }, { status: 200 })
+        return NextResponse.json({ data: id }, { status: 200 })
 
     } catch (error) {
         console.log("error: ", error)        

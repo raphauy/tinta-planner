@@ -1,7 +1,6 @@
 import { getConversationsDAO } from "@/services/conversation-services"
-import { ConversationDialog } from "./conversation-dialogs"
-import { DataTable } from "./conversation-table"
 import { columns } from "./conversation-columns"
+import { DataTable } from "./conversation-table"
 
 export default async function UsersPage() {
   

@@ -1,7 +1,7 @@
 "use server"
   
 import { revalidatePath } from "next/cache"
-import { ConversationDAO, ConversationFormValues, createConversation, updateConversation, getFullConversationDAO, deleteConversation, sendTintaMessage, setMessagesRead} from "@/services/conversation-services"
+import { ConversationDAO, ConversationFormValues, createConversation, updateConversation, getFullConversationDAO, deleteConversation, sendTintaMessage, setMessagesRead, getConversationsDAO} from "@/services/conversation-services"
 
 import { getComplentaryMessages, setMessages} from "@/services/conversation-services"
 import { MessageDAO } from "@/services/message-services"
@@ -11,6 +11,12 @@ import getCurrentUser from "@/app/(server-side)/services/getCurrentUser"
 export async function getConversationDAOAction(id: string): Promise<ConversationDAO | null> {
     return getFullConversationDAO(id)
 }
+
+export async function getConversationsDAOAction(): Promise<ConversationDAO[]> {
+    const data= await getConversationsDAO()
+    return data
+}
+
 
 export async function createOrUpdateConversationAction(id: string | null, data: ConversationFormValues): Promise<ConversationDAO | null> {       
     let updated= null
@@ -67,9 +73,9 @@ export async function sendTintaMessageAction(conversationId: string, text: strin
 }
 
 export async function setMessagesReadAction(id: string) {
-    const res= setMessagesRead(id)
+    const res= await setMessagesRead(id)
 
-    revalidatePath("/whatsapp")
+    //revalidatePath(`/whatsapp/${id}`, "layout")
 
     return res
 }

@@ -112,3 +112,8 @@
   background-repeat: no-repeat;
   background-position: center;
 }
+
+.parent-hover:hover .hover-target {
+  display: block;
+  opacity: 1;
+}

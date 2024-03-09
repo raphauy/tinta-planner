@@ -5,6 +5,7 @@ import { cn, getBasePath, getSlug } from "@/lib/utils"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import MessagesMenuBox from "./messages-menu-box"
 
 export default function Menu() {
     const path= usePathname()
@@ -16,7 +17,7 @@ export default function Menu() {
     
     const feature= path.split("/")[1]
     if (feature === "admin") return <div className="text-2xl font-bold text-muted-foreground"> / Admin <Link href="/"><Button variant="outline">Volver</Button></Link></div>
-    if (feature === "whatsapp") return <div className="text-2xl font-bold text-muted-foreground"> / Mensajes <Link href="/" className="ml-5"><Button variant="outline">Volver</Button></Link></div>
+    if (feature === "whatsapp") return <div className="text-2xl font-bold text-muted-foreground"> / Mensajes (beta) <Link href="/" className="ml-5"><Button variant="outline">Volver</Button></Link></div>
     
     if (!user || !slug || feature !== "agency") return <div></div>
 
@@ -81,7 +82,7 @@ function AgencyMenu({ socialHref, socialSelected, newsletterHref, newsletterSele
                 <Link href={newsletterHref}><Button className="h-8 text-lg" variant="ghost">Newsletter</Button></Link>
             </li>
             <li className={cn("flex items-center border-b-tinta-vino hover:border-b-tinta-vino hover:border-b-2 h-10", whatsappSelected && "border-b-2")}>
-                <Link href={whatsappHref}><Button className="h-8 text-lg" variant="ghost">Mensajes</Button></Link>
+                <MessagesMenuBox whatsappHref={whatsappHref} />
             </li>
         </>
     )    

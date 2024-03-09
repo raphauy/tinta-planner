@@ -57,18 +57,10 @@ interface DataTableProps<TData, TValue> {
   subject: string
 }
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-  columnsOff,
-  subject,
-}: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, columnsOff, subject }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({})
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
   const [sorting, setSorting] = React.useState<SortingState>([])
 
   const table = useReactTable({
@@ -126,6 +118,7 @@ export function DataTable<TData, TValue>({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
+                className="parent-hover"
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >

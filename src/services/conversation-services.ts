@@ -53,9 +53,22 @@ export async function getConversationDAO(id: string) {
   const found = await prisma.conversation.findUnique({
     where: {
       id
-    },
+    },    
   })
-  return found as ConversationDAO
+  const unreadMessages= await prisma.message.findMany({
+    where: {
+      read: false,
+      conversationId: id
+    }
+  })
+
+  const res= {
+    ...found,
+    messages: [],
+    unreadMessages: unreadMessages.length
+  }
+
+  return res as ConversationDAO
 }
     
 export async function createConversation(data: ConversationFormValues) {
@@ -174,11 +187,17 @@ export async function getFullConversationDAO(id: string) {
   if (found) {
     found.messages= found.messages.reverse()
   }
-  return found as ConversationDAO
+
+  const unreadMessages= found?.messages.filter(m => !m.read).length
+  const res= {
+    ...found,
+    unreadMessages
+  }
+  return res as ConversationDAO
 }
     
 
-export async function messageArrived(wapId: string, phone: string, name: string, text: string, role: string, pictureUrl: string, isGroup: boolean, groupName?: string, mediaUrl?: string, mimeType?: string, quoted?: string) {
+export async function messageArrived(wapId: string, phone: string, name: string, text: string, role: string, pictureUrl: string, isGroup: boolean, groupName?: string, mediaUrl?: string, mimeType?: string, quoted?: string, fromMe?: boolean) {
   if (text && text.startsWith("*_")) {
     console.log(`discarding message from ${name} because it is a tinta message`)    
     return true
@@ -197,21 +216,26 @@ export async function messageArrived(wapId: string, phone: string, name: string,
       mimeType,
       conversationId: found.id,
     }
-    const message= await createMessage(dataMessage)
+    await createMessage(dataMessage)
+    const oldName= found.name
+    const isNumber= !isNaN(Number(oldName))
+    const newName= isGroup ? groupName : isNumber ? name : oldName
     await prisma.conversation.update({
       where: {
         id: found.id
       },
       data: {
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        name: newName
       }
     })
-    return message    
+    return found.id
   } else {
+    const newName= isGroup ? groupName : fromMe ? phone.split("@")[0] : name
     const dataConversation= {
       phone,
       isGroup,
-      name: isGroup ? groupName : name,
+      name: newName,
       pictureUrl
     }
     const created= await createConversation(dataConversation)
@@ -226,9 +250,8 @@ export async function messageArrived(wapId: string, phone: string, name: string,
       mimeType,
       conversationId: created.id,
     }
-    const message= await createMessage(dataMessage)
-    revalidatePath("/whatsapp", "layout")
-    return message   
+    await createMessage(dataMessage)
+    return created.id
   }
 }
 export async function sendTintaMessage(conversationId: string, name: string, text: string, quotedMsgId?: string) {
@@ -254,7 +277,7 @@ export async function sendTintaMessage(conversationId: string, name: string, tex
     role: "tinta",
     content: text,
     quoted,
-    read: true,
+    read: false,
     conversationId,
   }
 
@@ -288,6 +311,8 @@ export async function getConversation(phone: string) {
 }
 
 export async function setMessagesRead(id: string) {
+  console.log("server setMessagesRead: ", id)
+  
   const conversation= await getConversationDAO(id)
   if (!conversation) return false
 
@@ -324,7 +349,7 @@ export async function addReaction(reactionId: string, name: string, text: string
     }
   })
 
-  if (!updated) return false
+  if (!updated) return null
 
-  return true
+  return updated.conversationId
 }

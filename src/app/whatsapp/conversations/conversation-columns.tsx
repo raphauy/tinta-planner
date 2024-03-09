@@ -3,16 +3,12 @@
 import { Button } from "@/components/ui/button"
 import { ConversationDAO } from "@/services/conversation-services"
 import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown, User } from "lucide-react"
-import { format, formatDistanceToNow } from "date-fns"
-import { DeleteConversationDialog, ConversationDialog } from "./conversation-dialogs"
 
-import { MessagesDialog } from "./conversation-dialogs"
-import Link from "next/link"
+import { formatWhatsAppStyle } from "@/lib/utils"
 import Image from "next/image"
-import { es } from "date-fns/locale"
-import { cn } from "@/lib/utils"
-import { Input } from "@/components/ui/input"
+import Link from "next/link"
+import UnreadMessages from "../[conversationId]/unread-box"
+import { ConversationActions } from "./actions-box"
   
 
 export const columns: ColumnDef<ConversationDAO>[] = [
@@ -48,15 +44,15 @@ export const columns: ColumnDef<ConversationDAO>[] = [
     cell: ({ row }) => {
       const data= row.original
 
-      const deleteDescription= `Do you want to delete Conversation ${data.id}?`
- 
       return (
-        <div className="flex flex-col items-end gap-2 pr-1">
+        <div className="flex flex-col items-end gap-2 pr-1 tracking-tighter justify-evenly parent-hover">
           <p>
-            {formatDistanceToNow(data.updatedAt, {locale: es})}
+            {formatWhatsAppStyle(data.updatedAt)}
           </p>
-          <div className={cn("w-6 h-6 font-bold text-center text-white bg-green-500 border rounded-full", data.unreadMessages === 0 && "hidden")}>
-            {data.unreadMessages}
+          <div className="flex items-center">
+            <UnreadMessages conversationId={data.id} initUnreadMessages={data.unreadMessages} />
+
+            <ConversationActions data={data} />
           </div>
         </div>
       )

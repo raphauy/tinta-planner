@@ -19,8 +19,9 @@ type Props = {
     replayText?: string
     type: string
     notifyCloseReplay: () => void
+    notifyNewMessage: () => void
 }
-export default function SendText({ conversationId, replayId, replyName, replayText, type, notifyCloseReplay }: Props) {
+export default function SendText({ conversationId, replayId, replyName, replayText, type, notifyCloseReplay, notifyNewMessage }: Props) {
     const [loading, setLoading] = useState(false)
     const [input, setInput] = useState("")
     const [whatsappId, setWhatsappId] = useState("")
@@ -33,6 +34,11 @@ export default function SendText({ conversationId, replayId, replyName, replayTe
     function sendMessage() {
         setLoading(true)
         sendTintaMessageAction(conversationId, input, whatsappId)
+        .then((res) => {
+            if (res) {
+                notifyNewMessage()
+            }
+        })
         .catch(() => {
             toast({ title: "Error al enviar el mensaje", variant: "destructive" })
         })

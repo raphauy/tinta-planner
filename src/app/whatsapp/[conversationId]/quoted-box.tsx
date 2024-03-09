@@ -20,6 +20,7 @@ export default function QuotedBox({ name, replayText, mimeType, mediaUrl }: Prop
             {mimeType.startsWith("image") && <div className="flex items-center gap-2 mt-2 text-muted-foreground"><ImagePlus /> Imagen</div>}
             {mimeType.startsWith("video") && <div className="flex items-center gap-2 mt-2 text-muted-foreground"><Video /> Video</div>}
             {mimeType.includes("pdf") && <div className="flex items-center gap-2 mt-2 text-muted-foreground"><BsFilePdfFill size={25} className='text-red-500' /> {fileName ? reduceText(fileName, 35) : "Archivo PDF"}</div>}
+            {mimeType.includes("VCARD") && <p className="text-xs line-clamp-2">Tarjeta de contacto</p>}
         </div>
     )
 }
