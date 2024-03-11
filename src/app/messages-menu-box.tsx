@@ -55,7 +55,7 @@ export default function MessagesMenuBox({ whatsappHref }: Props) {
         <div className="relative">
             <Link href={whatsappHref}>
                 <Button className="h-8 text-lg" variant="ghost">
-                    Mensajes
+                    Whatsapp
                 </Button>
             </Link>
             <div className={cn("absolute top-0 right-0 z-20 flex items-center justify-center w-5 h-5 text-sm font-bold text-white bg-green-500 rounded-full", unreadMessages === 0 && "hidden")}>

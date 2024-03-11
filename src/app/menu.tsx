@@ -17,7 +17,7 @@ export default function Menu() {
     
     const feature= path.split("/")[1]
     if (feature === "admin") return <div className="text-2xl font-bold text-muted-foreground"> / Admin <Link href="/"><Button variant="outline">Volver</Button></Link></div>
-    if (feature === "whatsapp") return <div className="text-2xl font-bold text-muted-foreground"> / Mensajes (beta) <Link href="/" className="ml-5"><Button variant="outline">Volver</Button></Link></div>
+    if (feature === "whatsapp") return <div className="text-2xl font-bold text-muted-foreground"> / Whatsapp (beta) <Link href="/" className="ml-5"><Button variant="outline">Volver</Button></Link></div>
     
     if (!user || !slug || feature !== "agency") return <div></div>
 
