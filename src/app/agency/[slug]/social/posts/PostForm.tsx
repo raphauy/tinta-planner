@@ -18,6 +18,7 @@ import { useCompletion } from 'ai/react';
 import { Button } from '@/components/ui/button';
 import { Loader, Wand2 } from 'lucide-react';
 import { getLastPostOfPilarAction } from './actions';
+import { format, subDays } from 'date-fns';
 
 function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
   const { register, handleSubmit, setValue, getValues, formState: { errors }, watch } = useForm<FormData>();
@@ -102,7 +103,8 @@ function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
       setValue("status", postToEdit.status)
       setValue("comments", postToEdit.comments)
 
-      postToEdit.date && setValue("date", new Date(postToEdit.date).toISOString().split('T')[0])
+      //format(subDays(new Date(post.date), 1), "yyyy-MM-dd")
+      postToEdit.date && setValue("date", format(subDays(new Date(postToEdit.date), 1), "yyyy-MM-dd"))
 
       setValue("image", postToEdit.image)
 
