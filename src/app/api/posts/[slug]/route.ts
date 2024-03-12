@@ -34,7 +34,7 @@ export async function POST(request: Request, { params }: { params: {slug: string
     if (date) {
         dateWithTime = new Date(date);
         dateWithTime.setHours(0, 0, 0, 0);
-        //dateWithTime.setDate(dateWithTime.getDate()+1);
+        dateWithTime.setDate(dateWithTime.getDate()+1);
     }
 
     const client = await prisma.client.findFirst({

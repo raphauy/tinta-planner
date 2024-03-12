@@ -31,7 +31,7 @@ export async function PUT(request: Request, { params }: { params: {slug: string,
 
     const dateWithTime = new Date(date);
     dateWithTime.setHours(0, 0, 0, 0);
-    //dateWithTime.setDate(dateWithTime.getDate()+1)
+    dateWithTime.setDate(dateWithTime.getDate()+1)
 
     console.table({ slug, title, image, format, hashtags, copy, link, dateWithTime, pilarIdInt, status })
 
