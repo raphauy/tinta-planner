@@ -42,6 +42,7 @@ export async function POST(request: Request, { params }: { params: { clientId: s
         const isBroadcast= message.isBroadcast || false
         const isContact= message.contact || false
         const isLocation= message.location || false
+        const timestamp= message.timestamp
 
         console.log("wapId: ", wapId)
         console.log("phone: ", phone)
@@ -58,6 +59,7 @@ export async function POST(request: Request, { params }: { params: { clientId: s
         console.log("isContact: ", isContact)
         console.log("location: ", isLocation)
         console.log("fromMe: ", fromMe)
+        console.log("timestamp: ", timestamp)
 
         if (isBroadcast) {
             isGroup= true
@@ -78,7 +80,7 @@ export async function POST(request: Request, { params }: { params: { clientId: s
             id= await addReaction(reactionId, name, text)
             if (!id) return NextResponse.json({ error: "error setting reaction" }, { status: 502 })
         } else {
-            id= await messageArrived(wapId, phone, name, text, "user", pictureUrl, isGroup, groupName, mediaUrl, mimetype, quoted, fromMe)
+            id= await messageArrived(wapId, phone, name, text, "user", pictureUrl, isGroup, groupName, mediaUrl, mimetype, quoted, fromMe, timestamp)
             if (!id) return NextResponse.json({ error: "error creating message" }, { status: 502 })    
         }
 

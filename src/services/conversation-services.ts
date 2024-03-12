@@ -197,10 +197,15 @@ export async function getFullConversationDAO(id: string) {
 }
     
 
-export async function messageArrived(wapId: string, phone: string, name: string, text: string, role: string, pictureUrl: string, isGroup: boolean, groupName?: string, mediaUrl?: string, mimeType?: string, quoted?: string, fromMe?: boolean) {
+export async function messageArrived(wapId: string, phone: string, name: string, text: string, role: string, pictureUrl: string, isGroup: boolean, groupName?: string, mediaUrl?: string, mimeType?: string, quoted?: string, fromMe?: boolean, timestamp?: number) {
   if (text && text.startsWith("*_")) {
     console.log(`discarding message from ${name} because it is a tinta message`)    
     return true
+  }
+
+  let timestampDate= new Date()
+  if (timestamp) {
+    timestampDate= new Date(timestamp * 1000)
   }
 
   const found= await getConversation(phone)
@@ -215,6 +220,7 @@ export async function messageArrived(wapId: string, phone: string, name: string,
       mediaUrl,
       mimeType,
       conversationId: found.id,
+      createdAt: timestampDate
     }
     await createMessage(dataMessage)
     const oldName= found.name
@@ -236,7 +242,8 @@ export async function messageArrived(wapId: string, phone: string, name: string,
       phone,
       isGroup,
       name: newName,
-      pictureUrl
+      pictureUrl,
+      createdAt: timestampDate,
     }
     const created= await createConversation(dataConversation)
     const dataMessage= {
@@ -249,6 +256,7 @@ export async function messageArrived(wapId: string, phone: string, name: string,
       mediaUrl,
       mimeType,
       conversationId: created.id,
+      createdAt: timestampDate
     }
     await createMessage(dataMessage)
     return created.id
