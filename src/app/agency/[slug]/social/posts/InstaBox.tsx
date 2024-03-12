@@ -21,6 +21,7 @@ import PostCarouselForm from './PostCarouselForm';
 import slugify from 'slugify'
 import { PostStatusSelector } from './post-status-selector';
 import { useSession } from 'next-auth/react';
+import { format, subDays } from 'date-fns';
 
 function useInstaBox(postId: string, client: Client) {
   const [value, copy] = useCopyToClipboard()
@@ -150,6 +151,8 @@ export default function InstaBox({ postId, onDelete, onEdit, onPost, client }: I
           <p>{post.format}</p>
           <p className='font-bold '>Fecha:</p>
           <p>{post.date && new Date(post.date).toISOString().split('T')[0]}</p>          
+          <p className='font-bold '>Fecha:</p>
+          <p>{post.date && format(subDays(new Date(post.date), 1), "yyyy-MM-dd")}</p>
           {
             isAgency && (
               <div className='w-full col-span-2'>
