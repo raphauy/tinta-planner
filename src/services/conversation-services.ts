@@ -231,7 +231,7 @@ export async function messageArrived(wapId: string, phone: string, name: string,
         id: found.id
       },
       data: {
-        updatedAt: new Date(),
+        updatedAt: timestampDate,
         name: newName
       }
     })
@@ -243,7 +243,7 @@ export async function messageArrived(wapId: string, phone: string, name: string,
       isGroup,
       name: newName,
       pictureUrl,
-      createdAt: timestampDate,
+      updatedAt: timestampDate,
     }
     const created= await createConversation(dataConversation)
     const dataMessage= {
