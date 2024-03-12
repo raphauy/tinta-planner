@@ -104,7 +104,7 @@ function usePostForm(onPost: (id: string) => void, postToEdit?: Post) {
       setValue("comments", postToEdit.comments)
 
       //format(subDays(new Date(post.date), 1), "yyyy-MM-dd")
-      postToEdit.date && setValue("date", format(subDays(new Date(postToEdit.date), 1), "yyyy-MM-dd"))
+      postToEdit.date && setValue("date", format(new Date(postToEdit.date), "yyyy-MM-dd"))
 
       setValue("image", postToEdit.image)
 

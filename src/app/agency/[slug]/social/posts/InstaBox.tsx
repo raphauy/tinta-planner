@@ -150,9 +150,7 @@ export default function InstaBox({ postId, onDelete, onEdit, onPost, client }: I
           <p className='font-bold'>Formato:</p>
           <p>{post.format}</p>
           <p className='font-bold '>Fecha:</p>
-          <p>{post.date && new Date(post.date).toISOString().split('T')[0]}</p>          
-          <p className='font-bold '>Fecha:</p>
-          <p>{post.date && format(subDays(new Date(post.date), 1), "yyyy-MM-dd")}</p>
+          <p>{post.date && format(new Date(post.date), "yyyy-MM-dd")}</p>
           {
             isAgency && (
               <div className='w-full col-span-2'>
