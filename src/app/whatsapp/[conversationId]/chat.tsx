@@ -150,7 +150,7 @@ export function Chat({ conversation }: Props) {
   
   return (
     <div>
-      <div className={cn("flex flex-col whatsapp-background px-4 custom-scrollbar overflow-auto h-[calc(100vh-220px)] bg-gray-200 border", replayType && "overflow-auto h-[calc(100vh-300px)]")}>
+      <div className={cn("flex flex-col whatsapp-background px-4 custom-scrollbar overflow-auto h-[calc(100vh-270px)] bg-gray-200 border", replayType && "overflow-auto h-[calc(100vh-360px)]")}>
       {loading && <Loader className="w-8 h-8 mx-auto mt-10 animate-spin text-muted-foreground" />}
       {
         messages.map((message) => {

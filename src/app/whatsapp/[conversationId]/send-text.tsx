@@ -6,11 +6,12 @@ import { cn } from "@/lib/utils"
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 import { Image, ImagePlus, Loader, Mic, Plus, SendIcon, Smile, Video, X } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { sendTintaMessageAction } from "../conversations/conversation-actions"
 import SendFiles from "./send-files"
 import { Button } from "@/components/ui/button"
 import { BsFilePdfFill } from "react-icons/bs"
+import Textarea from "react-textarea-autosize";
 
 type Props = {
     conversationId: string
@@ -26,8 +27,14 @@ export default function SendText({ conversationId, replayId, replyName, replayTe
     const [input, setInput] = useState("")
     const [whatsappId, setWhatsappId] = useState("")
 
+    const formRef = useRef<HTMLFormElement>(null);
+    const inputRef = useRef<HTMLTextAreaElement>(null);
+  
     useEffect(() => {
-        setWhatsappId(replayId || "")    
+        setWhatsappId(replayId || "")
+        if (replayId) {
+            inputRef.current?.focus(); // Enfoca el Textarea si replayId está presente
+        }
     }, [replayId])
     
 
@@ -53,6 +60,8 @@ export default function SendText({ conversationId, replayId, replyName, replayTe
     function emojiSelect(emoji: any) {
         setInput(input + emoji.native)
     }
+
+    const disabled = loading || input.length === 0;
 
     return (
         <div className="px-4 space-y-3">
@@ -83,36 +92,50 @@ export default function SendText({ conversationId, replayId, replyName, replayTe
                     <PopoverContent className="w-48 rounded-3xl"><SendFiles /></PopoverContent>
                 </Popover>
 
-                <div className="relative w-full">
-                    <input
-                        id="text"
-                        onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        className="flex-1 w-full h-12 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring focus:ring-gray-400 dark:border-gray-800"
-                        placeholder="Escribe un mensaje"
-                        type="text"
+            <div className="flex flex-col items-center w-full p-5 pb-3 space-y-3 max-w-[350px] sm:max-w-[400px] md:max-w-[550px] lg:max-w-screen-md bg-gradient-to-b from-transparent via-gray-100 to-gray-100 sm:px-0">
+                <form
+                    ref={formRef}
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        sendMessage();
+                    }}
+                    className="relative w-full px-4 pt-3 pb-2 bg-white border border-gray-200 shadow-lg rounded-xl sm:pb-3 sm:pt-4"
+                >
+                <Textarea
+                    ref={inputRef}
+                    tabIndex={0}
+                    required
+                    rows={1}
+                    autoFocus
+                    placeholder="Escribe aquí"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                        formRef.current?.requestSubmit();
+                        e.preventDefault();
+                        }
+                    }}
+                    spellCheck={false}
+                    className="w-full pr-10 focus:outline-none"
                     />
                     <button
-                        onClick={sendMessage}
-                        className={cn(
-                        "absolute inset-y-0 right-4 my-auto flex h-8 w-8 items-center justify-center rounded-md transition-all",
-                        loading || input.length === 0
-                            ? "cursor-not-allowed bg-white"
-                            : "bg-green-500 hover:bg-green-600",
-                        )}
-                        disabled={loading}
+                    className={cn("absolute inset-y-0 right-4 my-auto flex h-8 w-8 items-center justify-center rounded-md transition-all",
+                        disabled ? "cursor-not-allowed bg-white" : "bg-green-500 hover:bg-green-600")}
+                        disabled={disabled}
                     >
-                        {loading ? (
+                    {loading ? (
                         <Loader className="animate-spin" />
-                        ) : (
+                    ) : (
                         <SendIcon
-                            className={cn("h-4 w-4",input.length === 0 ? "text-gray-300" : "text-white")}
+                        className={cn("h-4 w-4", input.length === 0 ? "text-gray-300" : "text-white",)}
                         />
-                        )}
+                    )}
                     </button>
+                </form>
+                
+            </div>
 
-                </div>
             </div>
         </div>
     )
