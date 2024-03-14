@@ -251,7 +251,12 @@ export function Chat({ conversation }: Props) {
                   <Reply className="text-muted-foreground" />
                 </Button>
               </div>
-              { message.mediaUrl && message.mimeType?.startsWith("image") &&  <Image src={message.mediaUrl} alt="media" className="object-cover w-full rounded-lg" width={300} height={200} /> }
+              { message.mediaUrl && message.mimeType?.startsWith("image") &&  
+                <>
+                  <ImageDialog name={message.name} imageUrl={message.mediaUrl.split("_@_")[0]} />
+                </>
+                
+              }
               {message.mediaUrl && message.mimeType?.startsWith("video") && (
                 <video
                   src={message.mediaUrl}
