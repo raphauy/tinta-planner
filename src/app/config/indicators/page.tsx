@@ -1,5 +1,3 @@
-
-import { getClientBySlug } from "@/app/(server-side)/services/getClients"
 import { Button } from "@/components/ui/button"
 import getIndicators from "@/services/indicatorService"
 import { PlusCircle } from "lucide-react"
