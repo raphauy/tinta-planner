@@ -262,13 +262,13 @@ export async function messageArrived(wapId: string, phone: string, name: string,
     return created.id
   }
 }
-export async function sendTintaMessage(conversationId: string, name: string, text: string, quotedMsgId?: string) {
+export async function sendTintaMessage(conversationId: string, name: string, text: string, quotedMsgId?: string, mediaUrl?: string, mimeType?: string) {
   const conversation= await getConversationDAO(conversationId)
   if (!conversation) return null
 
   const textWithName= "*_" + name + "_*:\n" + text
 
-  const wapId= await sendWapMessage(conversation.phone, textWithName, quotedMsgId)
+  const wapId= await sendWapMessage(conversation.phone, textWithName, quotedMsgId, mediaUrl, mimeType)
 
   const quotedText= quotedMsgId && (await getMessageByWapIdDAO(quotedMsgId))?.content
   console.log("quotedText:")
@@ -286,6 +286,8 @@ export async function sendTintaMessage(conversationId: string, name: string, tex
     content: text,
     quoted,
     read: false,
+    mediaUrl,
+    mimeType,
     conversationId,
   }
 

@@ -184,7 +184,7 @@ export function Chat({ conversation }: Props) {
               </div>
               { message.mediaUrl && message.mimeType?.startsWith("image") &&  
                 <>
-                <ImageDialog name={message.name} imageUrl={message.mediaUrl} />
+                  <ImageDialog name={message.name} imageUrl={message.mediaUrl.split("_@_")[0]} />
                 </>
                 
               }

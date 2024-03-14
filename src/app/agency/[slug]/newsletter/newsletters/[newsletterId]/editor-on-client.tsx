@@ -21,7 +21,7 @@ export default function NovelOnClient({ newsletterId, slug, initialContent }: Pr
     const [contentHtml, setContentHtml] = useState<string>("")
     const [contentJson, setContentJson] = useState<string>(initialContent)    
 
-    function onUpdate(editor: Editor | undefined) {
+    function onUpdate(editor: Editor | undefined){
         if (!editor) {
             return
         }
@@ -63,6 +63,7 @@ export default function NovelOnClient({ newsletterId, slug, initialContent }: Pr
             <NovelEditor
                 className="bg-white rounded-t-none rounded-b-md"
                 defaultValue={contentJson ? JSON.parse(contentJson) : {}}
+                // @ts-ignore
                 onDebouncedUpdate={onUpdate}
                 disableLocalStorage
             />

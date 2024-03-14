@@ -54,9 +54,12 @@ export async function setMessagesAction(id: string, messages: MessageDAO[]): Pro
 }
 
 
-export async function sendTintaMessageAction(conversationId: string, text: string, quotedMsgId?: string) {
+export async function sendTintaMessageAction(conversationId: string, text: string, quotedMsgId?: string, mediaUrl?: string, mimeType?: string) {
     console.log("conversationId: ", conversationId)
     console.log("text: ", text)
+    console.log("quotedMsgId: ", quotedMsgId)
+    console.log("mediaUrl: ", mediaUrl)
+    console.log("mimeType: ", mimeType)
 
     const currentUser= await getCurrentUser()
     if (!currentUser) return null
@@ -64,7 +67,7 @@ export async function sendTintaMessageAction(conversationId: string, text: strin
     const name= currentUser.name || "Tinta"
     console.log("name: ", name)     
     
-    const created= await sendTintaMessage(conversationId, name, text, quotedMsgId)
+    const created= await sendTintaMessage(conversationId, name, text, quotedMsgId, mediaUrl, mimeType)
     if (!created) return false
 
     revalidatePath("/whatsapp")

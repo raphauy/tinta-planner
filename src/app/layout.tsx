@@ -1,3 +1,4 @@
+import dotenv from "dotenv";
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { TailwindIndicator } from "@/components/shadcn/tailwind-indicator";

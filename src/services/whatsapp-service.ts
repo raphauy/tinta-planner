@@ -1,11 +1,7 @@
 import axios from 'axios';
 import https from 'https';
 
-export async function sendWapMessage(phone: string, text: string, quotedMsgId?: string): Promise<string> {
-  // if (process.env.NODE_ENV === 'development') {
-  //   console.log("sendWapMessage simulator")
-  //   return
-  // }
+export async function sendWapMessage(phone: string, text: string, quotedMsgId?: string, mediaUrl?: string, mimeType?: string): Promise<string> {
 
   const tintaEndpoint= process.env.TINTA_WHATSAPP_ENDPOINT + '/send'
 
@@ -18,6 +14,7 @@ export async function sendWapMessage(phone: string, text: string, quotedMsgId?: 
     phone,
     text,
     quotedMsgId,
+    mediaUrl,
   } 
 
   const attempts= 3

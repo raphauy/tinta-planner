@@ -29,11 +29,16 @@ export const columns: ColumnDef<DataIndicator>[] = [
       return (
         <div></div>
     )},
-  cell: ({ row }) => {
+    cell: ({ row }) => {
       const data= row.original     
 
       // @ts-ignore
       const iconComponent= LucideIcons[data.icon]
+      if (!iconComponent) {
+        return (
+          <div className="w-1">Icono no encontrado</div>
+        )
+      }
  
       return (
         <div className="w-1">{React.createElement(iconComponent)}</div>
