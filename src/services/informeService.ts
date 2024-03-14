@@ -312,11 +312,12 @@ export async function getDataToGraph(indicatorId: string, clientId: number) {
     },
     orderBy: {
       informe: {
-        month: 'asc',
+        month: 'desc',
       }
     },
     take: 12,
   })
+  dataIndicators.reverse()
   const result: DataToGraph[]= []
   dataIndicators.forEach(dataIndicator => {
     result.push({

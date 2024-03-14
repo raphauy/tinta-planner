@@ -18,6 +18,7 @@ import LocationBox from "./location-box";
 import socket from "@/lib/socket";
 import { MessageDAO } from "@/services/message-services";
 import { getConversationMessagesDAOAction, getUnreadMessagesDAOAction } from "../messages/message-actions";
+import { ImageDialog } from "./image-dialog";
 
 type Props = {
   conversation: ConversationDAO
@@ -181,7 +182,12 @@ export function Chat({ conversation }: Props) {
                   <Reply className="text-muted-foreground" />
                 </Button>
               </div>
-              { message.mediaUrl && message.mimeType?.startsWith("image") &&  <Image src={message.mediaUrl} alt="media" className="object-cover w-full rounded-lg" width={300} height={200} /> }
+              { message.mediaUrl && message.mimeType?.startsWith("image") &&  
+                <>
+                <ImageDialog name={message.name} imageUrl={message.mediaUrl} />
+                </>
+                
+              }
               {message.mediaUrl && message.mimeType?.startsWith("video") && (
                 <video
                   src={message.mediaUrl}

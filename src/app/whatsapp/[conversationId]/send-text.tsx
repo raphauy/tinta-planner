@@ -112,8 +112,8 @@ export default function SendText({ conversationId, replayId, replyName, replayTe
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={(e) => {
                         if (e.key === "Enter" && !e.shiftKey) {
-                        formRef.current?.requestSubmit();
-                        e.preventDefault();
+                            formRef.current?.requestSubmit();
+                            e.preventDefault();
                         }
                     }}
                     spellCheck={false}
