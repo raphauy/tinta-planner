@@ -172,7 +172,7 @@ export default function InstaBox({ postId, onDelete, onEdit, onPost, client }: I
               className='flex items-center gap-1 p-1 border rounded' 
               onClick={() => {
                 const link = document.createElement('a');
-                link.href = `https://res.cloudinary.com/dtm41dmrz/image/upload/fl_attachment:${slugify(title, { lower: true })}/${short}`;
+                link.href = `https://res.cloudinary.com/dtm41dmrz/image/upload/fl_attachment:${slugify(title, { replacement: "_", lower: true })}/${short}`;
                 link.click();
               }}
             >
