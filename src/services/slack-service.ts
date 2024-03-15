@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 // Función para enviar un mensaje a Slack
 export async function enviarMensajeSlack(mensaje: string): Promise<void> {
-  const webhookUrl = 'https://hooks.slack.com/services/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';
+  const webhookUrl = process.env.SLACK_WEBHOOK_URL!;
 
   try {
     const response = await fetch(webhookUrl, {

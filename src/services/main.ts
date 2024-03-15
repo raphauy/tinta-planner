@@ -5,10 +5,10 @@ async function main() {
     console.log("iniciando main")
 
 
-    const mensaje= "Aquí aparecerán los mensajes que llegan al whatsapp de Tinta a modo de notificación."
+    const mensaje= "Ping!"
 
     const res= await enviarMensajeSlack(mensaje)
 
 }
   
-//main()
+main()
