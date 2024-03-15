@@ -4,12 +4,12 @@ import { Button } from "@/components/ui/button";
 import { cn, reduceText } from "@/lib/utils";
 import { ConversationDAO } from "@/services/conversation-services";
 import { format } from "date-fns";
-import { ArrowDownCircle, Loader, Reply } from "lucide-react";
+import { ArrowDownCircle, Loader, Reply, Sparkles, Wand } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { BsFilePdfFill } from "react-icons/bs";
-import { setMessagesReadAction } from "../conversations/conversation-actions";
+import { setMessagesReadAction, transcribeAudioAction } from "../conversations/conversation-actions";
 import SendText from "./send-text";
 import AudioPlayer from "./audio-player";
 import QuotedBox from "./quoted-box";
@@ -19,6 +19,7 @@ import socket from "@/lib/socket";
 import { MessageDAO } from "@/services/message-services";
 import { getConversationMessagesDAOAction, getUnreadMessagesDAOAction } from "../messages/message-actions";
 import { ImageDialog } from "./image-dialog";
+import { toast } from "@/components/ui/use-toast";
 
 type Props = {
   conversation: ConversationDAO
@@ -38,6 +39,7 @@ export function Chat({ conversation }: Props) {
 
   const [loading, setLoading] = useState(false)
 
+  const [processingMessageId, setProcessingMessageId] = useState("")
 
   const markAsread = useCallback(() => {
     if (conversation.unreadMessages === 0) return
@@ -148,6 +150,30 @@ export function Chat({ conversation }: Props) {
     setNewMessages(true)    
   }
 
+  function transcribe(messageId: string) {
+    setProcessingMessageId(messageId)
+    setLoading(true)
+    transcribeAudioAction(messageId)
+    .then((res) => {
+      if (res) {
+        // find message and update it
+        const index= messages.findIndex(m => m.id === messageId)
+        const updatedMessages= [...messages]
+        updatedMessages[index].content= res
+        setMessages(updatedMessages)        
+
+        toast({ title: "Transcripción exitosa" })
+      }
+    })
+    .catch(() => {
+      toast({ title: "Error al transcribir el audio", variant: "destructive" })
+    })
+    .finally(() => {
+      setLoading(false)
+      setProcessingMessageId("")
+    })    
+  }
+
   
   return (
     <div>
@@ -178,9 +204,17 @@ export function Chat({ conversation }: Props) {
             <div className="max-w-sm p-2 mt-3 mb-2 bg-white rounded-lg xl:max-w-lg">
               <div className="flex justify-between">
                 <p className="text-xs text-[#00a884]">{message.name}</p>
-                <Button variant="secondary" className="h-5 gap-2 px-1" onClick={() => reply(message)}>
-                  <Reply className="text-muted-foreground" />
-                </Button>
+                <div className="flex gap-3">
+                  <Button variant="secondary" onClick={() => transcribe(message.id)} 
+                    className={cn("h-6 gap-2 px-1", !isAudio && "hidden")}>
+                    {
+                      loading && processingMessageId === message.id ? <Sparkles className="w-5 h-5 animate-spin" /> : <Sparkles className="text-muted-foreground" />
+                    }
+                  </Button>
+                  <Button variant="secondary" className="h-6 gap-2 px-1" onClick={() => reply(message)}>
+                    <Reply className="text-muted-foreground" />
+                  </Button>
+                </div>  
               </div>
               { message.mediaUrl && message.mimeType?.startsWith("image") &&  
                 <>
@@ -230,7 +264,12 @@ export function Chat({ conversation }: Props) {
                 </div>
               )}
 
-              { isAudio && <AudioPlayer src={message.mediaUrl!} avatarImage={message.pictureUrl!} time={format(message.createdAt, "HH:mm")} isGroup={isGroup} isLeft={true}/> }
+              { isAudio && 
+                <div>
+                  <AudioPlayer src={message.mediaUrl!} avatarImage={message.pictureUrl!} time={format(message.createdAt, "HH:mm")} isGroup={isGroup} isLeft={true}/>
+                  <p>{message.content !== "_audio_" ? message.content : ""}</p>
+                </div>
+              }
 
               {
                 (message.mediaUrl && message.content !== "_audio_") || (!message.mediaUrl && message.content !== "_contact_" && message.content !== "_location_") &&
@@ -243,13 +282,19 @@ export function Chat({ conversation }: Props) {
               { message.reactions && <p className={cn("text-xs whitespace-pre-line mt-1 ml-1", !message.reactions && "hidden")}>{message.reactions}</p>}
           </div> 
           :
-          <div key={message.id} className="rounded-lg mt-3 mb-2 max-w-lg self-end min-w-[384px]">
+          <div key={message.id} className="rounded-lg border mt-3 mb-2 max-w-lg self-end min-w-[384px]">
             <div className="bg-[#dcf8c6] p-2">
               <div className="flex justify-between">
                 <p className="text-xs text-[#00a884]">{message.name}</p>
-                <Button variant="secondary" className="h-5 gap-2 px-1" onClick={() => reply(message)}>
-                  <Reply className="text-muted-foreground" />
-                </Button>
+                <div className="flex gap-2">
+                  <Button variant="secondary" className={cn("h-5 gap-3 px-1", !isAudio && "hidden")} onClick={() => reply(message)}>
+                    <Wand className="text-muted-foreground" />
+                  </Button>
+
+                  <Button variant="secondary" className="h-5 gap-2 px-1" onClick={() => reply(message)}>
+                    <Reply className="text-muted-foreground" />
+                  </Button>
+                </div>
               </div>
               { message.mediaUrl && message.mimeType?.startsWith("image") &&  
                 <>

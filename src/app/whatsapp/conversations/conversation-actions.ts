@@ -4,8 +4,9 @@ import { revalidatePath } from "next/cache"
 import { ConversationDAO, ConversationFormValues, createConversation, updateConversation, getFullConversationDAO, deleteConversation, sendTintaMessage, setMessagesRead, getConversationsDAO} from "@/services/conversation-services"
 
 import { getComplentaryMessages, setMessages} from "@/services/conversation-services"
-import { MessageDAO } from "@/services/message-services"
+import { MessageDAO, getMessageDAO, setText } from "@/services/message-services"
 import getCurrentUser from "@/app/(server-side)/services/getCurrentUser"
+import { transcribeAudio } from "@/lib/audio-utils"
     
 
 export async function getConversationDAOAction(id: string): Promise<ConversationDAO | null> {
@@ -81,4 +82,21 @@ export async function setMessagesReadAction(id: string) {
     //revalidatePath(`/whatsapp/${id}`, "layout")
 
     return res
+}
+
+export async function transcribeAudioAction(messageId: string): Promise<string> {
+    const message= await getMessageDAO(messageId)
+    if (!message)
+        throw new Error("Message not found")
+
+    const audioUrl= message.mediaUrl
+    if (!audioUrl)
+        throw new Error("Audio not found")
+
+    const transcription= await transcribeAudio(audioUrl)
+    await setText(messageId, transcription)
+
+    revalidatePath(`/whatsapp/${message.conversationId}`, "layout")
+    
+    return transcription
 }

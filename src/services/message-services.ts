@@ -111,7 +111,17 @@ export async function updateMessage(id: string, data: MessageFormValues) {
   })
   return updated
 }
-
+export async function setText(id: string, text: string) {
+  const updated = await prisma.message.update({
+    where: {
+      id
+    },
+    data: {
+      content: text
+    }
+  })
+  return updated
+}
 export async function deleteMessage(id: string) {
   const deleted = await prisma.message.delete({
     where: {
