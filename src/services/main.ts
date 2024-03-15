@@ -1,14 +1,14 @@
+import { enviarMensajeSlack } from "./slack-service"
 
 async function main() {
 
     console.log("iniciando main")
 
-    // const audioUrl = 'https://res.cloudinary.com/dtm41dmrz/video/upload/v1710459685/whatsapp/iliqwjzrad0zlptn0isc.ogg';
-    // transcribeAudio(audioUrl)
-    // .then(transcription => console.log('Transcripción:', transcription))
-    // .catch(error => console.error('Error en transcripción:', error));
 
+    const mensaje= "Aquí aparecerán los mensajes que llegan al whatsapp de Tinta a modo de notificación."
+
+    const res= await enviarMensajeSlack(mensaje)
 
 }
   
-main()
+//main()

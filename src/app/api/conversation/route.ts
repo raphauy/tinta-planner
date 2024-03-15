@@ -1,4 +1,5 @@
 import { messageArrived, addReaction } from "@/services/conversation-services";
+import { enviarMensajeSlack } from "@/services/slack-service";
 import { NextResponse } from "next/server";
 
 
@@ -84,6 +85,8 @@ export async function POST(request: Request, { params }: { params: { clientId: s
             if (!id) return NextResponse.json({ error: "error creating message" }, { status: 502 })    
         }
 
+        const slackMessage= `*${name}*:\n${text}`
+        await enviarMensajeSlack(slackMessage)
 
         return NextResponse.json({ data: id }, { status: 200 })
 

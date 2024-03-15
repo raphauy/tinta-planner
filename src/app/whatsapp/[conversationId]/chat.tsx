@@ -287,8 +287,11 @@ export function Chat({ conversation }: Props) {
               <div className="flex justify-between">
                 <p className="text-xs text-[#00a884]">{message.name}</p>
                 <div className="flex gap-2">
-                  <Button variant="secondary" className={cn("h-5 gap-3 px-1", !isAudio && "hidden")} onClick={() => reply(message)}>
-                    <Wand className="text-muted-foreground" />
+                  <Button variant="secondary" onClick={() => transcribe(message.id)} 
+                    className={cn("h-6 gap-2 px-1", !isAudio && "hidden")}>
+                    {
+                      loading && processingMessageId === message.id ? <Sparkles className="w-5 h-5 animate-spin" /> : <Sparkles className="text-muted-foreground" />
+                    }
                   </Button>
 
                   <Button variant="secondary" className="h-5 gap-2 px-1" onClick={() => reply(message)}>
