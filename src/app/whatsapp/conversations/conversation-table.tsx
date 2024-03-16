@@ -55,9 +55,10 @@ interface DataTableProps<TData, TValue> {
   data: TData[]
   columnsOff?: string[]
   subject: string
+  pageSize?: number
 }
 
-export function DataTable<TData, TValue>({ columns, data, columnsOff, subject }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, columnsOff, subject, pageSize }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
@@ -86,8 +87,9 @@ export function DataTable<TData, TValue>({ columns, data, columnsOff, subject }:
   })
   React.useEffect(() => {
     columnsOff && columnsOff.forEach(colName => {
-      table.getColumn(colName)?.toggleVisibility(false)      
+      table.getColumn(colName)?.toggleVisibility(false)
     });
+    table.setPageSize(pageSize || 10)
   // eslint-disable-next-line react-hooks/exhaustive-deps  
   }, [])
 

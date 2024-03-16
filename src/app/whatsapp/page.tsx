@@ -9,7 +9,7 @@ export default async function WhatsappPage() {
   return (
     <div className="flex w-full">
         <div className="hidden max-w-lg p-3 py-4 mx-auto border rounded-md md:block text-muted-foreground dark:text-white">
-            <DataTable columns={columns} data={data} subject="Conversation"/>
+            <DataTable columns={columns} data={data} subject="Conversation" pageSize={6} />
         </div>
         <div className="flex flex-col justify-between w-full bg-slate-100">
 
