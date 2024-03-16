@@ -7,7 +7,7 @@ async function main() {
 
     const mensaje= "Ping!"
 
-    const res= await sendSlackMessage(mensaje)
+    //const res= await sendSlackMessage(mensaje)
 
 }
   
