@@ -6,6 +6,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ConversationDAO } from '@/services/conversation-services';
+import { useSession } from 'next-auth/react';
 
 type Props = {
   data: ConversationDAO
@@ -15,6 +16,11 @@ export function ConversationActions({ data }: Props) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [showSlackDialog, setShowSlackDialog] = useState(false)
 
+  const session= useSession()
+  const isAllowed= session?.data?.user.role === "admin" || session?.data?.user.role === "agency-admin"
+
+  if (!isAllowed)
+    return null
 
   return (
     <div className="flex items-center">

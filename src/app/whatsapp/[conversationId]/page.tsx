@@ -5,6 +5,7 @@ import { DataTable } from "../conversations/conversation-table"
 import { columns } from "../conversations/conversation-columns"
 import { revalidatePath } from "next/cache"
 import { getConversationMessagesDAO } from "@/services/message-services"
+import getCurrentUser from "@/app/(server-side)/services/getCurrentUser"
 
 // Opt out of caching for all data requests in the route segment
 export const dynamic = 'force-dynamic'
@@ -31,6 +32,9 @@ export default async function ConversationPage({ params }: Props) {
     const commaSeparatedParticipants= Array.from(participants).join(", ")
 
     const data= await getConversationsDAO()
+
+    const currentUser= await getCurrentUser()
+    const isAllowed= currentUser?.role === "admin" || currentUser?.role === "agency-admin"
 
     return (
         <div className="flex w-full">
