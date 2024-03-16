@@ -1,8 +1,6 @@
-import fetch from 'node-fetch';
 
 // Función para enviar un mensaje a Slack
-export async function enviarMensajeSlack(mensaje: string): Promise<void> {
-  const webhookUrl = process.env.SLACK_WEBHOOK_URL!;
+export async function sendSlackMessage(mensaje: string, webhookUrl: string): Promise<boolean> {
 
   try {
     const response = await fetch(webhookUrl, {
@@ -16,11 +14,23 @@ export async function enviarMensajeSlack(mensaje: string): Promise<void> {
     });
 
     if (response.ok) {
-      console.log('Mensaje enviado a Slack con éxito');
+      return true
     } else {
       console.error('Error al enviar mensaje a Slack', response.statusText);
+      return false
     }
   } catch (error) {
-    console.error('Error al enviar mensaje a Slack', error);
+    console.error('Error al enviar mensaje a Slack', error)
+    return false
   }
+}
+
+export async function sendSlackGeneralMessage(mensaje: string): Promise<boolean> {
+  const webhookUrl = process.env.GENERAL_SLACK_WEBHOOK_URL;
+  if (!webhookUrl) {
+    console.error('No se ha configurado el webhook de Slack');
+    return false;
+  }
+
+  return sendSlackMessage(mensaje, webhookUrl);
 }

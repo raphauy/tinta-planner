@@ -1,7 +1,7 @@
 "use server"
   
 import { revalidatePath } from "next/cache"
-import { ConversationDAO, ConversationFormValues, createConversation, updateConversation, getFullConversationDAO, deleteConversation, sendTintaMessage, setMessagesRead, getConversationsDAO} from "@/services/conversation-services"
+import { ConversationDAO, ConversationFormValues, createConversation, updateConversation, getFullConversationDAO, deleteConversation, sendTintaMessage, setMessagesRead, getConversationsDAO, setSlackHook} from "@/services/conversation-services"
 
 import { getComplentaryMessages, setMessages} from "@/services/conversation-services"
 import { MessageDAO, getMessageDAO, setText } from "@/services/message-services"
@@ -99,4 +99,8 @@ export async function transcribeAudioAction(messageId: string): Promise<string> 
     revalidatePath(`/whatsapp/${message.conversationId}`, "layout")
     
     return transcription
+}
+
+export async function setSlackHookAction(conversationId: string, slackHook: string): Promise<boolean> {
+    return setSlackHook(conversationId, slackHook)
 }

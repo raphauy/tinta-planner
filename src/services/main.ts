@@ -1,4 +1,4 @@
-import { enviarMensajeSlack } from "./slack-service"
+import { sendSlackMessage } from "./slack-service"
 
 async function main() {
 
@@ -7,7 +7,7 @@ async function main() {
 
     const mensaje= "Ping!"
 
-    const res= await enviarMensajeSlack(mensaje)
+    const res= await sendSlackMessage(mensaje)
 
 }
   

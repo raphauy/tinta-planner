@@ -321,6 +321,7 @@ model Conversation {
   isGroup     Boolean  @default(false)
   name        String?
   pictureUrl  String?
+  slackHook   String?
   messages    Message[]
   agency      Agency  @relation(fields: [agencyId], references: [id], onDelete: NoAction)
   agencyId    Int     @default(1)

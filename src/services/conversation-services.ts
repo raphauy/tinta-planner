@@ -2,6 +2,7 @@ import { prisma } from "@/app/(server-side)/db"
 import * as z from "zod"
 import { MessageDAO, createMessage, getMessageByWapIdDAO, getMessagesDAO } from "./message-services"
 import { sendWapMessage } from "./whatsapp-service"
+import { sendSlackGeneralMessage, sendSlackMessage } from "./slack-service"
 
 export type ConversationDAO = {
 	id: string
@@ -11,6 +12,7 @@ export type ConversationDAO = {
   isGroup: boolean
   name?: string
   pictureUrl?: string
+  slackHook?: string
 	messages: MessageDAO[]
   unreadMessages: number
 	agencyId: number
@@ -22,6 +24,11 @@ export const conversationSchema = z.object({
 
 export type ConversationFormValues = z.infer<typeof conversationSchema>
 
+export const slackSchema = z.object({
+	slackHook: z.string({required_error: "slackHook is required."}),
+})
+
+export type SlackFormValues = z.infer<typeof slackSchema>
 
 export async function getConversationsDAO() {
   const found = await prisma.conversation.findMany({
@@ -231,6 +238,11 @@ export async function messageArrived(wapId: string, phone: string, name: string,
         name: newName
       }
     })
+
+    if (found.slackHook){
+      await sendSlackMessage(`*${newName}*:\n${text}`, found.slackHook)
+    }
+      
     return found.id
   } else {
     const newName= isGroup ? groupName : fromMe ? phone.split("@")[0] : name
@@ -255,6 +267,9 @@ export async function messageArrived(wapId: string, phone: string, name: string,
       createdAt: timestampDate
     }
     await createMessage(dataMessage)
+
+    await sendSlackGeneralMessage(`---Nuevo Chat de Whatsapp---\n*${newName}*:\n${text}`)
+
     return created.id
   }
 }
@@ -298,6 +313,9 @@ export async function sendTintaMessage(conversationId: string, name: string, tex
     }
   })
 
+  if (conversation.slackHook){
+    await sendSlackMessage(textWithName, conversation.slackHook)
+  }
 
   return created
 }
@@ -360,3 +378,20 @@ export async function addReaction(reactionId: string, name: string, text: string
   return updated.conversationId
 }
 
+export async function setSlackHook(conversationId: string, slackHook: string) {
+  const conversation= await getConversationDAO(conversationId)
+  if (!conversation) return false
+
+  const updated= await prisma.conversation.update({
+    where: {
+      id: conversationId
+    },
+    data: {
+      slackHook
+    }
+  })
+
+  if (!updated) return false
+
+  return true
+}

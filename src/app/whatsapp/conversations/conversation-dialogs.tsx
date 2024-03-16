@@ -5,48 +5,59 @@ import { ArrowLeftRight, ChevronsLeft, ChevronsRight, Loader, Pencil, PlusCircle
 import { toast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { ConversationForm, DeleteConversationForm } from "./conversation-forms"
+import { ConversationForm, DeleteConversationForm, SlackForm } from "./conversation-forms"
 import { getConversationDAOAction } from "./conversation-actions"
 
 import { getComplentaryMessagesAction, setMessagesAction } from "./conversation-actions"
 import { MessageDAO } from "@/services/message-services"  
   
 type Props= {
-  id?: string
-  create?: boolean
+  id: string
+  open: boolean
+  onOpenChange: (open: boolean) => void
 }
 
-const addTrigger= <Button><PlusCircle size={22} className="mr-2"/>Create Conversation</Button>
-const updateTrigger= <Pencil size={30} className="pr-2 hover:cursor-pointer"/>
-
-export function ConversationDialog({ id }: Props) {
-  const [open, setOpen] = useState(false);
+export function ConversationDialog({ id, open, onOpenChange }: Props) {
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        {id ? updateTrigger : addTrigger }
+        <p>Editar</p>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{id ? 'Update' : 'Create'} Conversation
+          <DialogTitle>Editar Chat
           </DialogTitle>
         </DialogHeader>
-        <ConversationForm closeDialog={() => setOpen(false)} id={id} />
+        <ConversationForm closeDialog={() => (onOpenChange(false))} id={id} />
       </DialogContent>
     </Dialog>
   )
 }
-  
+
+export function SlackDialog({ id, open, onOpenChange }: Props) {
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Editar Slack Hook
+          </DialogTitle>
+        </DialogHeader>
+        <SlackForm closeDialog={() => (onOpenChange(false))} id={id} />
+      </DialogContent>
+    </Dialog>
+  )
+}
+
 type DeleteProps = {
   id: string;
-  description: string;
-  open: boolean; // Añadido para control externo
-  onOpenChange: (open: boolean) => void; // Añadido para manejar el cambio de estado externamente
+  description: string
+  open: boolean
+  onOpenChange: (open: boolean) => void
 }
 
 export function DeleteConversationDialog({ id, description, open, onOpenChange }: DeleteProps) {
-  // Eliminamos el manejo del estado 'open' interno, ya que ahora lo recibimos por props
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
