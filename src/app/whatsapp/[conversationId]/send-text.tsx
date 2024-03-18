@@ -1,23 +1,22 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import { toast } from "@/components/ui/use-toast"
 import { cn } from "@/lib/utils"
 import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 import { ImagePlus, Loader, Mic, Plus, SendIcon, Smile, Video, X } from "lucide-react"
+import { CldUploadButton } from "next-cloudinary"
+import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
 import { BsFilePdfFill } from "react-icons/bs"
 import Textarea from "react-textarea-autosize"
 import { sendTintaMessageAction } from "../conversations/conversation-actions"
 import SendFiles from "./send-files"
-import { CldUploadButton } from "next-cloudinary"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import Image from "next/image"
-import { Input } from "@/components/ui/input"
-import { set } from "date-fns"
 
 type Props = {
     conversationId: string
@@ -34,12 +33,23 @@ export default function SendText({ conversationId, replayId, replyName, replayTe
     const [whatsappId, setWhatsappId] = useState("")
     const [mediaUrl, setMediaUrl] = useState("")
     const [mimeType, setMimeType] = useState("")
+    const [original_filename, setOriginalFilename] = useState("")
 
     const formRef = useRef<HTMLFormElement>(null);
     const inputRef = useRef<HTMLTextAreaElement>(null);
 
-    function showCloudinaryButton() {
-        const cloudinary = document.getElementById('cloudinary')
+    function showCloudinaryImageButton(type: string) {
+        let cloudinary
+        if (type === "image") {
+            cloudinary = document.getElementById("cloudinaryImage")
+        } else if (type === "video") {
+            cloudinary = document.getElementById("cloudinaryVideo")
+        } else if (type === "pdf") {
+            cloudinary = document.getElementById("cloudinaryPdf")
+        } else {
+            return
+        }
+
         if (cloudinary) {
             cloudinary.click()
         }
@@ -80,11 +90,18 @@ export default function SendText({ conversationId, replayId, replyName, replayTe
     const disabled = loading || input.length === 0;
 
     function handleUpload(result: any) {
-        const mediaUrl: string = result.info.secure_url;
+        const fileName= result.info.original_filename
+        setOriginalFilename(fileName)
+
+        const mediaUrl: string = result.info.secure_url + "_@_" + fileName
         setMediaUrl(mediaUrl)
 
-        const mimetype= result.info.resource_type
+        let mimetype= result.info.resource_type
+        if (mimetype === "raw") {
+            mimetype = "pdf"
+        }
         setMimeType(mimetype)
+
       }
     
     return (
@@ -114,17 +131,19 @@ export default function SendText({ conversationId, replayId, replyName, replayTe
                 <Popover>
                     <PopoverTrigger><Plus /></PopoverTrigger>
                     <PopoverContent className="w-48 rounded-3xl">
-                        <SendFiles showCloudinaryButton={showCloudinaryButton} />
+                        <SendFiles showCloudinaryButton={showCloudinaryImageButton} />
                     </PopoverContent>
                 </Popover>
 
                 <Dialog open={mediaUrl !== ""} onOpenChange={(open) => { if (!open) { setMediaUrl(""); setMimeType("") } }}>
                     <DialogContent className="max-w-5xl">
                         <DialogHeader>
-                        <DialogTitle className="text-muted-foreground">Enviar Imagen</DialogTitle>
+                        <DialogTitle className="text-muted-foreground">{mimeType}</DialogTitle>
                         </DialogHeader>
                         <ScrollArea className="w-full max-h-[calc(100vh-200px)]">
-                            <Image src={mediaUrl} alt="media" className="object-cover w-full rounded-lg" width={1000} height={600} />
+                            {mimeType === "video" && <video src={mediaUrl.split("_@_")[0]} controls className="w-full rounded-lg" />}
+                            {mimeType === "image" && <Image src={mediaUrl.split("_@_")[0]} alt="media" className="object-cover w-full rounded-lg" width={1000} height={600} />}
+                            {mimeType === "pdf" && <p>{original_filename}.pdf</p>}
                         </ScrollArea>
                         <div className="space-y-5">
                             <Input placeholder="texto" value={input} onChange={(e) => setInput(e.target.value)} 
@@ -150,11 +169,29 @@ export default function SendText({ conversationId, replayId, replyName, replayTe
 
                 <CldUploadButton
                     className="hidden"
-                    options={{maxFiles: 1, tags: ["whatsapp-upload"]}}
+                    options={{maxFiles: 1, tags: ["whatsapp-upload"], resourceType: "image", clientAllowedFormats: ["png", "jpeg", "jpg", "gif"]}}
                     onUpload={handleUpload}
                     uploadPreset="el3ryyws"
                 >              
-                    <p id="cloudinary">Enviar imagen</p>
+                    <p id="cloudinaryImage">Enviar imagen</p>
+                </CldUploadButton>
+
+                <CldUploadButton
+                    className="hidden"
+                    options={{maxFiles: 1, tags: ["whatsapp-upload"], resourceType: "video", clientAllowedFormats: ["mp4"]}}
+                    onUpload={handleUpload}
+                    uploadPreset="el3ryyws"
+                >              
+                    <p id="cloudinaryVideo">Enviar video</p>
+                </CldUploadButton>
+
+                <CldUploadButton
+                    className="hidden"
+                    options={{maxFiles: 1, tags: ["whatsapp-upload"], resourceType: "raw", clientAllowedFormats: ["pdf"]}}
+                    onUpload={handleUpload}
+                    uploadPreset="el3ryyws"
+                >              
+                    <p id="cloudinaryPdf">Enviar pdf</p>
                 </CldUploadButton>
 
 

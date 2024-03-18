@@ -121,7 +121,7 @@ export function Chat({ conversation }: Props) {
     setReplayName(message.name)
     setReplayText(message.content)
     switch (message.mimeType) {
-      case "application/pdf":
+      case "application/pdf" || "pdf":
         setReplayType("pdf")
         break
       case "audio/ogg; codecs=opus":
@@ -189,7 +189,7 @@ export function Chat({ conversation }: Props) {
           const mimeTypeQuoted= messageQuoted?.mimeType
           const quotedMediaUrl= messageQuoted?.mediaUrl
 
-          const isPdf= message.mediaUrl && message.mimeType?.startsWith("application/pdf")
+          const isPdf= message.mediaUrl && message.mimeType?.includes("pdf")
           const pdfUrl= isPdf && message.mediaUrl?.split("_@_")[0]
           const pdfName= isPdf && message.mediaUrl?.split("_@_")[1]
 
@@ -224,7 +224,7 @@ export function Chat({ conversation }: Props) {
               }
               {message.mediaUrl && message.mimeType?.startsWith("video") && (
                 <video
-                  src={message.mediaUrl}
+                  src={message.mediaUrl.split("_@_")[0]}
                   controls
                   className="object-cover w-full rounded-lg"
                   width={300}
@@ -307,7 +307,7 @@ export function Chat({ conversation }: Props) {
               }
               {message.mediaUrl && message.mimeType?.startsWith("video") && (
                 <video
-                  src={message.mediaUrl}
+                  src={message.mediaUrl.split("_@_")[0]}
                   controls
                   className="object-cover w-full rounded-lg"
                   width={300}

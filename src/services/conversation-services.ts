@@ -279,7 +279,8 @@ export async function sendTintaMessage(conversationId: string, name: string, tex
 
   const textWithName= "*_" + name + "_*:\n" + text
 
-  const wapId= await sendWapMessage(conversation.phone, textWithName, quotedMsgId, mediaUrl, mimeType)
+  const mediaUrlToWhatsapp= mediaUrl?.split("_@_")[0]
+  const wapId= await sendWapMessage(conversation.phone, textWithName, quotedMsgId, mediaUrlToWhatsapp, mimeType)
 
   const quotedText= quotedMsgId && (await getMessageByWapIdDAO(quotedMsgId))?.content
   console.log("quotedText:")
