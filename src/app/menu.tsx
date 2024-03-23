@@ -14,6 +14,9 @@ export default function Menu() {
     const slug= getSlug(path)
 
     const user= session?.data?.user
+    const notAllowed= user?.email === "eliana@tinta.wine" || user?.email === "ariana@tinta.wine"
+    console.log("notAllowed: ", notAllowed)    
+    console.log("email: ", user?.email)    
     
     const feature= path.split("/")[1]
     if (feature === "admin") return <div className="text-2xl font-bold text-muted-foreground"> / Admin <Link href="/"><Button variant="outline">Volver</Button></Link></div>
@@ -36,19 +39,19 @@ export default function Menu() {
         <nav className="text-muted-foreground">
             <ul className="flex items-center">
                 {role === "client" && <ClientMenu />}
-                {role === "agency" && <><ClientMenu /><AgencyMenu socialHref={socialHref} socialSelected={socialSelected} newsletterHref={newsletterHref} newsletterSelected={newsletterSelected} whatsappHref={whatsappHref} whatsappSelected={whatsappSelected} /></>}
+                {role === "agency" && <><ClientMenu /><AgencyMenu socialHref={socialHref} socialSelected={socialSelected} newsletterHref={newsletterHref} newsletterSelected={newsletterSelected} whatsappHref={whatsappHref} whatsappSelected={whatsappSelected} crmHref={crmHref} crmSelected={crmSelected} notAllowed={notAllowed} /></>}
                 {role === "agency-admin" && 
                     <>
                         <ClientMenu />
-                        <AgencyMenu socialHref={socialHref} socialSelected={socialSelected} newsletterHref={newsletterHref} newsletterSelected={newsletterSelected} whatsappHref={whatsappHref} whatsappSelected={whatsappSelected} />
-                        <AgencyAdminMenu crmHref={crmHref} crmSelected={crmSelected} />
+                        <AgencyMenu socialHref={socialHref} socialSelected={socialSelected} newsletterHref={newsletterHref} newsletterSelected={newsletterSelected} whatsappHref={whatsappHref} whatsappSelected={whatsappSelected} crmHref={crmHref} crmSelected={crmSelected} />
+                        {/* <AgencyAdminMenu crmHref={crmHref} crmSelected={crmSelected} /> */}
                     </>
                 }
                 {role === "admin" && 
                     <>
                     <ClientMenu />
-                    <AgencyMenu socialHref={socialHref} socialSelected={socialSelected} newsletterHref={newsletterHref} newsletterSelected={newsletterSelected} whatsappHref={whatsappHref} whatsappSelected={whatsappSelected} />
-                    <AgencyAdminMenu crmHref={crmHref} crmSelected={crmSelected} />
+                    <AgencyMenu socialHref={socialHref} socialSelected={socialSelected} newsletterHref={newsletterHref} newsletterSelected={newsletterSelected} whatsappHref={whatsappHref} whatsappSelected={whatsappSelected} crmHref={crmHref} crmSelected={crmSelected} />
+                    {/* <AgencyAdminMenu crmHref={crmHref} crmSelected={crmSelected} /> */}
                     <AdminMenu adminSelected={adminSelected} />
                 </>
             }
@@ -71,8 +74,11 @@ interface AgencyProps {
     newsletterSelected: boolean
     whatsappHref: string
     whatsappSelected: boolean
+    crmHref: string
+    crmSelected: boolean
+    notAllowed?: boolean
 }
-function AgencyMenu({ socialHref, socialSelected, newsletterHref, newsletterSelected, whatsappHref, whatsappSelected }: AgencyProps) {
+function AgencyMenu({ socialHref, socialSelected, newsletterHref, newsletterSelected, whatsappHref, whatsappSelected, crmHref, crmSelected, notAllowed }: AgencyProps) {
     return (
         <>
             <li className={cn("flex items-center border-b-tinta-vino hover:border-b-tinta-vino hover:border-b-2 h-10", socialSelected && "border-b-2")}>
@@ -84,6 +90,10 @@ function AgencyMenu({ socialHref, socialSelected, newsletterHref, newsletterSele
             <li className={cn("flex items-center border-b-tinta-vino hover:border-b-tinta-vino hover:border-b-2 h-10", whatsappSelected && "border-b-2")}>
                 <MessagesMenuBox whatsappHref={whatsappHref} />
             </li>
+            <li className={cn("flex items-center border-b-tinta-vino hover:border-b-tinta-vino hover:border-b-2 h-10", crmSelected && "border-b-2", notAllowed && "hidden")}>
+                <Link href={crmHref}><Button className="h-8 text-lg" variant="ghost">CRM</Button></Link>
+            </li>
+
         </>
     )    
 }

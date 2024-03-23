@@ -25,7 +25,8 @@ export default async function DashboardPage({ params }: { params: { slug: string
 
   const user= await getCurrentUser()
 
-  if (!user?.role.endsWith("admin"))
+  // if (!user?.role.endsWith("admin"))
+  if (user?.email !== "rapha.uy@rapha.uy" && user?.email !== "gabi@tinta.wine" && user?.email !== "agustin@tinta.wine" && user?.email !== "aldana@tinta.wine")
     return redirect("/not-allowed?message=No tienes permisos para acceder a este recurso")
 
   const basePath= "agency"
