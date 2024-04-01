@@ -28,7 +28,7 @@ export async function getClientsOfUser (userId: string) {
   try {
     const clients = await prisma.client.findMany({
       orderBy: {
-        id: 'asc',
+        name: 'asc',
       },
       where: {
         users: {
