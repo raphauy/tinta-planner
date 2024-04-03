@@ -235,7 +235,8 @@ export async function messageArrived(wapId: string, phone: string, name: string,
       },
       data: {
         updatedAt: timestampDate,
-        name: newName
+        name: newName,
+        pictureUrl: pictureUrl ? pictureUrl : found.pictureUrl
       }
     })
 
