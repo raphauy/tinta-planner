@@ -272,7 +272,7 @@ export function Chat({ conversation }: Props) {
               }
 
               {
-                (message.mediaUrl && message.content !== "_audio_") || (!message.mediaUrl && message.content !== "_contact_" && message.content !== "_location_") &&
+                ((message.mediaUrl && message.content !== "_audio_") || (!message.mediaUrl && message.content !== "_contact_" && message.content !== "_location_")) &&
                 <>
                   <p className={cn(isSingleEmojiMessage && "text-5xl text-center", "mt-1")}>{message.content}</p>
                   <p className="text-xs text-right text-muted-foreground">{format(message.createdAt, "HH:mm")}</p>
