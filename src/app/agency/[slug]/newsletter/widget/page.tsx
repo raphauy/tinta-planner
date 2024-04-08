@@ -58,8 +58,8 @@ export default async function WidgetPage({ params }: Props) {
 
 
 const headStr= `
-<link rel="stylesheet" href="https://subscriber.tinta.wine/dist/style.css">
-<script type="module" src="https://subscriber.tinta.wine/dist/widget.js" defer></script>
+<link rel="stylesheet" href="https://subscriber.tinta.wine/style.css">
+<script type="module" src="https://subscriber.tinta.wine/widget.js" defer></script>
 `
 
 
@@ -75,8 +75,8 @@ const htmlExample = `
     <head>
         <!-- Resto del código de tu head -->
 
-        <link rel="stylesheet" href="https://subscriber.tinta.wine/dist/style.css">
-        <script type="module" src="https://subscriber.tinta.wine/dist/widget.js" defer></script>
+        <link rel="stylesheet" href="https://subscriber.tinta.wine/style.css">
+        <script type="module" src="https://subscriber.tinta.wine/widget.js" defer></script>
     </head>
     <body>
         <!-- Inicio del código de tu body -->
