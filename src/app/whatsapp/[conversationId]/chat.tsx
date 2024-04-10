@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button";
-import { cn, reduceText } from "@/lib/utils";
+import { cn, formatWhatsAppStyle, reduceText } from "@/lib/utils";
 import { ConversationDAO } from "@/services/conversation-services";
 import { format } from "date-fns";
 import { ArrowDownCircle, Loader, Reply, Sparkles, Wand } from "lucide-react";
@@ -275,7 +275,7 @@ export function Chat({ conversation }: Props) {
                 ((message.mediaUrl && message.content !== "_audio_") || (!message.mediaUrl && message.content !== "_contact_" && message.content !== "_location_")) &&
                 <>
                   <p className={cn(isSingleEmojiMessage && "text-5xl text-center", "mt-1")}>{message.content}</p>
-                  <p className="text-xs text-right text-muted-foreground">{format(message.createdAt, "HH:mm")}</p>
+                  <p className="text-xs text-right text-muted-foreground">{formatWhatsAppStyle(message.updatedAt)}</p> 
                 </>
               }
             </div> 
@@ -340,7 +340,7 @@ export function Chat({ conversation }: Props) {
                 message.content !== "_audio_" &&
                 <>
                   <p className={cn("whitespace-pre-line mt-1", isSingleEmojiMessage && "text-5xl text-center")}>{message.content}</p>
-                  <p className="text-xs text-right text-muted-foreground">{format(message.createdAt, "HH:mm")}</p>
+                  <p className="text-xs text-right text-muted-foreground">{formatWhatsAppStyle(message.updatedAt)}</p> 
                 </>
               }
             </div>
