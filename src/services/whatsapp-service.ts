@@ -1,6 +1,8 @@
 import axios from 'axios';
 import https from 'https';
 
+export const maxDuration = 30; // This function can run for a maximum of 30 seconds
+
 export async function sendWapMessage(phone: string, text: string, quotedMsgId?: string, mediaUrl?: string, mimeType?: string): Promise<string> {
 
   const tintaEndpoint= process.env.TINTA_WHATSAPP_ENDPOINT + '/send'
