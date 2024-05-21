@@ -8,6 +8,7 @@ import { getConversationMessagesDAO } from "@/services/message-services"
 import getCurrentUser from "@/app/(server-side)/services/getCurrentUser"
 
 // Opt out of caching for all data requests in the route segment
+const maxDuration = 59
 export const dynamic = 'force-dynamic'
 
 interface Props {
