@@ -5,6 +5,8 @@ import { columns } from "./envio-columns"
 import { getNewslettersDAO } from "@/services/newsletter-services"
 import { getClientIdBySlug } from "@/app/(server-side)/services/getClients"
 
+export const maxDuration = 59
+
 type Props= {
   params: {
     slug: string
