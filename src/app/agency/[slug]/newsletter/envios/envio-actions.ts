@@ -73,10 +73,6 @@ export async function sendEnvioToAllContactsAction(envioId: string) {
       console.log("Error getting client or banner")    
       throw new Error("Error getting client or banner")
     }
-    const banner= client.banner
-    const footerText= client.footerText
-    const linkHref= client.linkHref
-    const linkText= client.linkText
 
     const currentUser= await getCurrentUser()
     if (!currentUser) {
@@ -85,7 +81,8 @@ export async function sendEnvioToAllContactsAction(envioId: string) {
     console.log("Sending envio to all contacts with user: ", currentUser.name);
     
 
-    const res= await sendEnvioToAllContacts(envioId, currentUser.name || "Unknown", footerText, linkHref, linkText)
+    const res= await sendEnvioToAllContacts(envioId, currentUser.name || "Unknown")
     revalidatePath("/newsletter/envios")
     return res
 }
+

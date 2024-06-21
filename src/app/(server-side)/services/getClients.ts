@@ -1,5 +1,6 @@
 import { prisma } from "../db";
 import getCurrentUser from "./getCurrentUser";
+//import getCurrentUser from "./getCurrentUser";
 
 export default async function getClients (agencyId: number) {
 
@@ -50,15 +51,10 @@ export async function getClientsOfUser (userId: string) {
   }
 }
 
-export async function getSelectorData() {
+export async function getSelectorData(user: string) {
   let result: { slug: string; name: string }[] = []
   
-  const currentUser = await getCurrentUser()
-  if (!currentUser) {
-    console.log('No current user found')    
-    return result
-  }
-  const clients= await getClientsOfUser(currentUser.id)
+  const clients= await getClientsOfUser(user)
 
   const selectorData= clients.map(client => ({ slug: client.slug, name: client.name }))
   

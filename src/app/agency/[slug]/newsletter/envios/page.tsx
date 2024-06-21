@@ -1,11 +1,10 @@
+import { getClientIdBySlug } from "@/app/(server-side)/services/getClients"
 import { getEnviosDAOByClientId } from "@/services/envio-services"
+import { columns } from "./envio-columns"
 import { EnvioDialog } from "./envio-dialogs"
 import { DataTable } from "./envio-table"
-import { columns } from "./envio-columns"
-import { getNewslettersDAO } from "@/services/newsletter-services"
-import { getClientIdBySlug } from "@/app/(server-side)/services/getClients"
 
-export const maxDuration = 59
+export const maxDuration = 299
 
 type Props= {
   params: {

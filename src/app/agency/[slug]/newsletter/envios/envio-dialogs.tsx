@@ -35,6 +35,7 @@ export function EnvioDialog({ id, clientId }: Props) {
   )
 }
 
+
 type DeleteProps= {
   id?: string
   description: string
@@ -109,3 +110,4 @@ export function SendToAllDialog({ envioId, description }: SendToAllProps) {
     </Dialog>
   )
 }
+

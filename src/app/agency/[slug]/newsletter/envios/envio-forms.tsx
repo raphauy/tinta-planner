@@ -278,3 +278,4 @@ export function SendToAllForm({ envioId, closeDialog }: SendToAllProps) {
     </div>
   )
 }
+

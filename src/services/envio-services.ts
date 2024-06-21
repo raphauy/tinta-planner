@@ -1,13 +1,10 @@
-import * as z from "zod"
-import { NewsletterDAO } from "./newsletter-services"
 import { prisma } from "@/app/(server-side)/db"
-import { Resend } from "resend"
-import { EmailTemplate } from "@/components/email/email-template"
 import Newsletter from "@/components/email/newsletter"
-import { getContactsDAOByClientId, getSubscribedContactsDAOByClientId } from "./contact-services"
-import { EmailFormValues, createEmail, getPendingEmailsDAOByEnvioIdAndTake, setEmailStatus, updateEmail } from "./email-services"
-import getCurrentUser from "@/app/(server-side)/services/getCurrentUser"
-import { getClientById, getClientLightBySlug } from "@/app/(server-side)/services/getClients"
+import { Resend } from "resend"
+import * as z from "zod"
+import { getSubscribedContactsDAOByClientId } from "./contact-services"
+import { EmailFormValues, createEmail, getPendingEmailsDAOByEnvioIdAndTake, setEmailStatus } from "./email-services"
+import { NewsletterDAO } from "./newsletter-services"
 
 export type EnvioDAO = {
 	id: string
@@ -184,7 +181,7 @@ export async function sendTestEmail(envioId: string, emailTo: string, footerText
   return true
 }
 
-export async function sendEnvioToAllContacts(envioId: string, user: string, footerText: string, linkHref: string, linkText: string) {
+export async function sendEnvioToAllContacts(envioId: string, user: string) {
   const envio = await getEnvioDAO(envioId)
   const newsletter= envio.newsletter
   if (!envio || !envio.emailFrom || !envio.newsletter || !envio.newsletter.name) { 
@@ -193,6 +190,8 @@ export async function sendEnvioToAllContacts(envioId: string, user: string, foot
     console.log("newsletter: ", newsletter)    
     throw new Error("Error sending test email")
   }
+
+  await setEnvioStatus(envio.id, "pending")
 
   const content= newsletter.contentHtml
   if (!content) {
@@ -204,10 +203,6 @@ export async function sendEnvioToAllContacts(envioId: string, user: string, foot
     console.log("Error sending emails")    
     throw new Error("Error sending emails")
   }
-
-  const slug= envio.clientSlug || "newsletter"
-
-  const resend = new Resend(process.env.RESEND_API_KEY);
 
   const contacts = await getSubscribedContactsDAOByClientId(envio.clientId)
 
@@ -228,64 +223,8 @@ export async function sendEnvioToAllContacts(envioId: string, user: string, foot
       console.log("Error creating email")    
     }
   }
-  // set envio status to "Sending"
-  await setEnvioStatus(envioId, "sending")
+
   await setSentByName(envioId, user)
-
-  // take 100 emails to send until all are sent
-
-  const BASE_URL = process.env.NEXTAUTH_URL || "http://localhost:3000"
-
-  while (true) {
-    const emailsToSend= await getPendingEmailsDAOByEnvioIdAndTake(envioId, 100)
-    console.log(`sending ${emailsToSend.length} emails`)    
-
-    if (emailsToSend.length===0) {
-      break
-    }
-
-    const arrayOfEmails = emailsToSend.map((email) => {
-      const mailId= email.id
-      const banner = `${BASE_URL}/api/client/${slug}/banner/${mailId}`
-      const linkUnsubscribe = `${BASE_URL}/api/client/${slug}/unsuscribe/${mailId}`
-
-      return {
-        from,
-        to: email.emailTo,
-        subject: newsletter.name,
-        react: Newsletter({ content, banner, footerText, linkHref, linkText, linkUnsubscribe }),
-      }
-    })
-
-    const { data, error } = await resend.batch.send(arrayOfEmails)
-
-    if (error) {
-      console.log("Error sending test email", error)    
-      return false
-    } else {
-      console.log("email result: ", data)
-      // set all Emails status to "sent"
-      for (const email of emailsToSend) {
-        const updated= await setEmailStatus(email.id, "sent", true)
-        if (!updated) {
-          console.log("Error updating email status")    
-        }
-      }
-      // set envio status to "sent"
-      const updated= await setEnvioStatus(envioId, "sent")
-      if (!updated) {
-        console.log("Error updating envio status")    
-      }
-    }
-  }
-
-    // const { data, error } = await resend.emails.send({
-  //   from: envio.emailFrom,
-  //   to: emails,
-  //   subject: newsletter.name,
-  //   react: Newsletter({ content: newsletter.contentHtml }),
-  // });
-
 
   return true
 }
@@ -324,4 +263,113 @@ export async function getSummary(clientId: number): Promise<Summary> {
       contactCount,
       emailCount
   }
+}
+
+export async function processPending() {
+  const envio = await getFirstEnvioPendingOrSending()
+  if (!envio) {
+    console.log("No pending envio")    
+    return false    
+  }
+
+  // set envio status to "Sending"
+  if (envio.status==="pending") {
+    await setEnvioStatus(envio.id, "sending")
+  }
+
+  const emailsToSend= await getPendingEmailsDAOByEnvioIdAndTake(envio.id, 10)
+  console.log(`pending emails to send: ${emailsToSend.length}`)
+  
+
+  if (emailsToSend.length===0 && envio.status==="sending") {
+    console.log("No emails to send, finishing envio")
+    await setEnvioStatus(envio.id, "sent")
+    return true
+  } else {
+    console.log(`sending ${emailsToSend.length} emails`)    
+  }
+
+  const newsletter= envio.newsletter
+  if (!envio || !envio.emailFrom || !envio.newsletter || !envio.newsletter.name) { 
+    console.log("Error sending All emails, data validation failed.")    
+    console.log("envio: ", envio)
+    console.log("newsletter: ", newsletter)    
+    throw new Error("Error sending test email")
+  }
+
+  const client = await prisma.client.findUnique({
+    where: {
+      id: envio.clientId
+    },
+  })
+  if (!client) {
+    throw new Error("Error getting client")
+  }
+
+  const footerText= client.footerText
+  const linkHref= client.linkHref
+  const linkText= client.linkText
+
+  const content= newsletter.contentHtml
+  if (!content) {
+    console.log("Error sending emails")    
+    throw new Error("Error sending emails")
+  }
+  const from= envio.emailFrom
+  if (!from) {
+    console.log("Error sending emails")    
+    throw new Error("Error sending emails")
+  }
+
+  const slug= client.slug || "newsletter"
+  const BASE_URL = "https://planner.tinta.wine"
+
+  const resend = new Resend(process.env.RESEND_API_KEY);
+
+  const arrayOfEmails = emailsToSend.map((email) => {
+    const mailId= email.id
+    const banner = `${BASE_URL}/api/client/${slug}/banner/${mailId}`
+    const linkUnsubscribe = `${BASE_URL}/api/client/${slug}/unsuscribe/${mailId}`
+
+    return {
+      from,
+      to: email.emailTo,
+      subject: newsletter.name,
+      react: Newsletter({ content, banner, footerText, linkHref, linkText, linkUnsubscribe }),
+    }
+  })
+
+  const { data, error } = await resend.batch.send(arrayOfEmails)
+
+  if (error) {
+    console.log("Error sending email", error)    
+    return false
+  } else {
+    console.log("success sending emails")
+    // set all Emails status to "sent"
+    for (const email of emailsToSend) {
+      const updated= await setEmailStatus(email.id, "sent", true)
+      if (!updated) {
+        console.log("Error updating email status")    
+      }
+    }
+  }
+
+  return true
+
+}
+
+export async function getFirstEnvioPendingOrSending() {
+  const envio = await prisma.envio.findFirst({
+    where: {
+      status: {
+        in: ["pending", "sending"]
+      }
+    },
+    include: {
+      newsletter: true,
+      client: true
+    }
+  })
+  return envio
 }

@@ -3,11 +3,11 @@
 import { Button } from "@/components/ui/button"
 import { EnvioDAO } from "@/services/envio-services"
 import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown, CheckCircle2 } from "lucide-react"
-import { format, formatDistanceToNow } from "date-fns"
-import { DeleteEnvioDialog, EnvioDialog, SendToAllDialog, TestEnvioDialog } from "./envio-dialogs"
+import { formatDistanceToNow } from "date-fns"
 import { es } from "date-fns/locale"
+import { ArrowUpDown, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
+import { DeleteEnvioDialog, EnvioDialog, SendToAllDialog, TestEnvioDialog } from "./envio-dialogs"
 
 
 export const columns: ColumnDef<EnvioDAO>[] = [
@@ -26,12 +26,17 @@ export const columns: ColumnDef<EnvioDAO>[] = [
       const data = row.original;
       return (
         <div className="flex items-center w-10 gap-2">
-          {data.status === "pending" && "pending"}
           {data.status === "sent" && <CheckCircle2 className="w-6 h-6 text-green-500" />}
           {data.status === "draft" && 
             <div className="flex items-center gap-1">
               <p className="font-bold text-orange-500">draft</p>
             </div>
+          }
+          {data.status === "pending" &&
+            <p className="font-bold text-orange-500">pending</p>
+          }
+          {data.status === "sending" && 
+            <p className="font-bold text-green-500">sending</p>
           }
         </div>
       );
@@ -134,7 +139,7 @@ export const columns: ColumnDef<EnvioDAO>[] = [
                 Ver Emails
               </Button>
             </Link>
-          }          
+          }
           <EnvioDialog id={data.id} clientId={data.clientId} />
           <DeleteEnvioDialog description={deleteDescription} id={data.id} />
         </div>
