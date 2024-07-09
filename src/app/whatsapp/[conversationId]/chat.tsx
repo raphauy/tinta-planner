@@ -93,7 +93,7 @@ export function Chat({ conversation }: Props) {
 
   useEffect(() => {
     setLoading(true)
-    getConversationMessagesDAOAction(conversation.id, 30)
+    getConversationMessagesDAOAction(conversation.id, 60)
     .then((data) => {
       if (data) {
         setMessages(data)
