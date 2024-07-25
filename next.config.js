@@ -4,14 +4,19 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "res.cloudinary.com",
-        port: "",
+        protocol: "http",
+        hostname: "localhost",
+        port: "3000",
       },
       {
         protocol: "http",
         hostname: "localhost",
-        port: "3000",
+        port: "5700",
+      },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        port: "",
       },
       {
         protocol: "https",

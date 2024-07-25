@@ -68,6 +68,13 @@ export default function ConfigSideBar() {
 
         {divider()}
 
+        <Link href={`/config/whatsapp`} className={users}>
+          <User size={25}/>
+          <p className={pClasses}>Whatsapp</p>
+        </Link>
+
+        {divider()}
+
       </section>
     </>
   );
