@@ -20,6 +20,9 @@ export default function QRButton({ status,qrURL, lastModified, timeFromCreationD
     const [timeCount, setTimeCount] = useState(timeFromCreationDate)
 
     useEffect(() => {
+        if (timeCount > 60) {
+            handleRefresh()
+        }
         const interval = setInterval(() => {
             setTimeCount(timeCount + 1)
         }, 1000)
