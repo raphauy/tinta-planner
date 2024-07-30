@@ -20,6 +20,8 @@ export default function QRButton({ status,qrURL, lastModified, timeFromCreationD
     const [timeCount, setTimeCount] = useState(timeFromCreationDate)
 
     useEffect(() => {
+        if (status === "CONNECTED") return
+
         if (timeCount > 60) {
             handleRefresh()
         }
@@ -27,7 +29,7 @@ export default function QRButton({ status,qrURL, lastModified, timeFromCreationD
             setTimeCount(timeCount + 1)
         }, 1000)
         return () => clearInterval(interval)
-    }, [timeCount])
+    }, [timeCount, status])
 
     function handleClick() {
         setLoadingQR(true)
@@ -50,6 +52,7 @@ export default function QRButton({ status,qrURL, lastModified, timeFromCreationD
                 status === "DISCONNECTED" && 
                 <>                
                     <img src={qrURL} alt="QR code" width={400} height={400} />
+                    <p>QR generado hace {timeCount} segundos</p>
                     <Button onClick={handleRefresh} className="w-40">
                         {
                             loadingRefresh ?
@@ -61,7 +64,6 @@ export default function QRButton({ status,qrURL, lastModified, timeFromCreationD
     
             }
             <Card className="p-4 my-10">
-                <p>QR generado hace {timeCount} segundos</p>
                 <p>Última actualización: {lastModified.toLocaleString()}</p>
                 <p>URL: {url}</p>
             </Card>
