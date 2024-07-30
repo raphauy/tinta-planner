@@ -35,6 +35,11 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "whatsapp.raphauy.dev",
+        port: "",
+      },
+      {
+        protocol: "https",
         hostname: "pps.whatsapp.net",
         port: "",
       },

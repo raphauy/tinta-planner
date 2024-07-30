@@ -3,9 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Loader } from "lucide-react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Props= {
     status: "CONNECTED" | "DISCONNECTED"
@@ -16,31 +14,58 @@ type Props= {
 }
 export default function QRButton({ status,qrURL, lastModified, timeFromCreationDate, generateQR }: Props) {
 
-    const [loading, setLoading] = useState(false)
+    const [loadingQR, setLoadingQR] = useState(false)
+    const [loadingRefresh, setLoadingRefresh] = useState(false)    
     const [url, setUrl] = useState(qrURL)
+    const [timeCount, setTimeCount] = useState(timeFromCreationDate)
 
-    const router= useRouter()
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setTimeCount(timeCount + 1)
+        }, 1000)
+        return () => clearInterval(interval)
+    }, [timeCount])
 
     function handleClick() {
-        setLoading(true)
+        setLoadingQR(true)
         generateQR()
-        setLoading(false)
+        handleRefresh()
+        setLoadingQR(false)
+    }
+
+    function handleRefresh() {
+        setLoadingRefresh(true)
+        window.location.reload()
+        setTimeout(() => {
+            setLoadingRefresh(false)
+        }, 2000)
     }
 
     return (
         <div className="mt-10 flex flex-col items-center justify-center">
             {
-                status === "DISCONNECTED" && <Image src={qrURL} alt="QR code" width={400} height={400} />
+                status === "DISCONNECTED" && 
+                <>                
+                    <img src={qrURL} alt="QR code" width={400} height={400} />
+                    <Button onClick={handleRefresh} className="w-40">
+                        {
+                            loadingRefresh ?
+                            <Loader className="w-4 h-4 animate-spin" /> :
+                            <span>Refresh</span>
+                        }
+                    </Button>
+                </>
+    
             }
             <Card className="p-4 my-10">
-                <p>QR generado hace {timeFromCreationDate} minutos</p>
+                <p>QR generado hace {timeCount} segundos</p>
                 <p>Última actualización: {lastModified.toLocaleString()}</p>
                 <p>URL: {url}</p>
             </Card>
             
-            <Button onClick={handleClick} className="w-40" disabled={status === "CONNECTED"}>
+            <Button onClick={handleClick} className="w-40" disabled={status === "CONNECTED" || timeCount < 59}>
                 {
-                    loading ? 
+                    loadingQR ? 
                     <Loader className="w-4 h-4 animate-spin" /> :
                     <span>Generar QR</span>
                 }

@@ -24,7 +24,7 @@ export async function POST(request: Request) {
         // create a Date object from the string
         const date = new Date(lastModified);
         // convert the date to a string in the desired format
-        const timeFromCreationDate = Math.round((new Date().getTime() - date.getTime()) / 1000 / 60);
+        const timeFromCreationDate = Math.round((new Date().getTime() - date.getTime()) / 1000);
         console.log("timeFromCreationDate: ", timeFromCreationDate)
 
 

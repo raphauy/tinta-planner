@@ -62,8 +62,6 @@ export default async function ComponentNamePage() {
     <div className="flex flex-col items-center w-full space-y-4 mt-10">
       <Badge className={success ? "bg-green-500" : "bg-red-500"}>{label}</Badge>
 
-      <RefreshButton />
-
       <div>
         <QRButton 
           qrURL={getQRUrl} 
