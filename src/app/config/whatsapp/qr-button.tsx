@@ -23,6 +23,7 @@ export default function QRButton({ status,qrURL, lastModified, timeFromCreationD
         if (status === "CONNECTED") return
 
         if (timeCount > 60) {
+            setTimeCount(0)
             handleRefresh()
         }
         const interval = setInterval(() => {
