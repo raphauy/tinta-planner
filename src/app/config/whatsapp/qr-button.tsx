@@ -17,10 +17,13 @@ export default function QRButton({ status,qrURL, lastModified, timeFromCreationD
     const [loadingQR, setLoadingQR] = useState(false)
     const [loadingRefresh, setLoadingRefresh] = useState(false)    
     const [url, setUrl] = useState(qrURL)
-    const [timeCount, setTimeCount] = useState(timeFromCreationDate)
+    const [timeCount, setTimeCount] = useState(0)
+    const [timeFromCrationCounter, setTimeFromCrationCounter] = useState(timeFromCreationDate)
 
     useEffect(() => {
         if (status === "CONNECTED") return
+
+        setTimeFromCrationCounter(timeFromCrationCounter + 1)
 
         if (timeCount > 60) {
             setTimeCount(0)
@@ -30,14 +33,7 @@ export default function QRButton({ status,qrURL, lastModified, timeFromCreationD
             setTimeCount(timeCount + 1)
         }, 1000)
         return () => clearInterval(interval)
-    }, [timeCount, status])
-
-    function handleClick() {
-        setLoadingQR(true)
-        generateQR()
-        handleRefresh()
-        setLoadingQR(false)
-    }
+    }, [timeCount, status, timeFromCreationDate])
 
     function handleRefresh() {
         setLoadingRefresh(true)
@@ -47,14 +43,29 @@ export default function QRButton({ status,qrURL, lastModified, timeFromCreationD
         }, 2000)
     }
 
+    function handleGenerateQR() {
+        setLoadingQR(true)
+        generateQR()
+        handleRefresh()
+        setLoadingQR(false)
+    }
+
     return (
         <div className="mt-10 flex flex-col items-center justify-center">
             {
                 status === "DISCONNECTED" && 
-                <>                
-                    <img src={qrURL} alt="QR code" width={400} height={400} />
-                    <p>QR generado hace {timeCount} segundos</p>
-                    <Button onClick={handleRefresh} className="w-40">
+                <>
+                    {
+                        timeFromCreationDate < 60 &&
+                        <img src={qrURL} alt="QR code" width={400} height={400} />
+                    }
+                    
+                    {
+                        loadingRefresh ?
+                        <Loader className="w-4 h-4 animate-spin" /> :
+                        <p>QR generado hace {timeFromCrationCounter} segundos</p>
+                    }
+                    <Button onClick={handleRefresh} className="w-40" disabled={timeFromCrationCounter < 59}>
                         {
                             loadingRefresh ?
                             <Loader className="w-4 h-4 animate-spin" /> :
@@ -69,7 +80,7 @@ export default function QRButton({ status,qrURL, lastModified, timeFromCreationD
                 <p>URL: {url}</p>
             </Card>
             
-            <Button onClick={handleClick} className="w-40" disabled={status === "CONNECTED" || timeCount < 59}>
+            <Button onClick={handleGenerateQR} className="w-40" disabled={status === "CONNECTED" || timeFromCreationDate < 59}>
                 {
                     loadingQR ? 
                     <Loader className="w-4 h-4 animate-spin" /> :
