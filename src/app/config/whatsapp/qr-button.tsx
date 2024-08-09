@@ -17,7 +17,7 @@ export default function QRButton({ status,qrURL, lastModified, timeFromCreationD
     const [loadingQR, setLoadingQR] = useState(false)
     const [loadingRefresh, setLoadingRefresh] = useState(false)    
     const [url, setUrl] = useState(qrURL)
-    const [timeCount, setTimeCount] = useState(0)
+    const [timeCount, setTimeCount] = useState(timeFromCreationDate > 59 ? 0 : timeFromCreationDate)
     const [timeFromCrationCounter, setTimeFromCrationCounter] = useState(timeFromCreationDate)
 
     useEffect(() => {
@@ -37,6 +37,7 @@ export default function QRButton({ status,qrURL, lastModified, timeFromCreationD
 
     function handleRefresh() {
         setLoadingRefresh(true)
+        console.log("handleRefresh...")
         window.location.reload()
         setTimeout(() => {
             setLoadingRefresh(false)
@@ -45,6 +46,7 @@ export default function QRButton({ status,qrURL, lastModified, timeFromCreationD
 
     function handleGenerateQR() {
         setLoadingQR(true)
+        console.log("handleGenerateQR...")        
         generateQR()
         handleRefresh()
         setLoadingQR(false)
