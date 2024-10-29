@@ -1,11 +1,10 @@
 "use client"
 
 import { toast } from "@/components/ui/use-toast"
-import { CldUploadButton } from "next-cloudinary"
-import { useEffect, useState } from "react"
-import { BsUpload } from "react-icons/bs"
-import { getClientLightBySlugAction, setBannerAction } from "./newsletter-actions"
 import { Loader, Upload } from "lucide-react"
+import { CldUploadButton } from "next-cloudinary"
+import { useState } from "react"
+import { setBannerAction } from "./newsletter-actions"
 
 type Props= {
   slug: string

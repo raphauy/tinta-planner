@@ -15,8 +15,6 @@ export default function Menu() {
 
     const user= session?.data?.user
     const notAllowed= user?.email === "eliana@tinta.wine" || user?.email === "ariana@tinta.wine"
-    console.log("notAllowed: ", notAllowed)    
-    console.log("email: ", user?.email)    
     
     const feature= path.split("/")[1]
     if (feature === "admin") return <div className="text-2xl font-bold text-muted-foreground"> / Admin <Link href="/"><Button variant="outline">Volver</Button></Link></div>
