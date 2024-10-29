@@ -87,9 +87,9 @@ function AgencyMenu({ socialHref, socialSelected, newsletterHref, newsletterSele
             <li className={cn("flex items-center border-b-tinta-vino hover:border-b-tinta-vino hover:border-b-2 h-10", newsletterSelected && "border-b-2")}>
                 <Link href={newsletterHref}><Button className="h-8 text-lg" variant="ghost">Newsletter</Button></Link>
             </li>
-            <li className={cn("flex items-center border-b-tinta-vino hover:border-b-tinta-vino hover:border-b-2 h-10", whatsappSelected && "border-b-2")}>
+            {/* <li className={cn("flex items-center border-b-tinta-vino hover:border-b-tinta-vino hover:border-b-2 h-10", whatsappSelected && "border-b-2")}>
                 <MessagesMenuBox whatsappHref={whatsappHref} />
-            </li>
+            </li> */}
             <li className={cn("flex items-center border-b-tinta-vino hover:border-b-tinta-vino hover:border-b-2 h-10", crmSelected && "border-b-2", notAllowed && "hidden")}>
                 <Link href={crmHref}><Button className="h-8 text-lg" variant="ghost">CRM</Button></Link>
             </li>
